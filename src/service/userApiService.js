@@ -1,0 +1,158 @@
+import db from "../models/index";
+
+const getAllUser = async () => {
+    try {
+        let users = await db.User.findAll({
+            attributes: ["id", "username", "email", "phone"],
+            include: { model: db.Group, attributes: ["name", "description"] },
+            raw: true,
+            nest: true
+        });
+        if (users) {
+
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: users
+            }
+        } else {
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: []
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+const getUserWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+        const { count, rows } = await db.User.findAndCountAll({
+            attributes: ["id", "username", "email", "phone"],
+            include: { model: db.Group, attributes: ["name", "description"] },
+
+            offset: offset,
+            limit: limit,
+        })
+        let totalPages = Math.ceil(count / limit);
+        let data = {
+            totalRows: count,
+            totalPages: totalPages,
+            users: rows
+        }
+        return {
+            EM: 'fetch ok',
+            EC: 0,
+            DT: data
+        }
+
+    } catch (e) {
+        console.log(e);
+        return {
+            EM: 'some thing wrongs with serviecs',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+const createNewUser = async () => {
+    try {
+        let users = await db.User.create({
+            username: username,
+            email: email,
+            password: hasspass
+        })
+        if (users) {
+
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: users
+            }
+        } else {
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: []
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+const updateUser = async () => {
+    try {
+        let users = await db.User.findAll({
+            attributes: ["id", "username", "email", "phone"],
+            include: { model: db.Group, attributes: ["name", "description"] },
+            raw: true,
+            nest: true
+        });
+        if (users) {
+
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: users
+            }
+        } else {
+            return {
+                EM: 'Get data successful',
+                EC: 0,
+                DT: []
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+const deleteUser = async (id) => {
+    try {
+        let users = await db.User.findOne({
+            where: {
+                id: id,
+            },
+        });
+        if (users) {
+                await users.destroy();
+            return {
+                EM: 'Delete User successful',
+                EC: 0,
+                DT: []
+            }
+        } else {
+            return {
+                EM: 'User no exist',
+                EC: 0,
+                DT: []
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+module.exports = {
+    getAllUser, createNewUser, updateUser, deleteUser, getUserWithPagination
+}

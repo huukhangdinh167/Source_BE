@@ -1,0 +1,120 @@
+import db from "../models"
+import bcrypt from 'bcryptjs';
+const salt = bcrypt.genSaltSync(10);
+import { Op } from 'sequelize';
+
+const hashUserPassword = (userPassword) => {
+    let hashPassword = bcrypt.hashSync(userPassword, salt);
+    return hashPassword;
+
+}
+const checkEmailExist = async (UserEmail) => {
+    let user = await db.User.findOne({
+        where: {
+            email: UserEmail,
+        }
+    })
+    if (user) {
+        return true;
+    } return false;
+}
+
+const checkPhoneExist = async (UserPhone) => {
+    let user = await db.User.findOne({
+        where: {
+            phone: UserPhone,
+        }
+    })
+    if (user) {
+        return true;
+    } return false;
+}
+
+
+const registerNewUser = async (rawUserDate) => {
+    // check email /phone are exist
+    try {
+
+        let isEmailExist = await checkEmailExist(rawUserDate.email)
+        if (isEmailExist === true) {
+            return {
+                EM: 'The email is already exist',
+                EC: 1
+            }
+        }
+        let isPhonelExist = await checkPhoneExist(rawUserDate.phone)
+        if (isPhonelExist === true) {
+            return {
+                EM: 'The phone is already exist',
+                EC: 1
+            }
+        }
+        // hash password 
+        let hashPassword = hashUserPassword(rawUserDate.password)
+        // create new user 
+        await db.User.create({
+            username: rawUserDate.username,
+            email: rawUserDate.email,
+            password: hashPassword,
+            phone: rawUserDate.phone
+        })
+
+        return {
+            EM: 'A user is creat successful...',
+            EC: 0
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs in server...',
+            EC: -2
+        }
+    }
+}
+
+const checkPassword =  (inputPassword, hashPassword) => {
+
+    return bcrypt.compareSync(inputPassword, hashPassword);
+}
+const handleUserLogin = async (rawData) => {
+    try {
+        let user = await db.User.findOne({
+            where: {
+                [Op.or]: [
+                    { email: rawData.valueLogin },  // Điều kiện 1
+                    { phone: rawData.valueLogin }   // Điều kiện 2
+                ]
+            }
+        });
+
+        if (user) {
+            console.log("Fond user with email/phone ")
+            let isCorectPassword =  checkPassword(rawData.password, user.password);
+            if (isCorectPassword === true) {
+                return {
+                    EM: 'OK!!!!',
+                    EC: 0,
+                    DT: ''
+                }
+            }
+        }
+        console.log(">>Not found email/phone", rawData.valueLogin, "Password", rawData.password )
+        return {
+            EM: 'Your Email/Phone or password incorect',
+            EC: 1,
+            DT: ''
+        }
+
+
+    } catch (e) {
+        console.log("Lỗi e", e)
+        return {
+            EM: 'Some thing wrongs in server...',
+            EC: -2
+        }
+    }
+
+}
+module.exports = {
+    registerNewUser, handleUserLogin
+}
