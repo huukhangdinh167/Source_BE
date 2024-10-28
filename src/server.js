@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 // import connection from "./config/connect";
 import initApiRoutes from "./routes/api";
 import configCors from "./config/cors";
-
+import {CreateJWT, verifyToken} from "./middleware/JWTAction"
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -15,8 +15,10 @@ configCors(app)
 //config view engine 
 configViewEngine(app);
 
-
-
+// JWT 
+CreateJWT()
+let decodedToken= verifyToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSHVraGVuIiwidmFsdWUiOiJjdXRlZGVwdHJhaSIsImlhdCI6MTczMDEzMTE3M30.NLxzCL-dKhXaFM5Zk7vvtL5HBDFqzlgmxwtEgeG0OsM")
+console.log(decodedToken)
 // config body parser 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
