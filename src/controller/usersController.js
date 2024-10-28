@@ -35,11 +35,12 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        let data = await userApiService.createNewUser
+         let data = await userApiService.createNewUser(req.body) 
+        // console.log("Check respone", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
-            DT: '', //error data
+            DT: data.DT, //error data
         })
     } catch (error) {
         console.log(error)
@@ -53,11 +54,11 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        let data = await userApiService.updateUser
+        let data = await userApiService.updateUser(req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
-            DT: '', //error data
+            DT: data.DT, //error data
         })
     } catch (error) {
         console.log(error)

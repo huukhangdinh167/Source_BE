@@ -1,4 +1,5 @@
 import db from "../models/index";
+import { hashUserPassword, checkEmailExist, checkPhoneExist } from './loginRegisterService'
 
 const getAllUser = async () => {
     try {
@@ -6,7 +7,8 @@ const getAllUser = async () => {
             attributes: ["id", "username", "email", "phone"],
             include: { model: db.Group, attributes: ["name", "description"] },
             raw: true,
-            nest: true
+            nest: true,
+
         });
         if (users) {
 
@@ -35,11 +37,12 @@ const getUserWithPagination = async (page, limit) => {
     try {
         let offset = (page - 1) * limit;
         const { count, rows } = await db.User.findAndCountAll({
-            attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Group, attributes: ["name", "description"] },
+            attributes: ["id", "username", "email", "phone", "address", "sex"],
+            include: { model: db.Group, attributes: ["name", "description", "id"] },
 
             offset: offset,
             limit: limit,
+            order: [['id', 'DESC']]
         })
         let totalPages = Math.ceil(count / limit);
         let data = {
@@ -62,27 +65,35 @@ const getUserWithPagination = async (page, limit) => {
         }
     }
 }
-const createNewUser = async () => {
+const createNewUser = async (data) => {
     try {
-        let users = await db.User.create({
-            username: username,
-            email: email,
-            password: hasspass
-        })
-        if (users) {
-
+        let isEmailExist = await checkEmailExist(data.email);
+        if (isEmailExist == true) {
             return {
-                EM: 'Get data successful',
-                EC: 0,
-                DT: users
-            }
-        } else {
-            return {
-                EM: 'Get data successful',
-                EC: 0,
-                DT: []
+                EM: 'Email already exist',
+                EC: 1,
+                DT: "email"
             }
         }
+
+        let isPhoneExist = await checkPhoneExist(data.phone);
+        if (isPhoneExist == true) {
+            return {
+                EM: 'Phone already existttt',
+                EC: 1,
+                DT: "phone"
+            }
+        }
+
+        let hashPassword = await hashUserPassword(data.password)
+
+        let users = await db.User.create({ ...data, password: hashPassword });
+        return {
+            EM: 'Create  data successful',
+            EC: 0,
+            DT: users
+        }
+
     } catch (e) {
         console.log(e)
         return {
@@ -92,20 +103,30 @@ const createNewUser = async () => {
         }
     }
 }
-const updateUser = async () => {
+const updateUser = async (data) => {
     try {
-        let users = await db.User.findAll({
-            attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Group, attributes: ["name", "description"] },
-            raw: true,
-            nest: true
+        if (!data.groupId) {
+            return {
+                EM: 'Error Empty width GroudId',
+                EC: 1,
+                DT: 'group'
+            }
+        }
+        let users = await db.User.findOne({
+            where: { id: data.id }
         });
         if (users) {
+          await  users.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId
+            })
 
             return {
-                EM: 'Get data successful',
+                EM: 'Update user successful',
                 EC: 0,
-                DT: users
+                DT: ''
             }
         } else {
             return {
@@ -131,7 +152,7 @@ const deleteUser = async (id) => {
             },
         });
         if (users) {
-                await users.destroy();
+            await users.destroy();
             return {
                 EM: 'Delete User successful',
                 EC: 0,

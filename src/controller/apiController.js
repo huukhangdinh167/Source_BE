@@ -55,8 +55,10 @@ const handleLogin = async (req, res) => {
 
    // console.log("Chekc data Login", req.body)
    
-    try { 
-        let data = await loginRegisterServer.handleUserLogin(req.body.id)
+    try {  
+        // console.log("Check res", req.body)
+        let data = await loginRegisterServer.handleUserLogin(req.body)
+        // console.log("check login", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
