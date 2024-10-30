@@ -56,9 +56,10 @@ const handleLogin = async (req, res) => {
    // console.log("Chekc data Login", req.body)
    
     try {  
-        // console.log("Check res", req.body)
+       
         let data = await loginRegisterServer.handleUserLogin(req.body)
-        // console.log("check login", req.body)
+        // set cookie 
+        res.cookie("jwt", data.DT.accesstoken, {httpOnly: true});
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code

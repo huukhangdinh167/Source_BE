@@ -1,5 +1,5 @@
 import userService from "../service/userService";
-
+import cookieParser from "cookie-parser"; 
 // Store hash in your password DB.
 
 
@@ -15,12 +15,11 @@ const handleHelloword = (req, res) => {
 
 const handleUserPage = async (req, res) => {
     // model => get data from database
-
-    // await userService.deleteUser(27)
-    let userList = await userService.getUserList()
    
+    let userList = await userService.getUserList()
+
     return res.render("user.ejs", { userList });
-    
+
 }
 
 const handleCreateNewUser = (req, res) => {
