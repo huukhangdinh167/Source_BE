@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 require("dotenv").config();
 
+const nonSecurePaths = ['/', '/login', '/register', '/account'];
 const CreateJWT = (payload) => {
     // let payload = { name: "Hukhen", value: "cutedeptrai" }
     let key = process.env.JWT_SECRET
@@ -45,6 +46,7 @@ const verifyToken = (token) => {
 }
 
 const checkUserJwt = (req, res, next) => {
+    if (nonSecurePaths.includes(req.path)) return next();
     let cookies = req.cookies;
 
     if (cookies && cookies.jwt) {
@@ -71,12 +73,15 @@ const checkUserJwt = (req, res, next) => {
     }
 }
 
-const checkPermission = (req, res, next) => {
+const checkPermission = async(req, res, next) => {
+   
+   if ( nonSecurePaths.includes(req.path)) return next();
+
     if (req.user) {
         let email = req.user.email
-        let role = req.user.groupWithRole.Roles
+        let role = await req.user.groupWithRole.Roles
         let currentUrl = req.path;
-        if (!role || role.lenght === 0) {
+        if (!role || role.length === 0) {
             return res.status(403).json({
                 EC: -1,
                 EM: 'Your do not have permission to access this resource...',
@@ -84,12 +89,13 @@ const checkPermission = (req, res, next) => {
 
             })
         }
-        let canAcess = role.some(item => item.url === currentUrl)
+        let canAcess = await role.some(item => item.url === currentUrl)
+        
         if (canAcess === true) {
             next();
         } else {
             return res.status(403).json({
-                EC: -1,
+                EC: -11,
                 EM: 'Your do not have permission to access this resource...',
                 DT: ''
 

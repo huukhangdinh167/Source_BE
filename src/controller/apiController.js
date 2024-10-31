@@ -53,19 +53,21 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
 
-   // console.log("Chekc data Login", req.body)
-   
-    try {  
-       
+    // console.log("Chekc data Login", req.body)
+
+    try {
+
         let data = await loginRegisterServer.handleUserLogin(req.body)
         // set cookie 
-        res.cookie("jwt", data.DT.accesstoken, {httpOnly: true});
+        if (data && data.DT && data.DT.accesstoken) {
+            res.cookie("jwt", data.DT.accesstoken, { httpOnly: true });
+        }
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data 
         })
-       
+
     } catch (error) {
         return res.status(500).json({
             EM: "Error from server",  // eror messageE
