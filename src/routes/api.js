@@ -17,15 +17,15 @@ const initApiRoutes = (app) => {
     
     //router.use(checkUserJwt, checkPermission);
 
-    router.post("/register", apiController.handleRegister);
-    router.post("/login", apiController.handleLogin);
+    router.post("/register",checkUserJwt, checkPermission, apiController.handleRegister);
+    router.post("/login",checkUserJwt, checkPermission, apiController.handleLogin);
 
 
-    //router.get("/account", apiController.getUserAccount);
+    router.get("/account",checkUserJwt, checkPermission, usersController.getUserAccount);
     router.get("/user/read",checkUserJwt, checkPermission, usersController.readFunc)
-    router.post("/user/create", usersController.createFunc)
-    router.put("/user/update", usersController.updateFunc)
-    router.delete("/user/delete", usersController.deleteFunc)
+    router.post("/user/create",checkUserJwt, checkPermission, usersController.createFunc)
+    router.put("/user/update",checkUserJwt, checkPermission, usersController.updateFunc)
+    router.delete("/user/delete",checkUserJwt, checkPermission, usersController.deleteFunc)
 
     router.get("/group/read", groupController.readFunc)
     return app.use("/api/v1", router);

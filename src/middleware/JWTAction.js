@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
 require("dotenv").config();
 
-const nonSecurePaths = ['/', '/login', '/register', '/account'];
+const nonSecurePaths = ['/', '/login', '/register'];
 const CreateJWT = (payload) => {
     // let payload = { name: "Hukhen", value: "cutedeptrai" }
     let key = process.env.JWT_SECRET
     let token = null;
     try {
-        token = jwt.sign(payload, key);
+        token = jwt.sign(payload, key, { expiresIn: process.env.JWT_Expires });
 
     } catch (error) {
         console.log(error)
@@ -45,15 +45,24 @@ const verifyToken = (token) => {
     // });
 }
 
+const extractToken = (req) => {
+    if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+        return req.headers.authorization.split(' ')[1];
+    }
+    return null;
+}
+
 const checkUserJwt = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) return next();
-    let cookies = req.cookies;
-
-    if (cookies && cookies.jwt) {
-        let token = cookies.jwt
+   // let cookies = req.cookies;
+    let tokenFromHeader = extractToken(req)
+    if ((cookies && cookies.jwt) || tokenFromHeader) {
+        console.log("Check cookie", cookies)
+        let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader
         let decoded = verifyToken(token)
         if (decoded) {
             req.user = decoded;
+            req.token = token
             next()
         } else {
             return res.status(401).json({
@@ -66,16 +75,16 @@ const checkUserJwt = (req, res, next) => {
     } else {
         return res.status(401).json({
             EC: -1,
-            EM: 'Note authenticated the user',
+            EM: 'Note authenticated the userrr',
             DT: ''
 
         })
     }
 }
 
-const checkPermission = async(req, res, next) => {
-   
-   if ( nonSecurePaths.includes(req.path)) return next();
+const checkPermission = async (req, res, next) => {
+
+    if (nonSecurePaths.includes(req.path) || req.path === '/account') return next();
 
     if (req.user) {
         let email = req.user.email
@@ -90,7 +99,7 @@ const checkPermission = async(req, res, next) => {
             })
         }
         let canAcess = await role.some(item => item.url === currentUrl)
-        
+
         if (canAcess === true) {
             next();
         } else {
