@@ -6,11 +6,7 @@ import bluebird from 'bluebird';
 import db from '../models/index';
 
 const salt = bcrypt.genSaltSync(10);
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     database: 'jwt',
-// });
+
 const hashUserPassword = (userPassword) => {
     let hashPassword = bcrypt.hashSync(userPassword, salt);
     return hashPassword;

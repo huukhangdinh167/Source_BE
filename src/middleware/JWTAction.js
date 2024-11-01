@@ -54,10 +54,10 @@ const extractToken = (req) => {
 
 const checkUserJwt = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) return next();
-   // let cookies = req.cookies;
+    let cookies = req.cookies;
     let tokenFromHeader = extractToken(req)
     if ((cookies && cookies.jwt) || tokenFromHeader) {
-        console.log("Check cookie", cookies)
+       // console.log("Check cookie", cookies)
         let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader
         let decoded = verifyToken(token)
         if (decoded) {
