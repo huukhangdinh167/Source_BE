@@ -19,7 +19,7 @@ const initApiRoutes = (app) => {
 
     router.post("/register",checkUserJwt, checkPermission, apiController.handleRegister);
     router.post("/login",checkUserJwt, checkPermission, apiController.handleLogin);
-
+    router.post("/logout",checkUserJwt, checkPermission, apiController.handleLogout);
 
     router.get("/account",checkUserJwt, checkPermission, usersController.getUserAccount);
     router.get("/user/read",checkUserJwt, checkPermission, usersController.readFunc)
