@@ -99,7 +99,7 @@ const checkPermission = async (req, res, next) => {
 
             })
         }
-        let canAcess = await role.some(item => item.url === currentUrl)
+        let canAcess = await role.some(item => item.url === currentUrl || currentUrl.includes(item.url))
 
         if (canAcess === true) {
             next();

@@ -33,7 +33,7 @@ const createNewRole = async (role) => {
 }
 const getAllRole = async () => {
     try {
-        let data = await db.Role.findAll();
+        let data = await db.Role.findAll({ order: [['id', 'DESC']] });
         return {
             EM: 'Get all role success',
             EC: 0,
@@ -56,7 +56,7 @@ const deleteRole = async (id) => {
                 id: id,
             },
         });
-        
+
         if (users) {
             await users.destroy();
             return {
@@ -64,7 +64,7 @@ const deleteRole = async (id) => {
                 EC: 0,
                 DT: ''
             }
-        } 
+        }
     } catch (e) {
         console.log(e)
         return {
@@ -74,6 +74,63 @@ const deleteRole = async (id) => {
         }
     }
 }
+
+const getRoleByGroup = async (id) => {
+    try {
+        if (!id) {
+            return {
+                EM: 'Not found any Role',
+                EC: 0,
+                DT: ''
+            }
+        }
+        let role = await db.Group.findOne({
+            where: { id: id },
+            attributes: ["id", "name", "description"],
+            // attributes: ["id", "name", "description"],
+            include: {
+                model: db.Role,
+                attributes: ["id", "url", "description"],
+                through: { attributes: [] }
+            },
+        })
+        return {
+            EM: 'Get Role By Role Success',
+            EC: 0,
+            DT: role
+        }
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Something Wrong service',
+            EC: 1,
+            DT: ''
+        }
+    }
+}
+const assignRoleToGroup = async (data) => {
+    try { 
+        // ví dụ ta sẽ truyền data vào: data = {groupId: 4, groubRoles: [{}, {}, ...]}
+        await db.Group_Role.destroy({
+            where: {groupId: +data.groupId}
+        })
+        await db.Group_Role.bulkCreate(data.groubRoles)
+        return {
+            EM: 'Assign Role To Group success',
+            EC: 0,
+            DT: []
+        }
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Something Wrong service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 module.exports = {
-    createNewRole, getAllRole, deleteRole
+    createNewRole, getAllRole, deleteRole, getRoleByGroup,assignRoleToGroup
 }

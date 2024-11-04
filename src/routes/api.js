@@ -32,11 +32,11 @@ const initApiRoutes = (app) => {
 
     //role router 
     router.get("/role/read",checkUserJwt, checkPermission, roleController.readFunc)
-    router.post("/role/create",roleController.createFunc)
+    router.post("/role/create",checkUserJwt, checkPermission,roleController.createFunc)
       // todo nha  router.put("/role/update", roleController.updateFunc)
     router.delete("/role/delete",checkUserJwt, checkPermission, roleController.deleteFunc)
-
-
+    router.get("/role/by-group/:groupId",checkUserJwt, checkPermission, roleController.getRoleByGroup)
+    router.post("/role/assign-to-group",roleController.assignRoleToGroup)
     // group router
     router.get("/group/read", groupController.readFunc)
     return app.use("/api/v1", router);
