@@ -1,49 +1,42 @@
 'use strict';
-
-const userteacher = require("../models/userteacher");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Project', {
+    await queryInterface.createTable('Userstudent', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-
       name: {
         type: Sequelize.STRING
       },
-      description: {
+      phoneNumber: {
         type: Sequelize.STRING
       },
-      require: {
-        type: Sequelize.STRING
-      }, 
-
-      knowledgeSkills: {
+      email: {
         type: Sequelize.STRING
       },
-      instuctor: {
+      maSo: {
         type: Sequelize.STRING
       },
-      status: {
+      class: {
         type: Sequelize.STRING
       },
-      userteacherId: {
+      password: {
+        type: Sequelize.STRING
+      },
+      groupStudent: {
+        type: Sequelize.STRING
+      },
+      groupId: {
+        type: Sequelize.INTEGER
+      },
+      projectId: {
         type: Sequelize.INTEGER
       },
 
-
-      startDate: {
-        type: Sequelize.STRING
-      },
-      customerId: {
-        type: Sequelize.INTEGER
-      },
-
-
+      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -55,6 +48,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Project');
+    await queryInterface.dropTable('Userstudent');
   }
 };

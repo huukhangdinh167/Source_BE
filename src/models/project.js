@@ -17,10 +17,13 @@ module.exports = (sequelize, DataTypes) => {
   Project.init({
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    username: DataTypes.STRING,
-    startDate: DataTypes.STRING,
-    customerId: DataTypes.INTEGER,
-  
+    require: DataTypes.STRING,
+    knowledgeSkills: DataTypes.STRING,
+    instuctor: DataTypes.STRING,
+    status: DataTypes.STRING,
+    instuctor: DataTypes.STRING,
+    userteacherId: DataTypes.INTEGER,
+
     
   }, {
     sequelize,
