@@ -36,8 +36,8 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-         let data = await userApiService.createNewUser(req.body) 
-        // console.log("Check respone", req.body)
+        let data = await userApiService.createNewUser(req.body)
+        //  console.log("Check respone", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -92,7 +92,7 @@ const deleteFunc = async (req, res) => {
     }
 }
 
-const getUserAccount = async(req, res)=>{
+const getUserAccount = async (req, res) => {
     return res.status(200).json({
         EM: 'ok',
         EC: 0,
@@ -100,12 +100,14 @@ const getUserAccount = async(req, res)=>{
             accesstoken: req.token,
             groupWithRole: req.user.groupWithRole,
             email: req.user.email,
-            username: req.user.username
+            username: req.user.username,
+            groupId: req.user.groupWithRole.id,
+            name: req.user.name
         }
-       
+
     })
 }
 module.exports = {
-    readFunc, createFunc, updateFunc, deleteFunc,getUserAccount
+    readFunc, createFunc, updateFunc, deleteFunc, getUserAccount
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-const userteacher = require("../models/userteacher");
+
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

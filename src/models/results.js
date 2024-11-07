@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Result.belongsToMany(models.Group, {through: 'Group_Result', foreignKey: 'ResultId'});
-      
+      Result.belongsToMany(models.Group, { through: 'Group_Result', foreignKey: 'ResultId' });
+
     }
   };
   Result.init({
-    groupStdent: DataTypes.STRING,
+    groupStudent: DataTypes.STRING,
     diemGVHD: DataTypes.STRING,
     diemGVPB1: DataTypes.STRING,
     diemGVPB2: DataTypes.STRING,

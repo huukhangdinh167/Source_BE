@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      groupStdent: {
+      groupStudent: {
         type: Sequelize.STRING
       },
       diemGVHD: {

@@ -11,20 +11,52 @@ module.exports = {
       groupStudent: {
         type: Sequelize.STRING
       },
-      lastName: {
+      idUserStudent1: {
+        type: Sequelize.INTEGER
+      },
+      IdUserStudent2: {
+        type: Sequelize.INTEGER
+      },
+      idProject: {
+
+        type: Sequelize.INTEGER
+      },
+      projectNameFinall: {
+
         type: Sequelize.STRING
       },
-      email: {
+      idGVHD: {
+        type: Sequelize.INTEGER
+      },
+      idGVPB1: {
+        type: Sequelize.INTEGER
+      },
+      idGVPB2: {
+        type: Sequelize.INTEGER
+      },
+      idCTHD: {
+        type: Sequelize.INTEGER
+      },
+      idTK: {
+        type: Sequelize.INTEGER
+      },
+      idUV: {
+        type: Sequelize.INTEGER
+      },
+      idPoster1: {
+        type: Sequelize.INTEGER
+      },
+      idPoster2: {
+        type: Sequelize.INTEGER
+      },
+      semester: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+      ngayHD: {
+        type: Sequelize.STRING
       },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
+
+
     });
   },
   down: async (queryInterface, Sequelize) => {
