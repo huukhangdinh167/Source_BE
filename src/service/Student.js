@@ -143,8 +143,31 @@ const getAllProjectRegister = async (id) => {
         }
     }
 }
-
+const getAllUserRegisterProject = async(id) =>{
+    try { 
+        let result = await db.Userstudent.findAll({
+            where: {
+                projectId: id
+            },
+            raw: true,
+            nest: true
+           
+        }); 
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 
 module.exports = {
-    getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject
+    getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject, getAllUserRegisterProject
 }

@@ -47,7 +47,7 @@ const initApiRoutes = (app) => {
   router.put("/student/dangki", checkUserJwt, checkPermission, studentController.dangkiFunc)
   router.put("/student/huydangki", checkUserJwt, checkPermission, studentController.huydangkiFunc)
   router.put("/student/project/dadangki", checkUserJwt, checkPermission, studentController.ReadProjectRegisterFnc)
-
+  router.put("/student/project/useregistproject", checkUserJwt, checkPermission, studentController.useRegistProjectFnc)
   return app.use("/api/v1", router)
 
 

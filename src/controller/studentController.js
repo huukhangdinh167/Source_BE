@@ -81,7 +81,27 @@ const ReadProjectRegisterFnc =async(req, res)=>{
             DT: '', //error data
         })
     }
+} 
+const useRegistProjectFnc =async(req, res)=>{
+    try {
+       let data = await Student.getAllUserRegisterProject(req.body.data.id)
+       
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        }) 
+        //console.log(data)
+        
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
 }
 module.exports = {
-    ReadProjectFnc, dangkiFunc, ReadProjectRegisterFnc,huydangkiFunc
+    ReadProjectFnc, dangkiFunc, ReadProjectRegisterFnc,huydangkiFunc,useRegistProjectFnc
 }
