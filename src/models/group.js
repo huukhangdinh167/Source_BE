@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
      
       Group.belongsToMany(models.Role, {through: 'Group_Role', foreignKey: 'groupId'});
       Group.hasMany(models.Userstudent,  {foreignKey: 'groupId'})
+      Group.hasMany(models.Userteacher,  {foreignKey: 'groupId'})
     }
+    
   };
   Group.init({
     name: DataTypes.STRING,
