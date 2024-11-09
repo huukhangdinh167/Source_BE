@@ -6,28 +6,28 @@ const getAllProject = async (maSo) => {
             where: {
                 [Op.and]: [
                     { maSo: maSo },  // Điều kiện 1
-                    { projectId: {[Op.ne]: 0  } } // Điều kiện 2
+                    { projectId: { [Op.ne]: 0 } } // Điều kiện 2
                 ]
             },
             // raw: true,
             //  nest: true,
             // chưa đăng kì = 0 .....đã đăng kí thì khác 0
-        }); 
+        });
         //nếu user === true thì đã đăng kí 
-        if(users){
+        if (users) {
             return {
                 EM: 'Ban da dang ki',
                 EC: 2,
                 DT: ''
             }
-        }else{
+        } else {
             let data = await db.Project.findAll({ order: [['id', 'ASC']] });
             return {
                 EM: 'Get all project success',
                 EC: 0,
                 DT: data
             }
-        }   
+        }
     } catch (e) {
         console.log(e)
         return {
@@ -39,12 +39,9 @@ const getAllProject = async (maSo) => {
 }
 const dangkiProject = async (id, projectId) => {
     try {
-
         let users = await db.Userstudent.findOne({
             where: { maSo: id }
         });
-        // console.log(users)
-        //  return users
         if (users) {
             await users.update({
                 projectId: projectId
@@ -115,7 +112,7 @@ const huydangkiProject = async (id, projectId) => {
 
 
 const getAllProjectRegister = async (id) => {
-    try { 
+    try {
         let result = await db.Project.findOne({
             include: [
                 {
@@ -126,7 +123,7 @@ const getAllProjectRegister = async (id) => {
                 }
             ], raw: true,
             nest: true
-           
+
 
         });
         return {
@@ -143,16 +140,19 @@ const getAllProjectRegister = async (id) => {
         }
     }
 }
-const getAllUserRegisterProject = async(id) =>{
-    try { 
+const getAllUserRegisterProject = async (id) => {
+    try {
         let result = await db.Userstudent.findAll({
             where: {
                 projectId: id
             },
+            order: [
+                ['groupStudent'] // Sắp xếp theo groupId tăng dần
+            ],
             raw: true,
             nest: true
-           
-        }); 
+
+        });
         return {
             EM: 'Get all project success',
             EC: 0,
@@ -168,6 +168,74 @@ const getAllUserRegisterProject = async(id) =>{
     }
 }
 
+
+const chooseGroup = async (orthesST, myST, groupST) => {
+    try {
+        let users1 = await db.Userstudent.findOne({
+            where: { maSo: orthesST }
+        });
+        let users2 = await db.Userstudent.findOne({
+            where: { maSo: myST }
+        });
+        if (users1 && users2) {
+            await users1.update({
+                groupStudent: groupST
+            })
+            await users2.update({
+                groupStudent: groupST
+            })
+
+
+            return {
+                EM: 'Đăng kí successful',
+                EC: 0,
+                DT: ''
+            }
+        } else {
+            return {
+                EM: 'Khong tim thay ',
+                EC: 0,
+                DT: []
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+const cancelChooseGroup =async(groupSD)=>{
+    try {
+      let data =  await db.Userstudent.update(
+            { groupStudent: 'null' },
+            { where: { groupStudent:  groupSD} }
+          )
+          if(data){
+            return {
+                EM: 'Cancel choose group success ',
+                EC: 0,
+                DT: '',
+            }
+          }else{
+            return {
+                EM: 'Can not update ',
+                EC: 1,
+                DT: '',
+            }
+          }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 module.exports = {
-    getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject, getAllUserRegisterProject
+    getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject, 
+    getAllUserRegisterProject, chooseGroup,cancelChooseGroup
 }

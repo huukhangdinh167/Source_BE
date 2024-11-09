@@ -48,6 +48,10 @@ const initApiRoutes = (app) => {
   router.put("/student/huydangki", checkUserJwt, checkPermission, studentController.huydangkiFunc)
   router.put("/student/project/dadangki", checkUserJwt, checkPermission, studentController.ReadProjectRegisterFnc)
   router.put("/student/project/useregistproject", checkUserJwt, checkPermission, studentController.useRegistProjectFnc)
+  router.put("/student/project/choosegroup", checkUserJwt, checkPermission, studentController.chooseGroupFnc)
+  router.put("/student/project/cancelchoosegroup", checkUserJwt, checkPermission, studentController.cancelChooseGroupFnc)
+  
+
   return app.use("/api/v1", router)
 
 
