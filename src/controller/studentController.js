@@ -104,17 +104,17 @@ const useRegistProjectFnc = async (req, res) => {
 }
 
 
-const chooseGroupFnc = async(req, res) => {
+const chooseGroupFnc = async (req, res) => {
     // console.log(req.body.data ) 
     try {
-        let data = await Student.chooseGroup(req.body.data.ortherST, req.body.data.mystudent, req.body.data.groupST )
+        let data = await Student.chooseGroup(req.body.data.ortherST, req.body.data.mystudent, req.body.data.groupST)
 
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       // console.log(data)
+        // console.log(data)
 
     } catch (error) {
         console.log(error)
@@ -126,17 +126,61 @@ const chooseGroupFnc = async(req, res) => {
     }
 }
 
-const cancelChooseGroupFnc = async(req, res) => {
+const cancelChooseGroupFnc = async (req, res) => {
     // console.log(req.body.data ) 
     try {
-        let data = await Student.cancelChooseGroup(req.body.data.groupStudent )
+        let data = await Student.cancelChooseGroup(req.body.data.groupStudent)
 
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       // console.log(data)
+        // console.log(data)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+}
+
+
+const changePassword = async (req, res) => {
+  //   console.log(req.body.data ) 
+    try {
+        let data = await Student.ChangePW(req.body.data.maSo, req.body.data.password, req.body.data.rePassword)
+
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        })
+        // console.log(data)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+} 
+
+const updateinfor =async(req, res)=>{
+    try {
+        let data = await Student.updateIF(req.body.data.maSo, req.body.data.phone, req.body.data.email)
+
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        })
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -148,5 +192,6 @@ const cancelChooseGroupFnc = async(req, res) => {
     }
 }
 module.exports = {
-    ReadProjectFnc, dangkiFunc, ReadProjectRegisterFnc, huydangkiFunc, useRegistProjectFnc, chooseGroupFnc, cancelChooseGroupFnc
+    ReadProjectFnc, dangkiFunc, ReadProjectRegisterFnc, huydangkiFunc,
+    useRegistProjectFnc, chooseGroupFnc, cancelChooseGroupFnc, changePassword,updateinfor
 }

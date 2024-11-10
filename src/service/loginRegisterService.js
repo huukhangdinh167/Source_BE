@@ -28,48 +28,81 @@ const handleUserLogin = async (rawData) => {
     try {
         let user = await db.Userstudent.findOne({
             where: {
-                [Op.or]: [
-                    { maSo: rawData.valueLogin },  // Điều kiện 1
-
-                ]
+                maSo: rawData.valueLogin,  // Điều kiện 1
             }
         });
+        let user2 = await db.Userteacher.findOne({
+            where: {
+                maSo: rawData.valueLogin   // Điều kiện 1
+            }
+        });
+        if (user2) {
+            //   console.log("rawData.password, user.password: ",rawData.password, user.password)
+            let isCorectPassword = checkPassword(rawData.password, user2.password);
+            if (isCorectPassword === true) {
+
+                let groupWithRole = await getGroupWithRole(user2)
+                let payload = {
+                    email: user2.email,
+                    username: user2.maSo,
+                    name: user2.name,
+                    phoneNumber: user2.phoneNumber,
+                    groupWithRole,
+
+                }
+                let token = await CreateJWT(payload)
+                return {
+                    EM: 'OK!!!!',
+                    EC: 0,
+                    DT: {
+                        accesstoken: token,
+                        groupWithRole,
+                        email: user2.email,
+                        username: user2.maSo,
+                        groupId: user2.groupId,
+                        name: user2.name,
+                        phoneNumber: user2.phoneNumber
+                    }
+                }
+            }
+        }
 
         if (user) {
             //   console.log("rawData.password, user.password: ",rawData.password, user.password)
-          //  let isCorectPassword =   checkPassword(rawData.password, user.password);
-          //  if (isCorectPassword === true) {
+            let isCorectPassword = checkPassword(rawData.password, user.password);
+            if (isCorectPassword === true) {
 
-            let groupWithRole = await getGroupWithRole(user)
-            let payload = {
-                email: user.email,
-                username: user.maSo,
-                name: user.name,
-                groupWithRole,
-
-            }
-            let token = await CreateJWT(payload)
-            return {
-                EM: 'OK!!!!',
-                EC: 0,
-                DT: {
-                    accesstoken: token,
-                    groupWithRole,
+                let groupWithRole = await getGroupWithRole(user)
+                let payload = {
                     email: user.email,
                     username: user.maSo,
-                    groupId : user.groupId,
-                    name: user.name
-
+                    name: user.name,
+                    phoneNumber: user.phoneNumber,
+                    groupWithRole,
 
                 }
+                let token = await CreateJWT(payload)
+                return {
+                    EM: 'OK!!!!',
+                    EC: 0,
+                    DT: {
+                        accesstoken: token,
+                        groupWithRole,
+                        email: user.email,
+                        username: user.maSo,
+                        groupId: user.groupId,
+                        name: user.name,
+                        phoneNumber: user.phoneNumber
+
+
+                    }
+                }
             }
-          //  }
         }
-        // console.log(">>Not found email/phone", rawData.valueLogin, "Password", rawData.password )
         return {
             EM: 'Your Student code/Password incorect',
             EC: 1,
-            DT: user
+            DT: ''
         }
 
 
@@ -83,5 +116,5 @@ const handleUserLogin = async (rawData) => {
 
 }
 module.exports = {
-    handleUserLogin, hashUserPassword,checkMaSoExist
+    handleUserLogin, hashUserPassword, checkMaSoExist
 }

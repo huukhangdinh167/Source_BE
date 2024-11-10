@@ -36,8 +36,8 @@ const initApiRoutes = (app) => {
   router.post("/role/create", checkUserJwt, checkPermission, roleController.createFunc)
   // todo nha  router.put("/role/update", roleController.updateFunc)
   router.delete("/role/delete", checkUserJwt, checkPermission, roleController.deleteFunc)
-  router.get("/role/by-group/:groupId",  roleController.getRoleByGroup)  // nếu sử dụng middleware thì sẽ bị lỗi 
-  router.post("/role/assign-to-group",checkUserJwt, checkPermission, roleController.assignRoleToGroup)
+  router.get("/role/by-group/:groupId", roleController.getRoleByGroup)  // nếu sử dụng middleware thì sẽ bị lỗi 
+  router.post("/role/assign-to-group", checkUserJwt, checkPermission, roleController.assignRoleToGroup)
 
   // group router
   router.get("/group/read", groupController.readFunc)
@@ -50,7 +50,8 @@ const initApiRoutes = (app) => {
   router.put("/student/project/useregistproject", checkUserJwt, checkPermission, studentController.useRegistProjectFnc)
   router.put("/student/project/choosegroup", checkUserJwt, checkPermission, studentController.chooseGroupFnc)
   router.put("/student/project/cancelchoosegroup", checkUserJwt, checkPermission, studentController.cancelChooseGroupFnc)
-  
+  router.put("/changepassword", checkUserJwt, checkPermission, studentController.changePassword)
+  router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
 
   return app.use("/api/v1", router)
 
