@@ -4,6 +4,7 @@ import apiController from '../controller/apiController'
 import usersController from '../controller/usersController'
 import groupController from '../controller/groupController'
 import roleController from '../controller/roleController'
+import adminController from '../controller/adminController'
 import { checkUserJwt, checkPermission } from '../middleware/JWTAction'
 import studentController from '../controller/studentController'
 /**
@@ -34,14 +35,17 @@ const initApiRoutes = (app) => {
   //role router 
   router.get("/role/read", checkUserJwt, checkPermission, roleController.readFunc)
   router.post("/role/create", checkUserJwt, checkPermission, roleController.createFunc)
-  // todo nha  router.put("/role/update", roleController.updateFunc)
+          // todo nha  router.put("/role/update", roleController.updateFunc)
   router.delete("/role/delete", checkUserJwt, checkPermission, roleController.deleteFunc)
   router.get("/role/by-group/:groupId", roleController.getRoleByGroup)  // nếu sử dụng middleware thì sẽ bị lỗi 
   router.post("/role/assign-to-group", checkUserJwt, checkPermission, roleController.assignRoleToGroup)
 
   // group router
   router.get("/group/read", groupController.readFunc)
-
+  // ADMIN 
+  router.post("/admin/create-user", checkUserJwt, checkPermission, adminController.adminCreateUserFunc)
+  router.get("/admin/read-user", checkUserJwt, checkPermission, adminController.adminReadUserFunc)
+  
   // STUDENT 
   router.put("/student/project/read", checkUserJwt, checkPermission, studentController.ReadProjectFnc)
   router.put("/student/dangki", checkUserJwt, checkPermission, studentController.dangkiFunc)

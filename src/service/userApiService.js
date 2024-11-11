@@ -112,15 +112,18 @@ const updateUser = async (data) => {
                 DT: 'group'
             }
         }
-        let users = await db.User.findOne({
+        let users = await db.Userstudent.findOne({
             where: { id: data.id }
         });
         if (users) {
             await users.update({
-                username: data.username,
-                address: data.address,
-                sex: data.sex,
-                groupId: data.groupId
+                name: data.name,
+                email: data.email,
+                phoneNumber: data.phoneNumber,
+                groupId: data.groupId,
+                maSo : data.maSo,
+                password: data.password
+
             })
 
             return {
