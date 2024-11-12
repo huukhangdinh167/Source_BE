@@ -43,9 +43,11 @@ const initApiRoutes = (app) => {
   // group router
   router.get("/group/read", groupController.readFunc)
   // ADMIN 
+  router.post("/admin/create-teacher", checkUserJwt, checkPermission, adminController.adminCreateTeacherFunc)
   router.post("/admin/create-user", checkUserJwt, checkPermission, adminController.adminCreateUserFunc)
-  router.get("/admin/read-user", checkUserJwt, checkPermission, adminController.adminReadUserFunc)
-  
+  router.get("/admin/read-user",  adminController.adminReadUserFunc)
+  router.put("/admin/update-user", checkUserJwt, checkPermission, adminController.adminUpdateFnc)
+  router.delete("/admin/delete-user", checkUserJwt, checkPermission, adminController.admindDeleteFunc)
   // STUDENT 
   router.put("/student/project/read", checkUserJwt, checkPermission, studentController.ReadProjectFnc)
   router.put("/student/dangki", checkUserJwt, checkPermission, studentController.dangkiFunc)

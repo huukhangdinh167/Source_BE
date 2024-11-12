@@ -1,24 +1,32 @@
 import db from "../models/index";
 import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
-const salt = bcrypt.genSaltSync(10);
 
+const salt = bcrypt.genSaltSync(10);
+const hashUserPassword = (userPassword) => {
+    let hashPassword = bcrypt.hashSync(userPassword, salt);
+    return hashPassword;
+
+}
 const adminGetAllUser = async () => {
     try {
         let users = await db.Userstudent.findAll({
-            attributes: ["id", "maSo", "email", "phoneNumber"],
-            include: { model: db.Group, attributes: ["name", "description"] },
-
+            include: { model: db.Group, attributes: ["name", "description",'id'] },
             raw: true,
             nest: true,
-
+        }); 
+        let users2 = await db.Userteacher.findAll({
+            include: { model: db.Group, attributes: ["name", "description", 'id'],   },
+            raw: true,
+            nest: true,
+            order: [['maSo','ASC']]
         });
-        if (users) {
-
+        let combinedUser = [...users2, ...users];
+        if (combinedUser) {
             return {
                 EM: 'Get data successful',
                 EC: 0,
-                DT: users
+                DT: combinedUser
             }
         } else {
             return {
@@ -37,7 +45,8 @@ const adminGetAllUser = async () => {
     }
 }
 const adminGetUserWithPagination = async (page, limit) => {
-    try {
+    try { 
+        
         let offset = (page - 1) * limit;
         const { count, rows } = await db.Userstudent.findAndCountAll({
 
@@ -99,5 +108,155 @@ const admincreateNewUser = async (role) => {
         }
 
     }
+} 
+const checkMaSoExist = async (maSo) => {
+    let user = await db.Userteacher.findOne({
+        where: {
+            maSo: maSo,
+        }
+    })
+    if (user) {
+        return true;
+    } return false;
 }
-module.exports = { adminGetAllUser, adminGetUserWithPagination, admincreateNewUser }
+const admincreateNewTeacher = async (data) => {
+    try {
+        let isMaSoExist = await checkMaSoExist(data.maSo);
+        if (isMaSoExist == true) {
+            return {
+                EM: 'MaSo already exist',
+                EC: 1,
+                DT: "maSo"
+            }
+        }
+        let hashPassword = hashUserPassword(data.password)
+
+        let users = await db.Userteacher.create({ ...data, password: hashPassword });
+        return {
+            EM: 'Create  data successful',
+            EC: 0,
+            DT: users
+        }
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const adminupdateUser = async (data) => {
+    try {
+        if (!data.groupId) {
+            return {
+                EM: 'Error Empty width GroudId',
+                EC: 1,
+                DT: 'group'
+            }
+        }
+        // let users = await db.Userstudent.findOne({
+        //     where: { id: data.id }
+        // });
+        if (+data.groupId === 1) { 
+            
+            let hashPassword = hashUserPassword(data.password)
+            await db.Userstudent.update({
+                name: data.name,
+                email: data.email,
+                phoneNumber: data.phoneNumber,
+                groupId: data.groupId,
+                maSo : data.maSo,
+                password: hashPassword,
+            }, 
+            {
+                where: {
+                  maSo: data.maSo,
+                },
+            }
+        )
+
+            return {
+                EM: 'Update user successful',
+                EC: 0,
+                DT: ''
+            }
+        } else{
+            let hashPassword = hashUserPassword(data.password)
+            await db.Userteacher.update({
+                name: data.name,
+                email: data.email,
+                phoneNumber: data.phoneNumber,
+                groupId: data.groupId,
+                maSo : data.maSo,
+                password: hashPassword,
+            }, 
+            {
+                where: {
+                  maSo: data.maSo,
+                },
+            }
+        )
+            return {
+                EM: 'Update user successful',
+                EC: 0,
+                DT: ''
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+} 
+
+const adminDeleteUser =async(data) =>{
+    try {
+        let users = await db.Userstudent.findOne({
+            where: {
+                maSo: data.maSo,
+            },
+        });
+        let users2 = await db.Userteacher.findOne({
+            where: {
+                maSo: data.maSo,
+            },
+        });
+        if (users) {
+            await users.destroy();
+            return {
+                EM: 'Delete User successful',
+                EC: 0,
+                DT: []
+            }
+        }
+        if (users2) {
+            await users2.destroy();
+            return {
+                EM: 'Delete User successful',
+                EC: 0,
+                DT: []
+            }
+        }
+        return {
+            EM: 'Not found user to delete',
+            EC: 1,
+            DT: []
+        } 
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+module.exports = { adminGetAllUser, adminGetUserWithPagination, 
+    admincreateNewUser,adminupdateUser, admincreateNewTeacher, adminDeleteUser }
