@@ -11,9 +11,6 @@ const getAllProject = async (maSo) => {
                     { projectId: { [Op.ne]: 0 } } // Điều kiện 2
                 ]
             },
-            // raw: true,
-            //  nest: true,
-            // chưa đăng kì = 0 .....đã đăng kí thì khác 0
         });
         //nếu user === true thì đã đăng kí 
         if (users) {
@@ -117,7 +114,6 @@ const huydangkiProject = async (id, projectId) => {
     }
 }
 
-
 const getAllProjectRegister = async (id) => {
     try {
         let result = await db.Project.findOne({
@@ -174,7 +170,6 @@ const getAllUserRegisterProject = async (id) => {
         }
     }
 }
-
 
 const chooseGroup = async (orthesST, myST, groupST) => {
     try {

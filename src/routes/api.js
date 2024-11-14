@@ -5,6 +5,7 @@ import usersController from '../controller/usersController'
 import groupController from '../controller/groupController'
 import roleController from '../controller/roleController'
 import adminController from '../controller/adminController'
+import headController from '../controller/headController'
 import { checkUserJwt, checkPermission } from '../middleware/JWTAction'
 import studentController from '../controller/studentController'
 /**
@@ -59,6 +60,14 @@ const initApiRoutes = (app) => {
   router.put("/changepassword", checkUserJwt, checkPermission, studentController.changePassword)
   router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
 
+  //HEAD 
+  router.get("/head/getProjectandUser",checkUserJwt, checkPermission,  headController.headReadProjectandUserFnc)
+  router.delete("/head/delete-project", checkUserJwt, checkPermission, headController.headDeleteProjectFnc) 
+  router.put("/head/huydangki-detai-sinhvien", checkUserJwt, checkPermission, headController.headDeleteRegisterProjectStudentFnc)
+  router.get("/head/getProjectApprove",  headController.headGetProjectApproveFnc)
+  router.put("/head/project-approve", checkUserJwt, checkPermission, headController.headApproveProjectFnc)
+  
+  
   return app.use("/api/v1", router)
 
 
