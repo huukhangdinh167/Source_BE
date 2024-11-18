@@ -8,6 +8,7 @@ import adminController from '../controller/adminController'
 import headController from '../controller/headController'
 import { checkUserJwt, checkPermission } from '../middleware/JWTAction'
 import studentController from '../controller/studentController'
+import teacherController from '../controller/teacherController'
 /**
  * 
  * @param {*} app : express app */
@@ -20,8 +21,6 @@ const initApiRoutes = (app) => {
   // router.all(["/register", "/login", "/user/read", "/user/create", "/user/update", "/user/delete", "/group/read"], checkUserJwt, checkPermission);
 
   //router.use(checkUserJwt, checkPermission);
-
-
   router.post("/login", checkUserJwt, checkPermission, apiController.handleLogin);
   router.post("/logout", checkUserJwt, checkPermission, apiController.handleLogout);
 
@@ -61,12 +60,20 @@ const initApiRoutes = (app) => {
   router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
 
   //HEAD 
-  router.get("/head/getProjectandUser",checkUserJwt, checkPermission,  headController.headReadProjectandUserFnc)
+  router.get("/head/getProjectandUser",headController.headReadProjectandUserFnc)
   router.delete("/head/delete-project", checkUserJwt, checkPermission, headController.headDeleteProjectFnc) 
   router.put("/head/huydangki-detai-sinhvien", checkUserJwt, checkPermission, headController.headDeleteRegisterProjectStudentFnc)
-  router.get("/head/getProjectApprove",  headController.headGetProjectApproveFnc)
+  router.get("/head/getProjectApprove",checkUserJwt, checkPermission,  headController.headGetProjectApproveFnc)
   router.put("/head/project-approve", checkUserJwt, checkPermission, headController.headApproveProjectFnc)
-  
+  router.get("/head/project-get-list-teacher",  headController.headGetListTeacherFnc)
+  //-----------xem danh sách các nhóm được phản biện 
+  router.get("/head/project-test",  headController.test) 
+  //----------phân PB1 Pb2
+  router.put("/head/assignPB1and2",  headController.headAssignPB1and2)
+
+  //TEACHER 
+  // ----xem danh sách được phân công phản biện
+  router.put("/teacher/getLichChamPB", teacherController.teacherGetLichChamPBFnc)
   
   return app.use("/api/v1", router)
 

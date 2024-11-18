@@ -11,15 +11,16 @@ const hashUserPassword = (userPassword) => {
 const adminGetAllUser = async () => {
     try {
         let users = await db.Userstudent.findAll({
-            include: { model: db.Group, attributes: ["name", "description",'id'] },
+            include: { model: db.Group, attributes: ["name", "description", 'id'] },
             raw: true,
             nest: true,
-        }); 
+            order: [['maSo', 'ASC']]
+        });
         let users2 = await db.Userteacher.findAll({
-            include: { model: db.Group, attributes: ["name", "description", 'id'],   },
+            include: { model: db.Group, attributes: ["name", "description", 'id'], },
             raw: true,
             nest: true,
-            order: [['maSo','ASC']]
+            order: [['maSo', 'ASC']]
         });
         let combinedUser = [...users2, ...users];
         if (combinedUser) {
@@ -45,8 +46,8 @@ const adminGetAllUser = async () => {
     }
 }
 const adminGetUserWithPagination = async (page, limit) => {
-    try { 
-        
+    try {
+
         let offset = (page - 1) * limit;
         const { count, rows } = await db.Userstudent.findAndCountAll({
 
@@ -82,16 +83,21 @@ const admincreateNewUser = async (role) => {
     try {
 
         let currentUser = await db.Userstudent.findAll({
-           
+
+            raw: true // convert sequelize obj to javascrip obj
+        })
+        let currentUser2 = await db.Userteacher.findAll({
+
             raw: true // convert sequelize obj to javascrip obj
         })
         let persist = role.filter(({ maSo: id1 }) => !currentUser.some(({ maSo: id2 }) => id2 === id1));
-        if (persist.length === 0) {
+        let persist2 = role.filter(({ maSo: id1 }) => !currentUser2.some(({ maSo: id2 }) => id2 === id1));
+        if (persist.length === 0 || persist2.length === 0) {
             return {
-                EM: 'maSo already exist',
+                EM: 'All maSo already exist',
                 EC: 1,
                 DT: []
-            }
+            };
         }
         await db.Userstudent.bulkCreate(persist)
         return {
@@ -108,16 +114,23 @@ const admincreateNewUser = async (role) => {
         }
 
     }
-} 
+}
 const checkMaSoExist = async (maSo) => {
     let user = await db.Userteacher.findOne({
         where: {
             maSo: maSo,
         }
     })
-    if (user) {
+    let user2 = await db.Userstudent.findOne({
+        where: {
+            maSo: maSo,
+        }
+    })
+
+    if (user || user2 ) {
         return true;
     } return false;
+    
 }
 const admincreateNewTeacher = async (data) => {
     try {
@@ -157,48 +170,78 @@ const adminupdateUser = async (data) => {
                 DT: 'group'
             }
         }
-        // let users = await db.Userstudent.findOne({
-        //     where: { id: data.id }
-        // });
-        if (+data.groupId === 1) { 
-            
-            let hashPassword = hashUserPassword(data.password)
-            await db.Userstudent.update({
-                name: data.name,
-                email: data.email,
-                phoneNumber: data.phoneNumber,
-                groupId: data.groupId,
-                maSo : data.maSo,
-                password: hashPassword,
-            }, 
-            {
-                where: {
-                  maSo: data.maSo,
-                },
-            }
-        )
+        if (+data.groupId === 1) {
+            if (data.password === '') {
+                await db.Userstudent.update({
+                    name: data.name,
+                    email: data.email,
+                    phoneNumber: data.phoneNumber,
+                    groupId: data.groupId,
+                    maSo: data.maSo,
 
+                },
+                    {
+                        where: {
+                            maSo: data.maSo,
+                        },
+                    }
+                )
+            } else {
+                let hashPassword = hashUserPassword(data.password)
+                await db.Userstudent.update({
+                    name: data.name,
+                    email: data.email,
+                    phoneNumber: data.phoneNumber,
+                    groupId: data.groupId,
+                    maSo: data.maSo,
+                    password: hashPassword,
+                },
+                    {
+                        where: {
+                            maSo: data.maSo,
+                        },
+                    }
+                )
+            }
             return {
                 EM: 'Update user successful',
                 EC: 0,
                 DT: ''
             }
-        } else{
-            let hashPassword = hashUserPassword(data.password)
-            await db.Userteacher.update({
-                name: data.name,
-                email: data.email,
-                phoneNumber: data.phoneNumber,
-                groupId: data.groupId,
-                maSo : data.maSo,
-                password: hashPassword,
-            }, 
-            {
-                where: {
-                  maSo: data.maSo,
+        } else {
+            if (data.password === '') {
+                await db.Userteacher.update({
+                    name: data.name,
+                    email: data.email,
+                    phoneNumber: data.phoneNumber,
+                    groupId: data.groupId,
+                    maSo: data.maSo,
+
                 },
+                    {
+                        where: {
+                            maSo: data.maSo,
+                        },
+                    }
+                )
+            } else {
+                let hashPassword = hashUserPassword(data.password)
+                await db.Userteacher.update({
+                    name: data.name,
+                    email: data.email,
+                    phoneNumber: data.phoneNumber,
+                    groupId: data.groupId,
+                    maSo: data.maSo,
+                    password: hashPassword,
+                },
+                    {
+                        where: {
+                            maSo: data.maSo,
+                        },
+                    }
+                )
             }
-        )
+
             return {
                 EM: 'Update user successful',
                 EC: 0,
@@ -213,9 +256,9 @@ const adminupdateUser = async (data) => {
             DT: []
         }
     }
-} 
+}
 
-const adminDeleteUser =async(data) =>{
+const adminDeleteUser = async (data) => {
     try {
         let users = await db.Userstudent.findOne({
             where: {
@@ -247,7 +290,7 @@ const adminDeleteUser =async(data) =>{
             EM: 'Not found user to delete',
             EC: 1,
             DT: []
-        } 
+        }
 
     } catch (e) {
         console.log(e)
@@ -258,5 +301,7 @@ const adminDeleteUser =async(data) =>{
         }
     }
 }
-module.exports = { adminGetAllUser, adminGetUserWithPagination, 
-    admincreateNewUser,adminupdateUser, admincreateNewTeacher, adminDeleteUser }
+module.exports = {
+    adminGetAllUser, adminGetUserWithPagination,
+    admincreateNewUser, adminupdateUser, admincreateNewTeacher, adminDeleteUser
+}

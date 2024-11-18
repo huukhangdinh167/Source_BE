@@ -24,8 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     groupStudent: DataTypes.STRING,
     groupId: DataTypes.INTEGER,
-    projectId: DataTypes.INTEGER
-
+    projectId: DataTypes.INTEGER,
+    pb1: DataTypes.STRING,
+    pb2: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Userstudent',

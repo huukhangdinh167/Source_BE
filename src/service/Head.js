@@ -1,6 +1,7 @@
 import db from "../models/index";
 import { Op } from 'sequelize';
 import bcrypt from 'bcryptjs';
+import { where } from "sequelize/lib/sequelize";
 
 
 const headGetProjectAndUser = async () => {
@@ -8,6 +9,7 @@ const headGetProjectAndUser = async () => {
         let users = await db.Project.findAll({
             where: {
                 status: '1',
+               
             },
             include: { model: db.Userstudent },
             order: [['id', 'ASC']]
@@ -132,15 +134,15 @@ const headDeleteProjectRegisterUser = async (maSo, groupStudent) => {
             DT: ''
         }
     }
-} 
+}
 
-const headApproveProject =async(id)=>{
+const headApproveProject = async (id) => {
     try {
         let data = await db.Project.update(
             { status: 1 },
             { where: { id: id } }
         )
-        if (data ) {
+        if (data) {
             return {
                 EM: 'Approve Project success ',
                 EC: 0,
@@ -162,4 +164,101 @@ const headApproveProject =async(id)=>{
         }
     }
 }
-module.exports = { headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser, headGetProjectApprove, headApproveProject }
+
+const headGetListTeacher = async () => {
+    try {
+        let data = await db.Userteacher.findAll({
+            order: [['name', 'ASC']]
+        });
+        return {
+            EM: 'Get group success',
+            EC: 0,
+            DT: data
+        }
+
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const headtest = async () => {
+    try {
+        let data = await db.Userstudent.findAll({
+            where: { projectId: { [Op.ne]: 0 } },
+
+            include: { model: db.Project },
+            order: [
+                ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+            ]
+        });
+        return {
+            EM: 'Get group success',
+            EC: 0,
+            DT: data
+        }
+
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const headAssignPB = async(data) => {
+    try {
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+                pb1: data.pb1,
+                pb2: data.pb2,
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+            await db.Userstudent.update({
+                pb1: data.pb1,
+                pb2: data.pb2,
+            }, {
+                where: {
+                    groupStudent: data.groupStudent
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+module.exports = {
+    headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
+    headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB
+}

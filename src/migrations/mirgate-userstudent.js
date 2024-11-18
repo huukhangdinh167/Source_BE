@@ -35,6 +35,12 @@ module.exports = {
       projectId: {
         type: Sequelize.INTEGER
       },
+      pb1: {
+        type: Sequelize.STRING
+      },
+      pb2: {
+        type: Sequelize.STRING
+      },
 
 
       createdAt: {

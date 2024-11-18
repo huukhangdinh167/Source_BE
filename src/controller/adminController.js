@@ -3,15 +3,15 @@ import Admin from '../service/Admin'
 
 const adminReadUserFunc = async (req, res) => {
     try {
-    
-            let data = await Admin.adminGetAllUser()
-            return res.status(200).json({
-                EM: data.EM,  // eror messageE
-                EC: data.EC, // error code
-                DT: data.DT//error data
-            })
-          //  console.log(data)
-        
+
+        let data = await Admin.adminGetAllUser()
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT//error data
+        })
+        //  console.log(data)
+
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -22,7 +22,7 @@ const adminReadUserFunc = async (req, res) => {
     }
 }
 
-const adminCreateUserFunc =async(req, res)=>{
+const adminCreateUserFunc = async (req, res) => {
     try {
         let data = await Admin.admincreateNewUser(req.body)
         //  console.log("Check respone", req.body)
@@ -39,11 +39,11 @@ const adminCreateUserFunc =async(req, res)=>{
             DT: '', //error data
         })
     }
-} 
-const adminUpdateFnc =async(req, res)=>{
+}
+const adminUpdateFnc = async (req, res) => {
     try {
         let data = await Admin.adminupdateUser(req.body)
-        //  console.log("Check respone", req.body)
+        console.log("Check respone", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -57,7 +57,7 @@ const adminUpdateFnc =async(req, res)=>{
             DT: '', //error data
         })
     }
-} 
+}
 const adminCreateTeacherFunc = async (req, res) => {
     try {
         let data = await Admin.admincreateNewTeacher(req.body)
@@ -77,10 +77,10 @@ const adminCreateTeacherFunc = async (req, res) => {
     }
 }
 
-const admindDeleteFunc =async(req, res) =>{
+const admindDeleteFunc = async (req, res) => {
     try {
         let data = await Admin.adminDeleteUser(req.body)
-    
+
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -96,4 +96,4 @@ const admindDeleteFunc =async(req, res) =>{
     }
 }
 
-module.exports ={ adminReadUserFunc, adminCreateUserFunc,adminUpdateFnc,adminCreateTeacherFunc,admindDeleteFunc }
+module.exports = { adminReadUserFunc, adminCreateUserFunc, adminUpdateFnc, adminCreateTeacherFunc, admindDeleteFunc }

@@ -21,9 +21,9 @@ const getAllProject = async (maSo) => {
             }
         } else {
             let data = await db.Project.findAll({
-                //     where: {
-                //     status: "Đã Duyệt"
-                // },
+                    where: {
+                    status: 1
+                },
                 order: [['id', 'ASC']]
             });
             return {
@@ -82,14 +82,14 @@ const huydangkiProject = async (id, projectId) => {
                     { maSo: id } // Điều kiện 2
                 ]
             },
-            // raw: true,
-            //  nest: true,
+           
         });
-        //    console.log(users)
-        // return users
+        
         if (users) {
             await users.update({
-                projectId: "0"
+                projectId: "0",
+                pb1: '',
+                pb2: ''
             })
 
             return {
