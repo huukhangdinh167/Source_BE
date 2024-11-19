@@ -79,7 +79,18 @@ const headDeleteProject = async (id) => {
                 id: id,
             },
         });
-        if (users) {
+      let users2  = await db.Userstudent.update(
+            { 
+                pb1: '',  
+                pb2: '' ,
+                projectId: 0
+            },
+            { 
+                where: { projectId: id } 
+            }
+            
+        )
+        if (users && users2) {
             return {
                 EM: 'Delete project success',
                 EC: 0,
