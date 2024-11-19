@@ -179,6 +179,11 @@ const headApproveProject = async (id) => {
 const headGetListTeacher = async () => {
     try {
         let data = await db.Userteacher.findAll({
+            where: {
+                groupId: {
+                    [Op.ne]: 3 
+                }
+            },
             order: [['name', 'ASC']]
         });
         return {

@@ -63,6 +63,7 @@ const updateProject = async (data) => {
                 description: data.description,
                 require: data.require,
                 knowledgeSkills: data.knowledgeSkills,
+                status: 0,
 
 
             })

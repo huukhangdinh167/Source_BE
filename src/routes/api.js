@@ -79,7 +79,7 @@ const initApiRoutes = (app) => {
 
   //TEACHER 
   // ----xem danh sách được phân công phản biện
-  router.put("/teacher/getLichChamPB", teacherController.teacherGetLichChamPBFnc)
+  router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
   
 
   //Teacher
