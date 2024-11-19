@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Userteacher.belongsTo(models.Group, {foreignKey: 'groupId'})
+      Userteacher.belongsTo(models.Group, { foreignKey: 'groupId' })
       Userteacher.hasMany(models.Project, { foreignKey: 'userteacherId' })
     }
   };
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     maSo: DataTypes.STRING,
     password: DataTypes.STRING,
     groupId: DataTypes.INTEGER,
-    
-    
+
+
   }, {
     sequelize,
     modelName: 'Userteacher',

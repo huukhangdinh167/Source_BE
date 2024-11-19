@@ -278,7 +278,7 @@ const ChangePW = async (maSo, password, rePassword) => {
                     DT: ''
                 }
             }
-        } 
+        }
         if (user2) {
             //   console.log("rawData.password, user.password: ",rawData.password, user.password)
             let isCorectPassword1 = checkPassword(password, user2.password);
@@ -302,12 +302,12 @@ const ChangePW = async (maSo, password, rePassword) => {
                 }
             }
         }
-        
-            return {
-                EM: 'Somthing wrongs',
-                EC: 1,
-                DT: ''
-            }
+
+        return {
+            EM: 'Somthing wrongs',
+            EC: 1,
+            DT: ''
+        }
 
     } catch (e) {
         console.log("Lỗi e", e)
@@ -317,31 +317,31 @@ const ChangePW = async (maSo, password, rePassword) => {
         }
     }
 
-} 
+}
 
-const updateIF =async(maSo, phone, email)=>{
-    try {        
-       
+const updateIF = async (maSo, phone, email) => {
+    try {
+
         let data1 = await db.Userstudent.update(
-            { 
-                phoneNumber: phone,  
-                email: email 
+            {
+                phoneNumber: phone,
+                email: email
             },
-            { 
-                where: { maSo: maSo } 
+            {
+                where: { maSo: maSo }
             }
         );
-    
+
         let data2 = await db.Userteacher.update(
-            { 
-                phoneNumber: phone,  
-                email: email 
+            {
+                phoneNumber: phone,
+                email: email
             },
-            { 
-                where: { maSo: maSo } 
+            {
+                where: { maSo: maSo }
             }
         );
-        
+
 
         if (data1) {
             return {
@@ -349,21 +349,21 @@ const updateIF =async(maSo, phone, email)=>{
                 EC: 0,
                 DT: ''
             }
-        } 
+        }
         if (data2) {
             return {
                 EM: 'Update infor success, pls log-out to update infor',
                 EC: 0,
                 DT: ''
             }
-           
+
         }
-        
-            return {
-                EM: 'Somthing wrongs',
-                EC: 1,
-                DT: ''
-            }
+
+        return {
+            EM: 'Somthing wrongs',
+            EC: 1,
+            DT: ''
+        }
 
     } catch (e) {
         console.log("Lỗi e", e)
@@ -375,5 +375,5 @@ const updateIF =async(maSo, phone, email)=>{
 }
 module.exports = {
     getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject,
-    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW,updateIF
+    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF
 }

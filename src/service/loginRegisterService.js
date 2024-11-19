@@ -1,4 +1,4 @@
-import db from "../models"
+import db from "../models/index"
 require('dotenv').config();
 import bcrypt from 'bcryptjs';
 const salt = bcrypt.genSaltSync(10);

@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Userstudent.belongsTo(models.Group, {foreignKey: 'groupId'})
-      Userstudent.belongsTo(models.Project, {foreignKey: 'projectId'})
+      Userstudent.belongsTo(models.Group, { foreignKey: 'groupId' })
+      Userstudent.belongsTo(models.Project, { foreignKey: 'projectId' })
     }
   };
   Userstudent.init({
@@ -27,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     projectId: DataTypes.INTEGER,
     pb1: DataTypes.STRING,
     pb2: DataTypes.STRING
+
+
   }, {
     sequelize,
     modelName: 'Userstudent',

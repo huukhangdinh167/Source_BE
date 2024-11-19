@@ -150,7 +150,7 @@ const cancelChooseGroupFnc = async (req, res) => {
 
 
 const changePassword = async (req, res) => {
-  //   console.log(req.body.data ) 
+    //   console.log(req.body.data ) 
     try {
         let data = await Student.ChangePW(req.body.data.maSo, req.body.data.password, req.body.data.rePassword)
 
@@ -169,9 +169,9 @@ const changePassword = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
-const updateinfor =async(req, res)=>{
+const updateinfor = async (req, res) => {
     try {
         let data = await Student.updateIF(req.body.data.maSo, req.body.data.phone, req.body.data.email)
 
@@ -193,5 +193,5 @@ const updateinfor =async(req, res)=>{
 }
 module.exports = {
     ReadProjectFnc, dangkiFunc, ReadProjectRegisterFnc, huydangkiFunc,
-    useRegistProjectFnc, chooseGroupFnc, cancelChooseGroupFnc, changePassword,updateinfor
+    useRegistProjectFnc, chooseGroupFnc, cancelChooseGroupFnc, changePassword, updateinfor
 }

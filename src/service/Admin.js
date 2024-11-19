@@ -15,6 +15,7 @@ const adminGetAllUser = async () => {
             raw: true,
             nest: true,
             order: [['maSo', 'ASC']]
+
         });
         let users2 = await db.Userteacher.findAll({
             include: { model: db.Group, attributes: ["name", "description", 'id'], },
@@ -83,11 +84,9 @@ const admincreateNewUser = async (role) => {
     try {
 
         let currentUser = await db.Userstudent.findAll({
-
             raw: true // convert sequelize obj to javascrip obj
         })
         let currentUser2 = await db.Userteacher.findAll({
-
             raw: true // convert sequelize obj to javascrip obj
         })
         let persist = role.filter(({ maSo: id1 }) => !currentUser.some(({ maSo: id2 }) => id2 === id1));
@@ -170,6 +169,7 @@ const adminupdateUser = async (data) => {
                 DT: 'group'
             }
         }
+
         if (+data.groupId === 1) {
             if (data.password === '') {
                 await db.Userstudent.update({
@@ -178,6 +178,7 @@ const adminupdateUser = async (data) => {
                     phoneNumber: data.phoneNumber,
                     groupId: data.groupId,
                     maSo: data.maSo,
+
 
                 },
                     {
@@ -241,7 +242,6 @@ const adminupdateUser = async (data) => {
                     }
                 )
             }
-
             return {
                 EM: 'Update user successful',
                 EC: 0,

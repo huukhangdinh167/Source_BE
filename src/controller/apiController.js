@@ -1,4 +1,4 @@
-import loginRegisterServer from '../service/loginRegisterService';
+import loginRegisterSevice from '../service/loginRegisterService';
 
 
 const testApi = (req, res) => {
@@ -17,7 +17,7 @@ const handleLogin = async (req, res) => {
 
     try {
 
-        let data = await loginRegisterServer.handleUserLogin(req.body)
+        let data = await loginRegisterSevice.handleUserLogin(req.body)
         // set cookie 
         if (data && data.DT && data.DT.accesstoken) {
             res.cookie("jwt", data.DT.accesstoken, { httpOnly: true });
@@ -38,11 +38,11 @@ const handleLogin = async (req, res) => {
 
 }
 
-const handleLogout =(req, res)=>{
+const handleLogout = (req, res) => {
     try {
         res.clearCookie("jwt")
-       // localStorage.clear();
-       // res.localStorage.removeItem('jwt');
+        // localStorage.clear();
+        // res.localStorage.removeItem('jwt');
         return res.status(200).json({
             EM: 'Clear cookie  done',  // eror messageE
             EC: 0, // error code
@@ -59,5 +59,5 @@ const handleLogout =(req, res)=>{
 
 }
 module.exports = {
-    testApi, handleLogin,handleLogout
+    testApi, handleLogin, handleLogout
 }
