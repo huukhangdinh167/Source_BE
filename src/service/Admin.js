@@ -11,15 +11,15 @@ const hashUserPassword = (userPassword) => {
 const adminGetAllUser = async () => {
     try {
         let users = await db.Userstudent.findAll({
-            include: { model: db.Group, attributes: ["name", "description",'id'] },
+            include: { model: db.Group, attributes: ["name", "description", 'id'] },
             raw: true,
             nest: true,
-        }); 
+        });
         let users2 = await db.Userteacher.findAll({
-            include: { model: db.Group, attributes: ["name", "description", 'id'],   },
+            include: { model: db.Group, attributes: ["name", "description", 'id'], },
             raw: true,
             nest: true,
-            order: [['maSo','ASC']]
+            order: [['maSo', 'ASC']]
         });
         let combinedUser = [...users2, ...users];
         if (combinedUser) {
@@ -45,8 +45,8 @@ const adminGetAllUser = async () => {
     }
 }
 const adminGetUserWithPagination = async (page, limit) => {
-    try { 
-        
+    try {
+
         let offset = (page - 1) * limit;
         const { count, rows } = await db.Userstudent.findAndCountAll({
 
@@ -82,7 +82,7 @@ const admincreateNewUser = async (role) => {
     try {
 
         let currentUser = await db.Userstudent.findAll({
-           
+
             raw: true // convert sequelize obj to javascrip obj
         })
         let persist = role.filter(({ maSo: id1 }) => !currentUser.some(({ maSo: id2 }) => id2 === id1));
@@ -108,7 +108,7 @@ const admincreateNewUser = async (role) => {
         }
 
     }
-} 
+}
 const checkMaSoExist = async (maSo) => {
     let user = await db.Userteacher.findOne({
         where: {
@@ -160,45 +160,45 @@ const adminupdateUser = async (data) => {
         // let users = await db.Userstudent.findOne({
         //     where: { id: data.id }
         // });
-        if (+data.groupId === 1) { 
-            
+        if (+data.groupId === 1) {
+
             let hashPassword = hashUserPassword(data.password)
             await db.Userstudent.update({
                 name: data.name,
                 email: data.email,
                 phoneNumber: data.phoneNumber,
                 groupId: data.groupId,
-                maSo : data.maSo,
+                maSo: data.maSo,
                 password: hashPassword,
-            }, 
-            {
-                where: {
-                  maSo: data.maSo,
-                },
-            }
-        )
+            },
+                {
+                    where: {
+                        maSo: data.maSo,
+                    },
+                }
+            )
 
             return {
                 EM: 'Update user successful',
                 EC: 0,
                 DT: ''
             }
-        } else{
+        } else {
             let hashPassword = hashUserPassword(data.password)
             await db.Userteacher.update({
                 name: data.name,
                 email: data.email,
                 phoneNumber: data.phoneNumber,
                 groupId: data.groupId,
-                maSo : data.maSo,
+                maSo: data.maSo,
                 password: hashPassword,
-            }, 
-            {
-                where: {
-                  maSo: data.maSo,
-                },
-            }
-        )
+            },
+                {
+                    where: {
+                        maSo: data.maSo,
+                    },
+                }
+            )
             return {
                 EM: 'Update user successful',
                 EC: 0,
@@ -213,9 +213,9 @@ const adminupdateUser = async (data) => {
             DT: []
         }
     }
-} 
+}
 
-const adminDeleteUser =async(data) =>{
+const adminDeleteUser = async (data) => {
     try {
         let users = await db.Userstudent.findOne({
             where: {
@@ -247,7 +247,7 @@ const adminDeleteUser =async(data) =>{
             EM: 'Not found user to delete',
             EC: 1,
             DT: []
-        } 
+        }
 
     } catch (e) {
         console.log(e)
@@ -258,5 +258,7 @@ const adminDeleteUser =async(data) =>{
         }
     }
 }
-module.exports = { adminGetAllUser, adminGetUserWithPagination, 
-    admincreateNewUser,adminupdateUser, admincreateNewTeacher, adminDeleteUser }
+module.exports = {
+    adminGetAllUser, adminGetUserWithPagination,
+    admincreateNewUser, adminupdateUser, admincreateNewTeacher, adminDeleteUser
+}

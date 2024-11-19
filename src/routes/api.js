@@ -7,6 +7,7 @@ import roleController from '../controller/roleController'
 import adminController from '../controller/adminController'
 import { checkUserJwt, checkPermission } from '../middleware/JWTAction'
 import studentController from '../controller/studentController'
+import projectController from '../controller/projectController'
 /**
  * 
  * @param {*} app : express app */
@@ -21,8 +22,8 @@ const initApiRoutes = (app) => {
   //router.use(checkUserJwt, checkPermission);
 
 
-  router.post("/login", checkUserJwt, checkPermission, apiController.handleLogin);
-  router.post("/logout", checkUserJwt, checkPermission, apiController.handleLogout);
+  router.post("/login", apiController.handleLogin);
+  router.post("/logout", apiController.handleLogout);
 
   router.get("/account", checkUserJwt, checkPermission, usersController.getUserAccount);
 
@@ -35,7 +36,7 @@ const initApiRoutes = (app) => {
   //role router 
   router.get("/role/read", checkUserJwt, checkPermission, roleController.readFunc)
   router.post("/role/create", checkUserJwt, checkPermission, roleController.createFunc)
-          // todo nha  router.put("/role/update", roleController.updateFunc)
+  // todo nha  router.put("/role/update", roleController.updateFunc)
   router.delete("/role/delete", checkUserJwt, checkPermission, roleController.deleteFunc)
   router.get("/role/by-group/:groupId", roleController.getRoleByGroup)  // nếu sử dụng middleware thì sẽ bị lỗi 
   router.post("/role/assign-to-group", checkUserJwt, checkPermission, roleController.assignRoleToGroup)
@@ -45,7 +46,7 @@ const initApiRoutes = (app) => {
   // ADMIN 
   router.post("/admin/create-teacher", checkUserJwt, checkPermission, adminController.adminCreateTeacherFunc)
   router.post("/admin/create-user", checkUserJwt, checkPermission, adminController.adminCreateUserFunc)
-  router.get("/admin/read-user",  adminController.adminReadUserFunc)
+  router.get("/admin/read-user", adminController.adminReadUserFunc)
   router.put("/admin/update-user", checkUserJwt, checkPermission, adminController.adminUpdateFnc)
   router.delete("/admin/delete-user", checkUserJwt, checkPermission, adminController.admindDeleteFunc)
   // STUDENT 
@@ -58,6 +59,13 @@ const initApiRoutes = (app) => {
   router.put("/student/project/cancelchoosegroup", checkUserJwt, checkPermission, studentController.cancelChooseGroupFnc)
   router.put("/changepassword", checkUserJwt, checkPermission, studentController.changePassword)
   router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
+
+  //Teacher
+
+  router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)
+  router.put("/teacher/projects/create", checkUserJwt, checkPermission, projectController.createFunc)
+  router.put("/teacher/projects/update", checkUserJwt, checkPermission, projectController.updateFunc)
+  router.delete("/teacher/projects/delete", checkUserJwt, checkPermission, projectController.deleteFunc)
 
   return app.use("/api/v1", router)
 
