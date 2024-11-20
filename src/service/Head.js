@@ -9,7 +9,7 @@ const headGetProjectAndUser = async () => {
         let users = await db.Project.findAll({
             where: {
                 status: '1',
-               
+
             },
             include: { model: db.Userstudent },
             order: [['id', 'ASC']]
@@ -79,16 +79,16 @@ const headDeleteProject = async (id) => {
                 id: id,
             },
         });
-      let users2  = await db.Userstudent.update(
-            { 
-                pb1: '',  
-                pb2: '' ,
+        let users2 = await db.Userstudent.update(
+            {
+                pb1: '',
+                pb2: '',
                 projectId: 0
             },
-            { 
-                where: { projectId: id } 
+            {
+                where: { projectId: id }
             }
-            
+
         )
         if (users && users2) {
             return {
@@ -147,15 +147,18 @@ const headDeleteProjectRegisterUser = async (maSo, groupStudent) => {
     }
 }
 
-const headApproveProject = async (id) => {
+const headApproveProject = async (id, name) => {
     try {
         let data = await db.Project.update(
-            { status: 1 },
+            {
+                status: 1,
+                nameprojectapprove: name.trim()
+            },
             { where: { id: id } }
         )
         if (data) {
             return {
-                EM: 'Approve Project success ',
+                EM: 'Đã duyệt đề tài ',
                 EC: 0,
                 DT: '',
             }
@@ -175,13 +178,46 @@ const headApproveProject = async (id) => {
         }
     }
 }
+const headRefuseProject = async (id,name, reasonrefuse) => {
+    try {
+        let data = await db.Project.update(
+            {
+                status: 2,
+                reasonrefuse: reasonrefuse,
+                nameprojectrefuse: name.trim(),
+
+            },
+            { where: { id: id } }
+        )
+        if (data) {
+            return {
+                EM: 'Đã từ chối đề tài ',
+                EC: 0,
+                DT: '',
+            }
+        } else {
+            return {
+                EM: 'Can not Refuse ',
+                EC: 1,
+                DT: '',
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: ''
+        }
+    }
+}
 
 const headGetListTeacher = async () => {
     try {
         let data = await db.Userteacher.findAll({
             where: {
                 groupId: {
-                    [Op.ne]: 3 
+                    [Op.ne]: 3
                 }
             },
             order: [['name', 'ASC']]
@@ -231,7 +267,7 @@ const headtest = async () => {
     }
 }
 
-const headAssignPB = async(data) => {
+const headAssignPB = async (data) => {
     try {
         if (data.groupStudent === 'null') {
             ////lllllll
@@ -276,5 +312,6 @@ const headAssignPB = async(data) => {
 }
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
-    headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB
+    headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
+    headRefuseProject
 }

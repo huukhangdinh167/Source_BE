@@ -16,17 +16,17 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Result.init({
-    groupStudent: DataTypes.STRING,
+    idUserStudent: DataTypes.STRING,
     diemGVHD: DataTypes.STRING,
     diemGVPB1: DataTypes.STRING,
     diemGVPB2: DataTypes.STRING,
+    trungbinhphanbien: DataTypes.STRING,
     diemCTHD: DataTypes.STRING,
     diemTK: DataTypes.STRING,
     diemUV: DataTypes.STRING,
     diemPoster1: DataTypes.STRING,
     diemPoster2: DataTypes.STRING,
-
-
+    trungbinhhoidong: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Result',

@@ -76,8 +76,12 @@ const initApiRoutes = (app) => {
   router.get("/head/project-test",  headController.test) 
   //----------phân PB1 Pb2
   router.put("/head/assignPB1and2",  headController.headAssignPB1and2)
+  router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
 
-  //TEACHER 
+
+
+
+  //TEACHER --khang làm
   // ----xem danh sách được phân công phản biện
   router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
   

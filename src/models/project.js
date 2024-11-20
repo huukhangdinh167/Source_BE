@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     instuctor: DataTypes.STRING,
     userteacherId: DataTypes.INTEGER,
-
+    reasonrefuse: DataTypes.STRING,
+    nameprojectapprove: DataTypes.STRING,
+    nameprojectrefuse: DataTypes.STRING,
 
   }, {
     sequelize,

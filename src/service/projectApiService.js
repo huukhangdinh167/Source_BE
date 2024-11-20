@@ -1,6 +1,6 @@
 
 import db from '../models/index'
-
+import { Op } from 'sequelize';
 const getAllProject = async (userteacherId) => {
     try {
         if (!userteacherId) {
@@ -11,7 +11,7 @@ const getAllProject = async (userteacherId) => {
             };
         }
         let projects = await db.Project.findAll({
-            attributes: ["id", "name", "description", "require", "knowledgeSkills", "instuctor", "status"],//lấy các cột mình quan tâm
+            // attributes: ["id", "name", "description", "require", "knowledgeSkills", "instuctor", "status"],//lấy các cột mình quan tâm
             // include: { model: db.Userteacher, attributes: ["maSo"] },//ket noi voi cot cua table khac
             // nest: true
             where: { userteacherId: userteacherId },
@@ -53,31 +53,72 @@ const createNewProject = async (data) => {
 
 const updateProject = async (data) => {
     try {
-        let project = await db.Project.findOne({
-            where: { id: data.id }
+        // let project = await db.Project.findOne({
+        //     where: {
+        //         [Op.and]: [
+        //             { id: data.id },  // Điều kiện 1
+        //             { nameprojectapprove: { [Op.ne]: 'null' } } // Điều kiện 2
+        //         ]
+        //     },
+        // })
+        let project2 = await db.Project.findOne({
+            where: {              
+                     id: data.id                                 
+            },
         })
-        if (project) {
-            //update
-            await project.update({
-                name: data.name,
-                description: data.description,
-                require: data.require,
-                knowledgeSkills: data.knowledgeSkills,
-                status: 0,
-
-
-            })
-            return {
-                EM: 'Project Updated success ',
-                EC: 0,
-                DT: ''
+        if (project2) {
+            if(data.name.trim() == project2.nameprojectapprove ){
+                await project2.update({
+                    name: data.name.trim(),
+                    description: data.description,
+                    require: data.require,
+                    knowledgeSkills: data.knowledgeSkills,
+                    status: 1,
+                }) 
+                return {
+                    EM: 'hhhh',
+                    EC: 0,
+                    DT: []
+                }
+            }else if(data.name.trim() == project2.nameprojectrefuse){
+                await project2.update({
+                    name: data.name.trim(),
+                    description: data.description,
+                    require: data.require,
+                    knowledgeSkills: data.knowledgeSkills,
+                    status: 2,
+                })
+                return {
+                    EM: 'hhhh',
+                    EC: 0,
+                    DT: []
+                }
+            } else{ 
+                await project2.update({
+                    name: data.name.trim(),
+                    description: data.description,
+                    require: data.require,
+                    knowledgeSkills: data.knowledgeSkills,
+                    status: 0,
+                })
+                return {
+                    EM: 'Không khớp tên',
+                    EC: 0,
+                    DT: []
+                }
             }
         } else {
-            //not found
+            // await project2.update({
+            //     name: data.name.trim(),
+            //     description: data.description,
+            //     require: data.require,
+            //     knowledgeSkills: data.knowledgeSkills,
+            //     status: 0,
+            // })
             return {
-                EM: 'Project not found',
-                EC: 2,
-                DT: ''
+                EM: 'Không tìm thấy project',
+                EC: 1,
+                DT: []
             }
         }
 
