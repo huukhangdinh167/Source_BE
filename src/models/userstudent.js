@@ -13,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Userstudent.belongsTo(models.Group, { foreignKey: 'groupId' })
       Userstudent.belongsTo(models.Project, { foreignKey: 'projectId' })
+      Userstudent.hasOne(models.Result, { foreignKey: 'userstudentId' })
+      Userstudent.hasOne(models.Criteria, { foreignKey: 'userstudentId' })
     }
   };
   Userstudent.init({

@@ -56,6 +56,43 @@ const GetLichPB = async (maSo) => {
         }
     }
 }
+
+const GetDSHD = async (maSo) => {
+    try {
+        let users = await db.Userstudent.findAll({
+            include: [
+                {
+                    model: db.Project,
+                    where: {
+                        userteacherId: maSo // Điều kiện maSoGV của bảng Project
+                    }
+                },
+                {
+                    model: db.Result,
+                    // Nếu muốn lấy cả userStudent không có result
+                },
+                {
+                    model: db.Criteria,
+                    // Nếu muốn lấy cả userStudent không có criteria
+                }
+            ]
+        });
+
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: users
+        }
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 module.exports = {
-    GetLichPB
+    GetLichPB, GetDSHD
 }

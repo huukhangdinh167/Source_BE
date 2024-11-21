@@ -84,7 +84,7 @@ const initApiRoutes = (app) => {
   //TEACHER --khang làm
   // ----xem danh sách được phân công phản biện
   router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
-  
+  router.put("/teacher/getDSHD", teacherController.teacherGetDSHDFunc)
 
   //Teacher
 
@@ -92,6 +92,7 @@ const initApiRoutes = (app) => {
   router.put("/teacher/projects/create", checkUserJwt, checkPermission, projectController.createFunc)
   router.put("/teacher/projects/update", checkUserJwt, checkPermission, projectController.updateFunc)
   router.delete("/teacher/projects/delete", checkUserJwt, checkPermission, projectController.deleteFunc)
+  
 
 
   return app.use("/api/v1", router)
