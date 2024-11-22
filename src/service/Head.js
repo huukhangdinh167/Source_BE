@@ -178,7 +178,7 @@ const headApproveProject = async (id, name) => {
         }
     }
 }
-const headRefuseProject = async (id,name, reasonrefuse) => {
+const headRefuseProject = async (id, name, reasonrefuse) => {
     try {
         let data = await db.Project.update(
             {
@@ -244,7 +244,13 @@ const headtest = async () => {
         let data = await db.Userstudent.findAll({
             where: { projectId: { [Op.ne]: 0 } },
 
-            include: { model: db.Project },
+            include: [{ model: db.Project },
+            { model: db.Result, where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' },  // Điều kiện 1
+                    { danhgiacuoiky: 'true' } // Điều kiện 2
+                ]
+            }, }],
             order: [
                 ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
                 ['groupStudent', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần

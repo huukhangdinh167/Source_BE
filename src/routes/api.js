@@ -85,7 +85,7 @@ const initApiRoutes = (app) => {
   // ----xem danh sách được phân công phản biện
   router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
   router.put("/teacher/getDSHD", teacherController.teacherGetDSHDFunc)
-
+  router.put("/teacher/DGHD", teacherController.teacherDGHDFunc)
   //Teacher
 
   router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)

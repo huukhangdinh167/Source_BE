@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Criteria.belongsTo(models.Userstudent, { foreignKey: 'userstudentId' })
-     
+
     }
   };
   Criteria.init({
@@ -26,15 +26,15 @@ module.exports = (sequelize, DataTypes) => {
     LOL7: DataTypes.STRING,
     LOL8: DataTypes.STRING,
     ghichu: DataTypes.STRING,
-   
-    
+
+
   }, {
     sequelize,
     modelName: 'Criteria',
-  }, 
-  {
-    timestamps: false, // Tắt tạo các cột createdAt và updatedAt
-  });
-  
+  },
+    {
+      timestamps: false, // Tắt tạo các cột createdAt và updatedAt
+    });
+
   return Criteria;
 };
