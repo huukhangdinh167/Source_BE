@@ -24,8 +24,8 @@ const adminReadUserFunc = async (req, res) => {
 
 const adminCreateUserFunc = async (req, res) => {
     try {
-        let data = await Admin.admincreateNewUser(req.body)
-        //  console.log("Check respone", req.body)
+         let data = await Admin.admincreateNewUser(req.body)
+     // console.log("Check respone", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code

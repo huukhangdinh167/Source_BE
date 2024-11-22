@@ -11,12 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      
+      Result.belongsTo(models.Userstudent, { foreignKey: 'userstudentId' })
 
     }
   };
   Result.init({
-    idUserStudent: DataTypes.STRING,
+    userstudentId: DataTypes.STRING,
     diemGVHD: DataTypes.STRING,
     diemGVPB1: DataTypes.STRING,
     diemGVPB2: DataTypes.STRING,
@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     diemPoster1: DataTypes.STRING,
     diemPoster2: DataTypes.STRING,
     trungbinhhoidong: DataTypes.STRING,
+   
   }, {
     sequelize,
     modelName: 'Result',

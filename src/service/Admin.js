@@ -99,6 +99,7 @@ const admincreateNewUser = async (role) => {
             };
         }
         await db.Userstudent.bulkCreate(persist)
+   
         return {
             EM: `Add User Student(${persist.length}) success`,
             EC: 0,

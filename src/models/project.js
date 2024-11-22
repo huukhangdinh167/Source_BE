@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       //  Project.belongsToMany(models.User, {through: 'Project_User'})
       Project.hasMany(models.Userstudent, { foreignKey: 'projectId' })
       Project.belongsTo(models.Userteacher, { foreignKey: 'userteacherId' })
-
+      
     }
   };
   Project.init({
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     instuctor: DataTypes.STRING,
     status: DataTypes.STRING,
     instuctor: DataTypes.STRING,
-    userteacherId: DataTypes.INTEGER,
+    userteacherId: DataTypes.STRING,
     reasonrefuse: DataTypes.STRING,
     nameprojectapprove: DataTypes.STRING,
     nameprojectrefuse: DataTypes.STRING,
