@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     ghichu: DataTypes.STRING,
 
 
+
   }, {
     sequelize,
     modelName: 'Criteria',
@@ -35,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: false, // Tắt tạo các cột createdAt và updatedAt
     });
+
 
   return Criteria;
 };

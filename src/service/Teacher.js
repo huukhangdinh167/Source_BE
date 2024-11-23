@@ -93,6 +93,7 @@ const GetDSHD = async (maSo) => {
         }
     }
 }
+
 const GetDGHD = async (data) => {
     try {
         let users = await db.Result.findOne({
@@ -242,4 +243,5 @@ const GetDGHD = async (data) => {
 }
 module.exports = {
     GetLichPB, GetDSHD, GetDGHD
+
 }

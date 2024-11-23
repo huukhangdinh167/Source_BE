@@ -23,7 +23,9 @@ const teacherGetLichChamPBFnc =async(req, res)=>{
 
 const teacherGetDSHDFunc =async(req, res)=>{
     try {
+
         let data = await Teacher.GetDSHD(req.body.data.maSo)
+
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -39,6 +41,7 @@ const teacherGetDSHDFunc =async(req, res)=>{
             DT: '', //error data
         })
     }
+
 } 
 const teacherDGHDFunc =async(req, res)=>{
     try {
@@ -62,4 +65,5 @@ const teacherDGHDFunc =async(req, res)=>{
 }
 module.exports = {
     teacherGetLichChamPBFnc,teacherGetDSHDFunc,teacherDGHDFunc
+
 }
