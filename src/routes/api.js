@@ -84,10 +84,11 @@ const initApiRoutes = (app) => {
   //TEACHER --khang làm
   // ----xem danh sách được phân công phản biện
   router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
+  // --chấm hướng dẫn : xem ds hướng dẫn và chấm điểm hd
   router.put("/teacher/getDSHD", teacherController.teacherGetDSHDFunc)
-
   router.put("/teacher/DGHD", teacherController.teacherDGHDFunc)
-
+  router.put("/teacher/getIn4SV1andSV2", teacherController.teacherGetIn4SV1andSV2Func)
+  router.put("/teacher/DGPhanBien", teacherController.teacherChamPhanBienFunc)
   //Teacher
 
   router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)

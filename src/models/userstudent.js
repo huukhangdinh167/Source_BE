@@ -15,6 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       Userstudent.belongsTo(models.Project, { foreignKey: 'projectId' })
       Userstudent.hasOne(models.Result, { foreignKey: 'userstudentId' })
       Userstudent.hasOne(models.Criteria, { foreignKey: 'userstudentId' })
+      Userstudent.hasOne(models.Criteriapb, { foreignKey: 'userstudentId' })
     }
   };
   Userstudent.init({
