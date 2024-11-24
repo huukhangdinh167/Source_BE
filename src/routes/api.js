@@ -89,6 +89,8 @@ const initApiRoutes = (app) => {
   router.put("/teacher/DGHD", teacherController.teacherDGHDFunc)
   router.put("/teacher/getIn4SV1andSV2", teacherController.teacherGetIn4SV1andSV2Func)
   router.put("/teacher/DGPhanBien", teacherController.teacherChamPhanBienFunc)
+  router.put("/teacher/xemDGPhanBienSV2", teacherController.teacherXemchamPhanBienSV2Func)
+  router.put("/teacher/definePB1PB2", teacherController.teacherDefinePB1PB2Func)
   //Teacher
 
   router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)
