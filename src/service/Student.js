@@ -142,7 +142,7 @@ const getAllProjectRegister = async (id) => {
             DT: []
         }
     }
-}
+} 
 const getAllUserRegisterProject = async (id) => {
     try {
         let result = await db.Userstudent.findAll({
@@ -372,8 +372,43 @@ const updateIF = async (maSo, phone, email) => {
             EC: -2
         }
     }
+} 
+
+
+const getAllResults = async (id) => {
+    try {
+        let result = await db.Userstudent.findOne({
+            where: {
+                maSo: id, 
+            },
+            include: [   
+                {
+                    model: db.Result, 
+                },
+                {
+                    model: db.Criteria, 
+                }, {
+                    model: db.Criteriapb, 
+                }
+            ]
+            
+
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
 }
 module.exports = {
     getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject,
-    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF
+    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF,getAllResults
 }

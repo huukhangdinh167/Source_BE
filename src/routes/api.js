@@ -63,7 +63,7 @@ const initApiRoutes = (app) => {
   router.put("/student/project/cancelchoosegroup", checkUserJwt, checkPermission, studentController.cancelChooseGroupFnc)
   router.put("/changepassword", checkUserJwt, checkPermission, studentController.changePassword)
   router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
-
+  router.put("/student/results",  studentController.allResults)
 
   //HEAD 
   router.get("/head/getProjectandUser",headController.headReadProjectandUserFnc)

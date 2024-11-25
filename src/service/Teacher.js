@@ -74,8 +74,8 @@ const GetDSHD = async (maSo) => {
         });
 
         return {
-            EM: 'Some thing wrongs with service',
-            EC: 0,
+            EM: 'get data success',
+            EC: 1,
             DT: users
         }
 
@@ -284,12 +284,29 @@ const chamPhanBien = async (data) => {
             let findPB1orPb2 = await db.Userteacher.findOne({
                 where: { maSo: data.maSoGV.maSoGV }
             });
+            // tính điểm trung binh phan bien cho sinh viên đầu tiên
+            let findTBPhanBien = await db.Result.findOne({
+                where: { userstudentId: data.idSV1.id1 }
+            });
+            let finddiemGVPB1 = findTBPhanBien.diemGVPB1
+            let finddiemGVPB2 = findTBPhanBien.diemGVPB2
+            let trungbinhphanbien1 = finddiemGVPB2
+                ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB2)) / 2
+                : null;
+            let trungbinhphanbien2 = finddiemGVPB1
+                ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1)) / 2
+                : null;
+
+          
             if (users2) {
                 // đã tồn tại trong db rồi nên chỉ cần update
                 if (findPB1orPb2.id == data.pb1.pb1) {
+
                     await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem
+                        diemGVPB1: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV1.id1 }, })
+
                     await db.Criteriapb.update({
                         LOL1: data.dataSV1.LOL1,
                         LOL2: data.dataSV1.LOL2,
@@ -309,7 +326,8 @@ const chamPhanBien = async (data) => {
                     }
                 } else if (findPB1orPb2.id == data.pb2.pb2) {
                     await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem
+                        diemGVPB2: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV1.id1 }, })
                     await db.Criteriapb.update({
                         LOL1PB2: data.dataSV1.LOL1,
@@ -339,7 +357,8 @@ const chamPhanBien = async (data) => {
             } else {
                 if (findPB1orPb2.id == data.pb1.pb1) {
                     await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem
+                        diemGVPB1: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV1.id1 }, })
 
                     await db.Criteriapb.create({
@@ -362,7 +381,8 @@ const chamPhanBien = async (data) => {
                     }
                 } else if (findPB1orPb2.id == data.pb2.pb2) {
                     await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem
+                        diemGVPB2: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV1.id1 }, })
 
                     await db.Criteriapb.create({
@@ -391,7 +411,8 @@ const chamPhanBien = async (data) => {
                     }
                 }
             }
-        } else {
+        } else { 
+            
             // Có 2 đứa... tạo 2 lần 
             let users2 = await db.Criteriapb.findOne({
                 where: { userstudentId: data.idSV1.id1 }
@@ -401,17 +422,46 @@ const chamPhanBien = async (data) => {
             });
             let findPB1orPb2 = await db.Userteacher.findOne({
                 where: { maSo: data.maSoGV.maSoGV }
+            }); 
+
+            let findTBPhanBien = await db.Result.findOne({
+                where: { userstudentId: data.idSV1.id1 }
             });
+            let finddiemGVPB1 = findTBPhanBien.diemGVPB1
+            let finddiemGVPB2 = findTBPhanBien.diemGVPB2
+            let trungbinhphanbien1 = finddiemGVPB2
+                ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB2)) / 2
+                : null;
+            let trungbinhphanbien2 = finddiemGVPB1
+                ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1)) / 2
+                : null;
+
+             //tính điểm trung binh phan bien cho sinh vien thứ 2 
+             let SV2findTBPhanBien = await db.Result.findOne({
+                where: { userstudentId: data.idSV2.id2 }
+            });
+            let SV2finddiemGVPB1 = SV2findTBPhanBien.diemGVPB1
+            let SV2finddiemGVPB2 = SV2findTBPhanBien.diemGVPB2
+            let SV2trungbinhphanbien1 = SV2finddiemGVPB2
+                ? (parseFloat(data.dataSV2.diem) + parseFloat(SV2finddiemGVPB2)) / 2
+                : null;
+            let SV2trungbinhphanbien2 = SV2finddiemGVPB1
+                ? (parseFloat(data.dataSV2.diem) + parseFloat(SV2finddiemGVPB1)) / 2
+                : null;
+
+
             if (users2 && users1) {
                 // tìm thấy 2 đứa-> chỉ cần update 
                 if (findPB1orPb2.id == data.pb1.pb1) {
                     // lần đầu cho đứa thứ 1
                     await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem
+                        diemGVPB1: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV1.id1 }, })
                     // lần 2 cho đứa thứ 2
                     await db.Result.update({
-                        diemGVPB1: data.dataSV2.diem
+                        diemGVPB1: data.dataSV2.diem,
+                        trungbinhphanbien: SV2trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV2.id2 }, })
 
                     //update lần 1 cho sv1
@@ -449,11 +499,13 @@ const chamPhanBien = async (data) => {
                 } else if (findPB1orPb2.id == data.pb2.pb2) {
                     // lần đầu cho đứa thứ 1
                     await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem
+                        diemGVPB2: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV1.id1 }, })
                     // lần 2 cho đứa thứ 2
                     await db.Result.update({
-                        diemGVPB2: data.dataSV2.diem
+                        diemGVPB2: data.dataSV2.diem,
+                        trungbinhphanbien: SV2trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV2.id2 }, })
 
                     //update lần 1 cho sv1
@@ -500,11 +552,13 @@ const chamPhanBien = async (data) => {
                 if (findPB1orPb2.id == data.pb1.pb1) {
                     // lần đầu cho đứa thứ 1
                     await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem
+                        diemGVPB1: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV1.id1 }, })
                     // lần 2 cho đứa thứ 2
                     await db.Result.update({
-                        diemGVPB1: data.dataSV2.diem
+                        diemGVPB1: data.dataSV2.diem,
+                        trungbinhphanbien: SV2trungbinhphanbien1
                     }, { where: { userstudentId: data.idSV2.id2 }, })
 
                     // làm cho đứa thứ 1
@@ -543,11 +597,13 @@ const chamPhanBien = async (data) => {
                 } else if (findPB1orPb2.id == data.pb2.pb2) {
                     // lần đầu cho đứa thứ 1
                     await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem
+                        diemGVPB2: data.dataSV1.diem,
+                        trungbinhphanbien: trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV1.id1 }, })
                     // lần 2 cho đứa thứ 2
                     await db.Result.update({
-                        diemGVPB2: data.dataSV2.diem
+                        diemGVPB2: data.dataSV2.diem,
+                        trungbinhphanbien: SV2trungbinhphanbien2
                     }, { where: { userstudentId: data.idSV2.id2 }, })
 
                     // làm cho đứa thứ 1
@@ -603,7 +659,6 @@ const chamPhanBien = async (data) => {
         }
     }
 }
-
 
 const XemKetQuachamPhanBienSV2 = async (group) => {
     try {
