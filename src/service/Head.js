@@ -245,15 +245,58 @@ const headtest = async () => {
             where: { projectId: { [Op.ne]: 0 } },
 
             include: [{ model: db.Project },
-            { model: db.Result, where: {
-                [Op.and]: [
-                    { danhgiagiuaky: 'true' },  // Điều kiện 1
-                    { danhgiacuoiky: 'true' } // Điều kiện 2
-                ]
-            }, }],
+            {
+                model: db.Result, where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' },  // Điều kiện 1
+                        { danhgiacuoiky: 'true' } // Điều kiện 2
+                    ]
+                },
+            }],
             order: [
-                ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
-                ['groupStudent', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+                ['projectId', 'ASC'],
+                // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'],
+                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+            ]
+        });
+        return {
+            EM: 'Get group success',
+            EC: 0,
+            DT: data
+        }
+
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+} 
+
+const headgetDSHoiDong = async () => {
+    try {
+        let data = await db.Userstudent.findAll({
+            where: { projectId: { [Op.ne]: 0 } },
+
+            include: [{ model: db.Project },
+            {
+                model: db.Result, where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' },  // Điều kiện 1
+                        { danhgiacuoiky: 'true' },
+                        // { trungbinhphanbien:  { [Op.ne]: null } } // Điều kiện 2
+                    ]
+                },
+            }],
+            order: [
+                ['projectId', 'ASC'],
+                // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'],
+                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
             ]
         });
         return {
@@ -319,5 +362,5 @@ const headAssignPB = async (data) => {
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
-    headRefuseProject
+    headRefuseProject,headgetDSHoiDong
 }

@@ -71,7 +71,8 @@ const initApiRoutes = (app) => {
   router.put("/head/huydangki-detai-sinhvien", checkUserJwt, checkPermission, headController.headDeleteRegisterProjectStudentFnc)
   router.get("/head/getProjectApprove",checkUserJwt, checkPermission,  headController.headGetProjectApproveFnc)
   router.put("/head/project-approve", checkUserJwt, checkPermission, headController.headApproveProjectFnc)
-  router.get("/head/project-get-list-teacher",  headController.headGetListTeacherFnc)
+  router.get("/head/project-get-list-teacher",  headController.headGetListTeacherFnc) 
+  router.get("/head/get-danh-sach-hoi-dong",  headController.danhSachHoiDong)
   //-----------xem danh sách các nhóm được phản biện 
   router.get("/head/project-test",  headController.test) 
   //----------phân PB1 Pb2
