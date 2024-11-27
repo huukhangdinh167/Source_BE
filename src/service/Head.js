@@ -358,9 +358,105 @@ const headAssignPB = async (data) => {
             DT: []
         }
     }
+} 
+
+const headPhanCongHoiDong = async (data) => {
+    try {
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+                CTHD: data.CTHD,
+                TK: data.TK,
+                UV: data.UV,
+               
+
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+            await db.Userstudent.update({
+                CTHD: data.CTHD,
+                TK: data.TK,
+                UV: data.UV,
+                
+            }, {
+                where: {
+                    groupStudent: data.groupStudent
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+} 
+
+const headPhanCongPoster = async (data) => {
+    try {
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+               
+                Poster1: data.Poster1,
+                Poster2: data.Poster2,
+
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+            await db.Userstudent.update({
+                
+                Poster1: data.Poster1,
+                Poster2: data.Poster2,
+            }, {
+                where: {
+                    groupStudent: data.groupStudent
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
 }
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
-    headRefuseProject,headgetDSHoiDong
+    headRefuseProject,headgetDSHoiDong,headPhanCongHoiDong,headPhanCongPoster
 }

@@ -76,7 +76,10 @@ const initApiRoutes = (app) => {
   //-----------xem danh sách các nhóm được phản biện 
   router.get("/head/project-test",  headController.test) 
   //----------phân PB1 Pb2
-  router.put("/head/assignPB1and2",  headController.headAssignPB1and2)
+  router.put("/head/assignPB1and2",  headController.headAssignPB1and2) 
+  //----------phân công Hội Đồng
+  router.put("/head/assignHoiDong",  headController.headAssignHoiDong)
+  router.put("/head/assignPoster",  headController.headAssignPoster)
   router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
 
 

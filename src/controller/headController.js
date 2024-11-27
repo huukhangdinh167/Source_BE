@@ -202,9 +202,50 @@ const danhSachHoiDong = async (req, res) => {
             DT: '', //error data
         })
     }
+} 
+
+const headAssignHoiDong = async (req, res) => {
+    try {
+
+        let data = await Head.headPhanCongHoiDong(req.body.data)
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT//error data
+        })
+         //  console.log(req.body)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+}
+const headAssignPoster = async (req, res) => {
+    try {
+
+        let data = await Head.headPhanCongPoster(req.body.data)
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT//error data
+        })
+        //   console.log(req.body)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
 }
 module.exports = {
     headReadProjectandUserFnc, headDeleteProjectFnc, headDeleteRegisterProjectStudentFnc,
     headGetProjectApproveFnc, headApproveProjectFnc, headGetListTeacherFnc, test, headAssignPB1and2,
-    headRefuseProjectFnc,danhSachHoiDong
+    headRefuseProjectFnc,danhSachHoiDong,headAssignHoiDong,headAssignPoster
 }
