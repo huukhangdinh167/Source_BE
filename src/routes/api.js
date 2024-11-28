@@ -75,10 +75,13 @@ const initApiRoutes = (app) => {
   router.get("/head/get-danh-sach-hoi-dong",  headController.danhSachHoiDong)
   //-----------xem danh sách các nhóm được phản biện 
   router.get("/head/project-test",  headController.test) 
-  //----------phân PB1 Pb2
+  //----------phân PB1 Pb2 
   router.put("/head/assignPB1and2",  headController.headAssignPB1and2) 
-  //----------phân công Hội Đồng
-  router.put("/head/assignHoiDong",  headController.headAssignHoiDong)
+  //----------phân công Hội Đồng 
+  router.put("/head/assignHoiDong",  headController.headAssignHoiDong) 
+  router.get("/head/getlistTeacherHoiDong",  headController.headGetListTeacherHoiDong) 
+ 
+
   router.put("/head/assignPoster",  headController.headAssignPoster)
   router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
 
@@ -92,9 +95,16 @@ const initApiRoutes = (app) => {
   router.put("/teacher/getDSHD", teacherController.teacherGetDSHDFunc)
   router.put("/teacher/DGHD", teacherController.teacherDGHDFunc)
   router.put("/teacher/getIn4SV1andSV2", teacherController.teacherGetIn4SV1andSV2Func)
-  router.put("/teacher/DGPhanBien", teacherController.teacherChamPhanBienFunc)
+  router.put("/teacher/DGPhanBien", teacherController.teacherChamPhanBienFunc) 
+  router.put("/teacher/DGPHoiDong", teacherController.teacherChamHoiDongFunc)
+  router.put("/teacher/DGPPoster", teacherController.teacherChamPosterFunc)
   router.put("/teacher/xemDGPhanBienSV2", teacherController.teacherXemchamPhanBienSV2Func)
-  router.put("/teacher/definePB1PB2", teacherController.teacherDefinePB1PB2Func)
+  router.put("/teacher/definePB1PB2", teacherController.teacherDefinePB1PB2Func) 
+  router.put("/teacher/defineHoiDong", teacherController.teacherDefineHoiDongFunc) 
+  router.put("/teacher/definePoster", teacherController.teacherDefinePosterFunc) 
+
+  router.put("/teacher/getLichHoiDong", teacherController.teacherGetLichHoiDong) 
+  router.put("/teacher/getLichPoster", teacherController.teacherGetLichPoster) 
   //Teacher
 
   router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)

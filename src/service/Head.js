@@ -454,9 +454,11 @@ const headPhanCongPoster = async (data) => {
             DT: []
         }
     }
-}
+} 
+
+
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
-    headRefuseProject,headgetDSHoiDong,headPhanCongHoiDong,headPhanCongPoster
+    headRefuseProject,headgetDSHoiDong,headPhanCongHoiDong,headPhanCongPoster,
 }
