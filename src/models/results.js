@@ -17,6 +17,8 @@ module.exports = (sequelize, DataTypes) => {
   };
   Result.init({
     userstudentId: DataTypes.STRING,
+    danhgiagiuaky: DataTypes.STRING,
+    danhgiacuoiky: DataTypes.STRING,
     diemGVHD: DataTypes.STRING,
     diemGVPB1: DataTypes.STRING,
     diemGVPB2: DataTypes.STRING,
