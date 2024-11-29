@@ -149,7 +149,7 @@ const teacherChamPhanBienFunc = async (req, res) => {
 
 const teacherXemchamPhanBienSV2Func = async (req, res) => {
     try {
-        let data = await Teacher.XemKetQuachamPhanBienSV2(req.body.data.maSo)
+        let data = await Teacher.XemKetQuachamPhanBienSV2(req.body.data.maSo, req.body.data.id)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -266,10 +266,13 @@ const teacherGetLichPoster = async (req, res) => {
         })
     }
 } 
+
+
+
 module.exports = {
     teacherGetLichChamPBFnc, teacherGetDSHDFunc, teacherDGHDFunc, teacherGetIn4SV1andSV2Func,
     teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func,teacherDefinePB1PB2Func,
     teacherGetLichHoiDong,teacherDefineHoiDongFunc,teacherChamHoiDongFunc,
-    teacherGetLichPoster,teacherDefinePosterFunc,teacherChamPosterFunc
+    teacherGetLichPoster,teacherDefinePosterFunc,teacherChamPosterFunc,
 
 }

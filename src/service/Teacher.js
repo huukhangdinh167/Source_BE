@@ -1666,32 +1666,57 @@ const ChamPoster = async (data) => {
     }
 }
 
-const XemKetQuachamPhanBienSV2 = async (group) => {
+const XemKetQuachamPhanBienSV2 = async (group, id) => {
     try {
-
-        let users = await db.Userstudent.findAll({
-            where: { groupStudent: group },
-            include: [
-                {
-                    model: db.Result,
-                    // Nếu muốn lấy cả userStudent không có result
-                },
-                {
-                    model: db.Criteriapb,
-                    // Nếu muốn lấy cả userStudent không có criteria
-                },
-                {
-                    model: db.Criteriahoidong,
-                    // Nếu muốn lấy cả userStudent không có criteria
-                }
-            ]
-        });
-
-        return {
-            EM: 'Some thing wrongs with service',
-            EC: 0,
-            DT: users
+        if(group != 'null') 
+        {
+            let users = await db.Userstudent.findAll({
+                where: { groupStudent: group },
+                include: [
+                    {
+                        model: db.Result,
+                        // Nếu muốn lấy cả userStudent không có result
+                    },
+                    {
+                        model: db.Criteriapb,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    },
+                    {
+                        model: db.Criteriahoidong,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    }
+                ]
+            });
+            return {
+                EM: 'Some thing wrongs with service',
+                EC: 0,
+                DT: users
+            }
+        }else{
+            let users1 = await db.Userstudent.findAll({
+                where: { id: id },
+                include: [
+                    {
+                        model: db.Result,
+                        // Nếu muốn lấy cả userStudent không có result
+                    },
+                    {
+                        model: db.Criteriapb,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    },
+                    {
+                        model: db.Criteriahoidong,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    }
+                ]
+            });
+            return {
+                EM: 'Some thing wrongs with service',
+                EC: 0,
+                DT: users1
+            }
         }
+      
 
     } catch (e) {
         console.log(e)

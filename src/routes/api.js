@@ -80,8 +80,10 @@ const initApiRoutes = (app) => {
   //----------phân công Hội Đồng 
   router.put("/head/assignHoiDong",  headController.headAssignHoiDong) 
   router.get("/head/getlistTeacherHoiDong",  headController.headGetListTeacherHoiDong) 
- 
-
+ //-------Lấy tất cả danh sách điểm 
+ router.get("/head/headGetAllResults",  headController.headAGetAllResulst) 
+//----------
+router.put("/head/getResultsEveryStudent",  headController.headGetResultsEveryStudent) 
   router.put("/head/assignPoster",  headController.headAssignPoster)
   router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
 

@@ -21,7 +21,7 @@ const getAllProject = async (maSo) => {
             }
         } else {
             let data = await db.Project.findAll({
-                    where: {
+                where: {
                     status: 1
                 },
                 order: [['id', 'ASC']]
@@ -82,9 +82,9 @@ const huydangkiProject = async (id, projectId) => {
                     { maSo: id } // Điều kiện 2
                 ]
             },
-           
+
         });
-        
+
         if (users) {
             await users.update({
                 projectId: "0",
@@ -142,7 +142,7 @@ const getAllProjectRegister = async (id) => {
             DT: []
         }
     }
-} 
+}
 const getAllUserRegisterProject = async (id) => {
     try {
         let result = await db.Userstudent.findAll({
@@ -372,26 +372,29 @@ const updateIF = async (maSo, phone, email) => {
             EC: -2
         }
     }
-} 
+}
 
 
 const getAllResults = async (id) => {
     try {
         let result = await db.Userstudent.findOne({
             where: {
-                maSo: id, 
+                maSo: id,
             },
-            include: [   
+            include: [
                 {
-                    model: db.Result, 
+                    model: db.Result,
                 },
                 {
-                    model: db.Criteria, 
+                    model: db.Criteria,
                 }, {
-                    model: db.Criteriapb, 
+                    model: db.Criteriapb,
+                },
+                {
+                    model: db.Criteriahoidong,
                 }
             ]
-            
+
 
         });
         return {
@@ -410,5 +413,5 @@ const getAllResults = async (id) => {
 }
 module.exports = {
     getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject,
-    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF,getAllResults
+    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF, getAllResults
 }

@@ -275,7 +275,7 @@ const headtest = async () => {
             DT: []
         }
     }
-} 
+}
 
 const headgetDSHoiDong = async () => {
     try {
@@ -358,7 +358,7 @@ const headAssignPB = async (data) => {
             DT: []
         }
     }
-} 
+}
 
 const headPhanCongHoiDong = async (data) => {
     try {
@@ -368,7 +368,7 @@ const headPhanCongHoiDong = async (data) => {
                 CTHD: data.CTHD,
                 TK: data.TK,
                 UV: data.UV,
-               
+
 
             }, {
                 where: {
@@ -386,7 +386,7 @@ const headPhanCongHoiDong = async (data) => {
                 CTHD: data.CTHD,
                 TK: data.TK,
                 UV: data.UV,
-                
+
             }, {
                 where: {
                     groupStudent: data.groupStudent
@@ -407,14 +407,14 @@ const headPhanCongHoiDong = async (data) => {
             DT: []
         }
     }
-} 
+}
 
 const headPhanCongPoster = async (data) => {
     try {
         if (data.groupStudent === 'null') {
             ////lllllll
             await db.Userstudent.update({
-               
+
                 Poster1: data.Poster1,
                 Poster2: data.Poster2,
 
@@ -431,7 +431,7 @@ const headPhanCongPoster = async (data) => {
 
         } else {
             await db.Userstudent.update({
-                
+
                 Poster1: data.Poster1,
                 Poster2: data.Poster2,
             }, {
@@ -454,11 +454,92 @@ const headPhanCongPoster = async (data) => {
             DT: []
         }
     }
+}
+
+
+const headGetAllResults = async () => {
+    try {
+        let result = await db.Userstudent.findAll({
+            where:{
+                [Op.and]: [
+                    { projectId: { [Op.ne]: 0 }, },  // Điều kiện 1
+                     // Điều kiện 2
+                ]
+            },
+                include: [
+                {
+                    model: db.Result,
+                    where: {
+                        diemGVHD: { [Op.ne]: null }, // Điều kiện 2: cột diemGVHD khác null
+                    },
+                },
+                {
+                    model: db.Criteria,
+                }, {
+                    model: db.Criteriapb,
+                },
+                {
+                    model: db.Criteriahoidong,
+                }
+            ]
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
 } 
+const getAllResultsEveryStudetn = async (id) => {
+    try {
+        let result = await db.Userstudent.findOne({
+            where: {
+                id: id,
+            },
+            include: [
+                {
+                    model: db.Project, // Lấy thông tin từ bảng Project
+                },
+                {
+                    model: db.Result, // Lấy thông tin từ bảng Result
+                },
+                {
+                    model: db.Criteria, // Lấy thông tin từ bảng Criteria
+                },
+                {
+                    model: db.Criteriapb, // Lấy thông tin từ bảng Criteriapb
+                },
+                {
+                    model: db.Criteriahoidong, // Lấy thông tin từ bảng Criteriahoidong
+                },
+            ],
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 
 
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
-    headRefuseProject,headgetDSHoiDong,headPhanCongHoiDong,headPhanCongPoster,
+    headRefuseProject, headgetDSHoiDong, headPhanCongHoiDong, headPhanCongPoster,
+    headGetAllResults,getAllResultsEveryStudetn
 }
