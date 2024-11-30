@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Criteria extends Model {
+  class Criteriapb extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Criteria.belongsTo(models.Userstudent, { foreignKey: 'userstudentId' })
+      Criteriapb.belongsTo(models.Userstudent, { foreignKey: 'userstudentId' })
 
     }
   };
-  Criteria.init({
+  Criteriapb.init({
     userstudentId: DataTypes.STRING,
     LOL1: DataTypes.STRING,
     LOL2: DataTypes.STRING,
@@ -26,15 +26,26 @@ module.exports = (sequelize, DataTypes) => {
     LOL7: DataTypes.STRING,
     LOL8: DataTypes.STRING,
     ghichu: DataTypes.STRING,
+    LOL1PB2: DataTypes.STRING,
+    LOL2PB2: DataTypes.STRING,
+    LOL3PB2: DataTypes.STRING,
+    LOL4PB2: DataTypes.STRING,
+    LOL5PB2: DataTypes.STRING,
+    LOL6PB2: DataTypes.STRING,
+    LOL7PB2: DataTypes.STRING,
+    LOL8PB2: DataTypes.STRING,
+    ghichuPB2: DataTypes.STRING,
+
+
 
   }, {
     sequelize,
-    modelName: 'Criteria',
+    modelName: 'Criteriapb',
   },
     {
       timestamps: false, // Tắt tạo các cột createdAt và updatedAt
     });
 
 
-  return Criteria;
+  return Criteriapb;
 };

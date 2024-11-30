@@ -245,15 +245,58 @@ const headtest = async () => {
             where: { projectId: { [Op.ne]: 0 } },
 
             include: [{ model: db.Project },
-            { model: db.Result, where: {
-                [Op.and]: [
-                    { danhgiagiuaky: 'true' },  // Điều kiện 1
-                    { danhgiacuoiky: 'true' } // Điều kiện 2
-                ]
-            }, }],
+            {
+                model: db.Result, where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' },  // Điều kiện 1
+                        { danhgiacuoiky: 'true' } // Điều kiện 2
+                    ]
+                },
+            }],
             order: [
-                ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
-                ['groupStudent', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+                ['projectId', 'ASC'],
+                // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'],
+                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+            ]
+        });
+        return {
+            EM: 'Get group success',
+            EC: 0,
+            DT: data
+        }
+
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const headgetDSHoiDong = async () => {
+    try {
+        let data = await db.Userstudent.findAll({
+            where: { projectId: { [Op.ne]: 0 } },
+
+            include: [{ model: db.Project },
+            {
+                model: db.Result, where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' },  // Điều kiện 1
+                        { danhgiacuoiky: 'true' },
+                        // { trungbinhphanbien:  { [Op.ne]: null } } // Điều kiện 2
+                    ]
+                },
+            }],
+            order: [
+                ['projectId', 'ASC'],
+                // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'],
+                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
             ]
         });
         return {
@@ -316,8 +359,187 @@ const headAssignPB = async (data) => {
         }
     }
 }
+
+const headPhanCongHoiDong = async (data) => {
+    try {
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+                CTHD: data.CTHD,
+                TK: data.TK,
+                UV: data.UV,
+
+
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+            await db.Userstudent.update({
+                CTHD: data.CTHD,
+                TK: data.TK,
+                UV: data.UV,
+
+            }, {
+                where: {
+                    groupStudent: data.groupStudent
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const headPhanCongPoster = async (data) => {
+    try {
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+
+                Poster1: data.Poster1,
+                Poster2: data.Poster2,
+
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+            await db.Userstudent.update({
+
+                Poster1: data.Poster1,
+                Poster2: data.Poster2,
+            }, {
+                where: {
+                    groupStudent: data.groupStudent
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+
+const headGetAllResults = async () => {
+    try {
+        let result = await db.Userstudent.findAll({
+            where:{
+                [Op.and]: [
+                    { projectId: { [Op.ne]: 0 }, },  // Điều kiện 1
+                     // Điều kiện 2
+                ]
+            },
+                include: [
+                {
+                    model: db.Result,
+                    where: {
+                        diemGVHD: { [Op.ne]: null }, // Điều kiện 2: cột diemGVHD khác null
+                    },
+                },
+                {
+                    model: db.Criteria,
+                }, {
+                    model: db.Criteriapb,
+                },
+                {
+                    model: db.Criteriahoidong,
+                }
+            ]
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+} 
+const getAllResultsEveryStudetn = async (id) => {
+    try {
+        let result = await db.Userstudent.findOne({
+            where: {
+                id: id,
+            },
+            include: [
+                {
+                    model: db.Project, // Lấy thông tin từ bảng Project
+                },
+                {
+                    model: db.Result, // Lấy thông tin từ bảng Result
+                },
+                {
+                    model: db.Criteria, // Lấy thông tin từ bảng Criteria
+                },
+                {
+                    model: db.Criteriapb, // Lấy thông tin từ bảng Criteriapb
+                },
+                {
+                    model: db.Criteriahoidong, // Lấy thông tin từ bảng Criteriahoidong
+                },
+            ],
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
-    headRefuseProject
+    headRefuseProject, headgetDSHoiDong, headPhanCongHoiDong, headPhanCongPoster,
+    headGetAllResults,getAllResultsEveryStudetn
 }

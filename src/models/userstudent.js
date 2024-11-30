@@ -15,6 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       Userstudent.belongsTo(models.Project, { foreignKey: 'projectId' })
       Userstudent.hasOne(models.Result, { foreignKey: 'userstudentId' })
       Userstudent.hasOne(models.Criteria, { foreignKey: 'userstudentId' })
+      Userstudent.hasOne(models.Criteriapb, { foreignKey: 'userstudentId' })
+      Userstudent.hasOne(models.Criteriahoidong, { foreignKey: 'userstudentId' })
     }
   };
   Userstudent.init({
@@ -28,7 +30,13 @@ module.exports = (sequelize, DataTypes) => {
     groupId: DataTypes.INTEGER,
     projectId: DataTypes.INTEGER,
     pb1: DataTypes.STRING,
-    pb2: DataTypes.STRING
+    pb2: DataTypes.STRING,
+    CTHD: DataTypes.STRING,
+    TK: DataTypes.STRING,
+    UV: DataTypes.STRING,
+    Poster1: DataTypes.STRING,
+    Poster2: DataTypes.STRING,
+    
 
 
   }, {

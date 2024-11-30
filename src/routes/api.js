@@ -63,36 +63,59 @@ const initApiRoutes = (app) => {
   router.put("/student/project/cancelchoosegroup", checkUserJwt, checkPermission, studentController.cancelChooseGroupFnc)
   router.put("/changepassword", checkUserJwt, checkPermission, studentController.changePassword)
   router.put("/updateinfor", checkUserJwt, checkPermission, studentController.updateinfor)
-
+  router.put("/student/results", studentController.allResults)
 
   //HEAD 
-  router.get("/head/getProjectandUser",headController.headReadProjectandUserFnc)
-  router.delete("/head/delete-project", checkUserJwt, checkPermission, headController.headDeleteProjectFnc) 
+  router.get("/head/getProjectandUser", headController.headReadProjectandUserFnc)
+  router.delete("/head/delete-project", checkUserJwt, checkPermission, headController.headDeleteProjectFnc)
   router.put("/head/huydangki-detai-sinhvien", checkUserJwt, checkPermission, headController.headDeleteRegisterProjectStudentFnc)
-  router.get("/head/getProjectApprove",checkUserJwt, checkPermission,  headController.headGetProjectApproveFnc)
+  router.get("/head/getProjectApprove", checkUserJwt, checkPermission, headController.headGetProjectApproveFnc)
   router.put("/head/project-approve", checkUserJwt, checkPermission, headController.headApproveProjectFnc)
-  router.get("/head/project-get-list-teacher",  headController.headGetListTeacherFnc)
+  router.get("/head/project-get-list-teacher", headController.headGetListTeacherFnc)
+  router.get("/head/get-danh-sach-hoi-dong", headController.danhSachHoiDong)
   //-----------xem danh sách các nhóm được phản biện 
-  router.get("/head/project-test",  headController.test) 
-  //----------phân PB1 Pb2
-  router.put("/head/assignPB1and2",  headController.headAssignPB1and2)
-  router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
+  router.get("/head/project-test", headController.test)
+  //----------phân PB1 Pb2 
+  router.put("/head/assignPB1and2", headController.headAssignPB1and2)
+  //----------phân công Hội Đồng 
+  router.put("/head/assignHoiDong", headController.headAssignHoiDong)
+  router.get("/head/getlistTeacherHoiDong", headController.headGetListTeacherHoiDong)
+  //-------Lấy tất cả danh sách điểm 
+  router.get("/head/headGetAllResults", headController.headAGetAllResulst)
+  //----------
+  router.put("/head/getResultsEveryStudent", headController.headGetResultsEveryStudent)
+  router.put("/head/assignPoster", headController.headAssignPoster)
+  router.put("/head/project-refuse", headController.headRefuseProjectFnc)
 
 
 
 
   //TEACHER --khang làm
   // ----xem danh sách được phân công phản biện
-  router.put("/teacher/getLichChamPB",checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
+  router.put("/teacher/getLichChamPB", checkUserJwt, checkPermission, teacherController.teacherGetLichChamPBFnc)
+  // --chấm hướng dẫn : xem ds hướng dẫn và chấm điểm hd
   router.put("/teacher/getDSHD", teacherController.teacherGetDSHDFunc)
   router.put("/teacher/DGHD", teacherController.teacherDGHDFunc)
+
+  router.put("/teacher/getIn4SV1andSV2", teacherController.teacherGetIn4SV1andSV2Func)
+  router.put("/teacher/DGPhanBien", teacherController.teacherChamPhanBienFunc)
+  router.put("/teacher/DGPHoiDong", teacherController.teacherChamHoiDongFunc)
+  router.put("/teacher/DGPPoster", teacherController.teacherChamPosterFunc)
+  router.put("/teacher/xemDGPhanBienSV2", teacherController.teacherXemchamPhanBienSV2Func)
+  router.put("/teacher/definePB1PB2", teacherController.teacherDefinePB1PB2Func)
+  router.put("/teacher/defineHoiDong", teacherController.teacherDefineHoiDongFunc)
+  router.put("/teacher/definePoster", teacherController.teacherDefinePosterFunc)
+
+  router.put("/teacher/getLichHoiDong", teacherController.teacherGetLichHoiDong)
+  router.put("/teacher/getLichPoster", teacherController.teacherGetLichPoster)
+
   //Teacher
 
   router.put("/teacher/projects/read", checkUserJwt, checkPermission, projectController.readFunc)
   router.put("/teacher/projects/create", checkUserJwt, checkPermission, projectController.createFunc)
   router.put("/teacher/projects/update", checkUserJwt, checkPermission, projectController.updateFunc)
   router.delete("/teacher/projects/delete", checkUserJwt, checkPermission, projectController.deleteFunc)
-  
+
 
 
   return app.use("/api/v1", router)
