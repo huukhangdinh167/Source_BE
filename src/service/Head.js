@@ -152,7 +152,9 @@ const headApproveProject = async (id, name) => {
         let data = await db.Project.update(
             {
                 status: 1,
-                nameprojectapprove: name.trim()
+                nameprojectapprove: name.trim(),
+                // reasonrefuse: null,
+                // nameprojectrefuse: null
             },
             { where: { id: id } }
         )
@@ -244,15 +246,15 @@ const headtest = async () => {
         let data = await db.Userstudent.findAll({
             where: { projectId: { [Op.ne]: 0 } },
 
-            include: [{ model: db.Project },
-            {
-                model: db.Result, where: {
-                    [Op.and]: [
-                        { danhgiagiuaky: 'true' },  // Điều kiện 1
-                        { danhgiacuoiky: 'true' } // Điều kiện 2
-                    ]
-                },
-            }],
+            include: [{ model: db.Project },{ model: db.Result } ],
+            // {
+            //     model: db.Result, where: {
+            //         [Op.and]: [
+            //             { danhgiagiuaky: 'true' },  // Điều kiện 1
+            //             { danhgiacuoiky: 'true' } // Điều kiện 2
+            //         ]
+            //     },
+            // }],
             order: [
                 ['projectId', 'ASC'],
                 // Sắp xếp theo projectId tăng dần
@@ -286,8 +288,8 @@ const headgetDSHoiDong = async () => {
             {
                 model: db.Result, where: {
                     [Op.and]: [
-                        { danhgiagiuaky: 'true' },  // Điều kiện 1
-                        { danhgiacuoiky: 'true' },
+                        { danhgiagiuaky: { [Op.ne]: null } },  // Điều kiện 1
+                        { danhgiacuoiky: { [Op.ne]: null } },
                         // { trungbinhphanbien:  { [Op.ne]: null } } // Điều kiện 2
                     ]
                 },

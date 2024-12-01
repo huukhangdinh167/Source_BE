@@ -224,6 +224,7 @@ const GetDGHD = async (data) => {
                 await db.Result.update({
                     danhgiagiuaky: data.danhgiagiuaky,
                     danhgiacuoiky: data.danhgiacuoiky,
+                    diemGVHD: 0,
 
                 },
                     {
@@ -238,15 +239,34 @@ const GetDGHD = async (data) => {
                     DT: '',
                 }
             } else {
-                await db.Result.update({
-                    danhgiagiuaky: data.danhgiagiuaky,
-                },
-                    {
-                        where: {
-                            userstudentId: data.id
-                        },
+                if(data.danhgiagiuaky == 'false'){
+                    await db.Result.update({
+                        danhgiagiuaky: data.danhgiagiuaky,
+                        danhgiacuoiky: 'false',
+                        diemGVHD: '0',
+                    },
+                        {
+                            where: {
+                                userstudentId: data.id
+                            },
+                        }
+                    )
+                    return {
+                        EM: 'DanhGiaGK thanh cong',
+                        EC: 0,
+                        DT: '',
                     }
-                )
+                }else{
+                    await db.Result.update({
+                        danhgiagiuaky: data.danhgiagiuaky,
+                    },
+                        {
+                            where: {
+                                userstudentId: data.id
+                            },
+                        }
+                    )
+                }
                 return {
                     EM: 'DanhGiaGK thanh cong',
                     EC: 0,
@@ -285,6 +305,7 @@ const GetDGHD = async (data) => {
                     userstudentId: data.id,
                     danhgiagiuaky: data.danhgiagiuaky,
                     danhgiacuoiky: data.danhgiacuoiky,
+                    diemGVHD: '0'
                 })
                 await db.Criteria.create({
                     userstudentId: data.id,
@@ -295,21 +316,37 @@ const GetDGHD = async (data) => {
                     EC: 0,
                     DT: '',
                 }
-            } else {
-                await db.Result.create({
-                    userstudentId: data.id,
-                    danhgiagiuaky: data.danhgiagiuaky,
-
-                })
-                await db.Criteria.create({
-                    userstudentId: data.id,
-
-                })
-                return {
-                    EM: 'DanhGiaCK thanh cong',
-                    EC: 0,
-                    DT: '',
+            } else { 
+                if(data.danhgiagiuaky == 'false'){
+                    await db.Result.create({
+                        userstudentId: data.id,
+                        danhgiagiuaky: data.danhgiagiuaky,
+                        danhgiacuoiky: 'false',
+                        diemGVHD: 0,
+                    })
+                    await db.Criteria.create({
+                        userstudentId: data.id,
+                    })
+                    return {
+                        EM: 'DanhGiaCK thanh cong',
+                        EC: 0,
+                        DT: '',
+                    }
+                }else{
+                    await db.Result.create({
+                        userstudentId: data.id,
+                        danhgiagiuaky: data.danhgiagiuaky,
+                    })
+                    await db.Criteria.create({
+                        userstudentId: data.id,
+                    })
+                    return {
+                        EM: 'DanhGiaCK thanh cong',
+                        EC: 0,
+                        DT: '',
+                    }
                 }
+               
             }
         }
 

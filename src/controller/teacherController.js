@@ -30,7 +30,7 @@ const teacherChamHoiDongFunc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-         //   console.log(req.body)
+        //   console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -88,13 +88,12 @@ const teacherGetDSHDFunc = async (req, res) => {
 const teacherDGHDFunc = async (req, res) => {
     try {
         let data = await Teacher.GetDGHD(req.body.data)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-    // console.log(req.body)
+     //   console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -165,17 +164,17 @@ const teacherXemchamPhanBienSV2Func = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const teacherDefinePB1PB2Func = async (req, res) => {
     try {
-        let data = await Teacher.definePB1PB2(req.body.data.maSoSV, req.body.data.maSoGV )
+        let data = await Teacher.definePB1PB2(req.body.data.maSoSV, req.body.data.maSoGV)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       //  console.log(req.body)
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -189,13 +188,13 @@ const teacherDefinePB1PB2Func = async (req, res) => {
 
 const teacherDefineHoiDongFunc = async (req, res) => {
     try {
-        let data = await Teacher.defineHoiDong(req.body.data.maSoSV, req.body.data.maSoGV )
+        let data = await Teacher.defineHoiDong(req.body.data.maSoSV, req.body.data.maSoGV)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       //  console.log(req.body)
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -209,13 +208,13 @@ const teacherDefineHoiDongFunc = async (req, res) => {
 
 const teacherDefinePosterFunc = async (req, res) => {
     try {
-        let data = await Teacher.definePoster(req.body.data.maSoSV, req.body.data.maSoGV )
+        let data = await Teacher.definePoster(req.body.data.maSoSV, req.body.data.maSoGV)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       //  console.log(req.body)
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -245,7 +244,7 @@ const teacherGetLichHoiDong = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const teacherGetLichPoster = async (req, res) => {
     try {
@@ -265,14 +264,14 @@ const teacherGetLichPoster = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 
 
 module.exports = {
     teacherGetLichChamPBFnc, teacherGetDSHDFunc, teacherDGHDFunc, teacherGetIn4SV1andSV2Func,
-    teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func,teacherDefinePB1PB2Func,
-    teacherGetLichHoiDong,teacherDefineHoiDongFunc,teacherChamHoiDongFunc,
-    teacherGetLichPoster,teacherDefinePosterFunc,teacherChamPosterFunc,
+    teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func, teacherDefinePB1PB2Func,
+    teacherGetLichHoiDong, teacherDefineHoiDongFunc, teacherChamHoiDongFunc,
+    teacherGetLichPoster, teacherDefinePosterFunc, teacherChamPosterFunc,
 
 }

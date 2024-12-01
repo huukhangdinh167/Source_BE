@@ -55,7 +55,7 @@ const updateFunc = async (req, res) => {
             EC: data.EC, //error code
             DT: data.DT, //data
         })
-
+       // console.log(req.body)
     } catch (error) {
         console.log(error);
         return res.status(500).json({

@@ -53,14 +53,7 @@ const createNewProject = async (data) => {
 
 const updateProject = async (data) => {
     try {
-        // let project = await db.Project.findOne({
-        //     where: {
-        //         [Op.and]: [
-        //             { id: data.id },  // Điều kiện 1
-        //             { nameprojectapprove: { [Op.ne]: 'null' } } // Điều kiện 2
-        //         ]
-        //     },
-        // })
+      
         let project2 = await db.Project.findOne({
             where: {              
                      id: data.id                                 
@@ -74,6 +67,7 @@ const updateProject = async (data) => {
                     require: data.require,
                     knowledgeSkills: data.knowledgeSkills,
                     status: 1,
+                   
                 }) 
                 return {
                     EM: 'hhhh',
