@@ -22,12 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     diemGVHD: DataTypes.STRING,
     diemGVPB1: DataTypes.STRING,
     diemGVPB2: DataTypes.STRING,
+    danhgiaphanbien: DataTypes.STRING,
     trungbinhphanbien: DataTypes.STRING,
     diemCTHD: DataTypes.STRING,
     diemTK: DataTypes.STRING,
     diemUV: DataTypes.STRING,
     diemPoster1: DataTypes.STRING,
     diemPoster2: DataTypes.STRING,
+    danhgiahoidong: DataTypes.STRING,
     trungbinhhoidong: DataTypes.STRING,
    
   }, {

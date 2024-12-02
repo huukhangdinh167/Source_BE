@@ -59,7 +59,7 @@ const GetLichHoiDong = async (maSo) => {
                 [Op.or]: [{ CTHD: user2.id }, { TK: user2.id }, { UV: user2.id }],
             },
             include: [{ model: db.Project, where: { status: 1 } },
-            { model: db.Result }, { model: db.Criteriapb },  { model: db.Criteriahoidong }
+            { model: db.Result }, { model: db.Criteriapb }, { model: db.Criteriahoidong }
             ],
             order: [
                 ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
@@ -102,7 +102,7 @@ const GetLichPoster = async (maSo) => {
                 [Op.or]: [{ Poster1: user2.id }, { Poster2: user2.id }],
             },
             include: [{ model: db.Project, where: { status: 1 } },
-            { model: db.Result },{ model: db.Criteriahoidong }
+            { model: db.Result }, { model: db.Criteriahoidong }
             ],
             order: [
                 ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
@@ -239,7 +239,7 @@ const GetDGHD = async (data) => {
                     DT: '',
                 }
             } else {
-                if(data.danhgiagiuaky == 'false'){
+                if (data.danhgiagiuaky == 'false') {
                     await db.Result.update({
                         danhgiagiuaky: data.danhgiagiuaky,
                         danhgiacuoiky: 'false',
@@ -256,7 +256,7 @@ const GetDGHD = async (data) => {
                         EC: 0,
                         DT: '',
                     }
-                }else{
+                } else {
                     await db.Result.update({
                         danhgiagiuaky: data.danhgiagiuaky,
                     },
@@ -316,8 +316,8 @@ const GetDGHD = async (data) => {
                     EC: 0,
                     DT: '',
                 }
-            } else { 
-                if(data.danhgiagiuaky == 'false'){
+            } else {
+                if (data.danhgiagiuaky == 'false') {
                     await db.Result.create({
                         userstudentId: data.id,
                         danhgiagiuaky: data.danhgiagiuaky,
@@ -332,7 +332,7 @@ const GetDGHD = async (data) => {
                         EC: 0,
                         DT: '',
                     }
-                }else{
+                } else {
                     await db.Result.create({
                         userstudentId: data.id,
                         danhgiagiuaky: data.danhgiagiuaky,
@@ -346,7 +346,7 @@ const GetDGHD = async (data) => {
                         DT: '',
                     }
                 }
-               
+
             }
         }
 
@@ -422,117 +422,237 @@ const chamPhanBien = async (data) => {
 
 
             if (users2) {
-                // đã tồn tại trong db rồi nên chỉ cần update
-                if (findPB1orPb2.id == data.pb1.pb1) {
+                // đã tồn tại trong db rồi nên chỉ cần update 
+                if (data.dataSV1.danhgiaphanbien == 'false') {
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
 
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
 
-                    await db.Criteriapb.update({
-                        LOL1: data.dataSV1.LOL1,
-                        LOL2: data.dataSV1.LOL2,
-                        LOL3: data.dataSV1.LOL3,
-                        LOL4: data.dataSV1.LOL4,
-                        LOL5: data.dataSV1.LOL5,
-                        LOL6: data.dataSV1.LOL6,
-                        LOL7: data.dataSV1.LOL7,
-                        LOL8: data.dataSV1.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
 
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
-                    }
-                } else if (findPB1orPb2.id == data.pb2.pb2) {
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    await db.Criteriapb.update({
-                        LOL1PB2: data.dataSV1.LOL1,
-                        LOL2PB2: data.dataSV1.LOL2,
-                        LOL3PB2: data.dataSV1.LOL3,
-                        LOL4PB2: data.dataSV1.LOL4,
-                        LOL5PB2: data.dataSV1.LOL5,
-                        LOL6PB2: data.dataSV1.LOL6,
-                        LOL7PB2: data.dataSV1.LOL7,
-                        LOL8PB2: data.dataSV1.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 } else {
-                    return {
-                        EM: 'Không thể xác định gv phản 1 hay 2',
-                        EC: 1,
-                        DT: []
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 }
-
             } else {
-                if (findPB1orPb2.id == data.pb1.pb1) {
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
+                if (data.dataSV1.danhgiaphanbien == 'false') {
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
 
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV1.id1,
-                        LOL1: data.dataSV1.LOL1,
-                        LOL2: data.dataSV1.LOL2,
-                        LOL3: data.dataSV1.LOL3,
-                        LOL4: data.dataSV1.LOL4,
-                        LOL5: data.dataSV1.LOL5,
-                        LOL6: data.dataSV1.LOL6,
-                        LOL7: data.dataSV1.LOL7,
-                        LOL8: data.dataSV1.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    })
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        })
 
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
-                    }
-                } else if (findPB1orPb2.id == data.pb2.pb2) {
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien2,
+                            danhgiaphanbien: 'false',
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
 
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV1.id1,
-                        LOL1PB2: data.dataSV1.LOL1,
-                        LOL2PB2: data.dataSV1.LOL2,
-                        LOL3PB2: data.dataSV1.LOL3,
-                        LOL4PB2: data.dataSV1.LOL4,
-                        LOL5PB2: data.dataSV1.LOL5,
-                        LOL6PB2: data.dataSV1.LOL6,
-                        LOL7PB2: data.dataSV1.LOL7,
-                        LOL8PB2: data.dataSV1.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    })
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        })
 
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 } else {
-                    return {
-                        EM: 'Không thể xác định gv phản 1 hay 2',
-                        EC: 1,
-                        DT: []
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1.LOL1,
+                            LOL2: data.dataSV1.LOL2,
+                            LOL3: data.dataSV1.LOL3,
+                            LOL4: data.dataSV1.LOL4,
+                            LOL5: data.dataSV1.LOL5,
+                            LOL6: data.dataSV1.LOL6,
+                            LOL7: data.dataSV1.LOL7,
+                            LOL8: data.dataSV1.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1.LOL1,
+                            LOL2PB2: data.dataSV1.LOL2,
+                            LOL3PB2: data.dataSV1.LOL3,
+                            LOL4PB2: data.dataSV1.LOL4,
+                            LOL5PB2: data.dataSV1.LOL5,
+                            LOL6PB2: data.dataSV1.LOL6,
+                            LOL7PB2: data.dataSV1.LOL7,
+                            LOL8PB2: data.dataSV1.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 }
+
             }
         } else {
 
@@ -574,201 +694,809 @@ const chamPhanBien = async (data) => {
 
 
             if (users2 && users1) {
-                // tìm thấy 2 đứa-> chỉ cần update 
-                if (findPB1orPb2.id == data.pb1.pb1) {
-                    // lần đầu cho đứa thứ 1
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    // lần 2 cho đứa thứ 2
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV2.diem,
-                        trungbinhphanbien: SV2trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
+                // tìm thấy 2 đứa-> chỉ cần update  
+                if (data.dataSV1.danhgiaphanbien == 'false') {
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
 
-                    //update lần 1 cho sv1
-                    await db.Criteriapb.update({
-                        LOL1: data.dataSV1.LOL1,
-                        LOL2: data.dataSV1.LOL2,
-                        LOL3: data.dataSV1.LOL3,
-                        LOL4: data.dataSV1.LOL4,
-                        LOL5: data.dataSV1.LOL5,
-                        LOL6: data.dataSV1.LOL6,
-                        LOL7: data.dataSV1.LOL7,
-                        LOL8: data.dataSV1.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    //update lần 2 cho sv2
-                    await db.Criteriapb.update({
-                        LOL1: data.dataSV2.LOL1,
-                        LOL2: data.dataSV2.LOL2,
-                        LOL3: data.dataSV2.LOL3,
-                        LOL4: data.dataSV2.LOL4,
-                        LOL5: data.dataSV2.LOL5,
-                        LOL6: data.dataSV2.LOL6,
-                        LOL7: data.dataSV2.LOL7,
-                        LOL8: data.dataSV2.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV2.LOL1,
+                            LOL2: data.dataSV2.LOL2,
+                            LOL3: data.dataSV2.LOL3,
+                            LOL4: data.dataSV2.LOL4,
+                            LOL5: data.dataSV2.LOL5,
+                            LOL6: data.dataSV2.LOL6,
+                            LOL7: data.dataSV2.LOL7,
+                            LOL8: data.dataSV2.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien2,
+                            danhgiaphanbien: 'false',
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV2.LOL1,
+                            LOL2PB2: data.dataSV2.LOL2,
+                            LOL3PB2: data.dataSV2.LOL3,
+                            LOL4PB2: data.dataSV2.LOL4,
+                            LOL5PB2: data.dataSV2.LOL5,
+                            LOL6PB2: data.dataSV2.LOL6,
+                            LOL7PB2: data.dataSV2.LOL7,
+                            LOL8PB2: data.dataSV2.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
+                } else if (data.dataSV2.danhgiaphanbien == 'false') {
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
 
-                } else if (findPB1orPb2.id == data.pb2.pb2) {
-                    // lần đầu cho đứa thứ 1
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    // lần 2 cho đứa thứ 2
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV2.diem,
-                        trungbinhphanbien: SV2trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1.LOL1,
+                            LOL2: data.dataSV1.LOL2,
+                            LOL3: data.dataSV1.LOL3,
+                            LOL4: data.dataSV1.LOL4,
+                            LOL5: data.dataSV1.LOL5,
+                            LOL6: data.dataSV1.LOL6,
+                            LOL7: data.dataSV1.LOL7,
+                            LOL8: data.dataSV1.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV2?.LOL1,
+                            LOL2: data.dataSV2?.LOL2,
+                            LOL3: data.dataSV2?.LOL3,
+                            LOL4: data.dataSV2?.LOL4,
+                            LOL5: data.dataSV2?.LOL5,
+                            LOL6: data.dataSV2?.LOL6,
+                            LOL7: data.dataSV2?.LOL7,
+                            LOL8: data.dataSV2?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
 
-                    //update lần 1 cho sv1
-                    await db.Criteriapb.update({
-                        LOL1PB2: data.dataSV1.LOL1,
-                        LOL2PB2: data.dataSV1.LOL2,
-                        LOL3PB2: data.dataSV1.LOL3,
-                        LOL4PB2: data.dataSV1.LOL4,
-                        LOL5PB2: data.dataSV1.LOL5,
-                        LOL6PB2: data.dataSV1.LOL6,
-                        LOL7PB2: data.dataSV1.LOL7,
-                        LOL8PB2: data.dataSV1.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    //update lần 2 cho sv2
-                    await db.Criteriapb.update({
-                        LOL1PB2: data.dataSV2.LOL1,
-                        LOL2PB2: data.dataSV2.LOL2,
-                        LOL3PB2: data.dataSV2.LOL3,
-                        LOL4PB2: data.dataSV2.LOL4,
-                        LOL5PB2: data.dataSV2.LOL5,
-                        LOL6PB2: data.dataSV2.LOL6,
-                        LOL7PB2: data.dataSV2.LOL7,
-                        LOL8PB2: data.dataSV2.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
 
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1.LOL1,
+                            LOL2PB2: data.dataSV1.LOL2,
+                            LOL3PB2: data.dataSV1.LOL3,
+                            LOL4PB2: data.dataSV1.LOL4,
+                            LOL5PB2: data.dataSV1.LOL5,
+                            LOL6PB2: data.dataSV1.LOL6,
+                            LOL7PB2: data.dataSV1.LOL7,
+                            LOL8PB2: data.dataSV1.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV2?.LOL1,
+                            LOL2PB2: data.dataSV2?.LOL2,
+                            LOL3PB2: data.dataSV2?.LOL3,
+                            LOL4PB2: data.dataSV2?.LOL4,
+                            LOL5PB2: data.dataSV2?.LOL5,
+                            LOL6PB2: data.dataSV2?.LOL6,
+                            LOL7PB2: data.dataSV2?.LOL7,
+                            LOL8PB2: data.dataSV2?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
-                } else {
-                    return {
-                        EM: 'Không thể xác định gv phản 1 hay 2',
-                        EC: 1,
-                        DT: []
+                }else if(data.dataSV1.danhgiaphanbien == 'false' && data.dataSV2.danhgiaphanbien == 'false'){
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV2?.LOL1,
+                            LOL2: data.dataSV2?.LOL2,
+                            LOL3: data.dataSV2?.LOL3,
+                            LOL4: data.dataSV2?.LOL4,
+                            LOL5: data.dataSV2?.LOL5,
+                            LOL6: data.dataSV2?.LOL6,
+                            LOL7: data.dataSV2?.LOL7,
+                            LOL8: data.dataSV2?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV2?.LOL1,
+                            LOL2PB2: data.dataSV2?.LOL2,
+                            LOL3PB2: data.dataSV2?.LOL3,
+                            LOL4PB2: data.dataSV2?.LOL4,
+                            LOL5PB2: data.dataSV2?.LOL5,
+                            LOL6PB2: data.dataSV2?.LOL6,
+                            LOL7PB2: data.dataSV2?.LOL7,
+                            LOL8PB2: data.dataSV2?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 }
+                 else {
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV1.LOL1,
+                            LOL2: data.dataSV1.LOL2,
+                            LOL3: data.dataSV1.LOL3,
+                            LOL4: data.dataSV1.LOL4,
+                            LOL5: data.dataSV1.LOL5,
+                            LOL6: data.dataSV1.LOL6,
+                            LOL7: data.dataSV1.LOL7,
+                            LOL8: data.dataSV1.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1: data.dataSV2.LOL1,
+                            LOL2: data.dataSV2.LOL2,
+                            LOL3: data.dataSV2.LOL3,
+                            LOL4: data.dataSV2.LOL4,
+                            LOL5: data.dataSV2.LOL5,
+                            LOL6: data.dataSV2.LOL6,
+                            LOL7: data.dataSV2.LOL7,
+                            LOL8: data.dataSV2.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        //update lần 1 cho sv1
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV1.LOL1,
+                            LOL2PB2: data.dataSV1.LOL2,
+                            LOL3PB2: data.dataSV1.LOL3,
+                            LOL4PB2: data.dataSV1.LOL4,
+                            LOL5PB2: data.dataSV1.LOL5,
+                            LOL6PB2: data.dataSV1.LOL6,
+                            LOL7PB2: data.dataSV1.LOL7,
+                            LOL8PB2: data.dataSV1.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        //update lần 2 cho sv2
+                        await db.Criteriapb.update({
+                            LOL1PB2: data.dataSV2.LOL1,
+                            LOL2PB2: data.dataSV2.LOL2,
+                            LOL3PB2: data.dataSV2.LOL3,
+                            LOL4PB2: data.dataSV2.LOL4,
+                            LOL5PB2: data.dataSV2.LOL5,
+                            LOL6PB2: data.dataSV2.LOL6,
+                            LOL7PB2: data.dataSV2.LOL7,
+                            LOL8PB2: data.dataSV2.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
+                    }
+                }
+
 
             } else {
                 //không tìm thấy 2 đứa trong bản Criteriapb 
-                // tìm thấy 2 đứa-> thì create bảng Criteriapb và update bảng result
-                if (findPB1orPb2.id == data.pb1.pb1) {
-                    // lần đầu cho đứa thứ 1
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    // lần 2 cho đứa thứ 2
-                    await db.Result.update({
-                        diemGVPB1: data.dataSV2.diem,
-                        trungbinhphanbien: SV2trungbinhphanbien1
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
-
-                    // làm cho đứa thứ 1
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV1.id1,
-                        LOL1: data.dataSV1.LOL1,
-                        LOL2: data.dataSV1.LOL2,
-                        LOL3: data.dataSV1.LOL3,
-                        LOL4: data.dataSV1.LOL4,
-                        LOL5: data.dataSV1.LOL5,
-                        LOL6: data.dataSV1.LOL6,
-                        LOL7: data.dataSV1.LOL7,
-                        LOL8: data.dataSV1.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    })
-
-                    // làm cho đứa thứ 2 
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV2.id2,
-                        LOL1: data.dataSV2.LOL1,
-                        LOL2: data.dataSV2.LOL2,
-                        LOL3: data.dataSV2.LOL3,
-                        LOL4: data.dataSV2.LOL4,
-                        LOL5: data.dataSV2.LOL5,
-                        LOL6: data.dataSV2.LOL6,
-                        LOL7: data.dataSV2.LOL7,
-                        LOL8: data.dataSV2.LOL8,
-                        ghichu: data.dataSV1.ghichu,
-                    })
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                // tìm thấy 2 đứa-> thì create bảng Criteriapb và update bảng result 
+                if(data.dataSV1.danhgiaphanbien == 'false'){
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1: data.dataSV2.LOL1,
+                            LOL2: data.dataSV2.LOL2,
+                            LOL3: data.dataSV2.LOL3,
+                            LOL4: data.dataSV2.LOL4,
+                            LOL5: data.dataSV2.LOL5,
+                            LOL6: data.dataSV2.LOL6,
+                            LOL7: data.dataSV2.LOL7,
+                            LOL8: data.dataSV2.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1PB2: data.dataSV2.LOL1,
+                            LOL2PB2: data.dataSV2.LOL2,
+                            LOL3PB2: data.dataSV2.LOL3,
+                            LOL4PB2: data.dataSV2.LOL4,
+                            LOL5PB2: data.dataSV2.LOL5,
+                            LOL6PB2: data.dataSV2.LOL6,
+                            LOL7PB2: data.dataSV2.LOL7,
+                            LOL8PB2: data.dataSV2.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
-
-                } else if (findPB1orPb2.id == data.pb2.pb2) {
-                    // lần đầu cho đứa thứ 1
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV1.diem,
-                        trungbinhphanbien: trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV1.id1 }, })
-                    // lần 2 cho đứa thứ 2
-                    await db.Result.update({
-                        diemGVPB2: data.dataSV2.diem,
-                        trungbinhphanbien: SV2trungbinhphanbien2
-                    }, { where: { userstudentId: data.idSV2.id2 }, })
-
-                    // làm cho đứa thứ 1
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV1.id1,
-                        LOL1PB2: data.dataSV1.LOL1,
-                        LOL2PB2: data.dataSV1.LOL2,
-                        LOL3PB2: data.dataSV1.LOL3,
-                        LOL4PB2: data.dataSV1.LOL4,
-                        LOL5PB2: data.dataSV1.LOL5,
-                        LOL6PB2: data.dataSV1.LOL6,
-                        LOL7PB2: data.dataSV1.LOL7,
-                        LOL8PB2: data.dataSV1.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    })
-
-                    // làm cho đứa thứ 2 
-                    await db.Criteriapb.create({
-                        userstudentId: data.idSV2.id2,
-                        LOL1PB2: data.dataSV2.LOL1,
-                        LOL2PB2: data.dataSV2.LOL2,
-                        LOL3PB2: data.dataSV2.LOL3,
-                        LOL4PB2: data.dataSV2.LOL4,
-                        LOL5PB2: data.dataSV2.LOL5,
-                        LOL6PB2: data.dataSV2.LOL6,
-                        LOL7PB2: data.dataSV2.LOL7,
-                        LOL8PB2: data.dataSV2.LOL8,
-                        ghichuPB2: data.dataSV1.ghichu,
-                    })
-                    return {
-                        EM: 'Cập nhật đánh giá phản biện thành công',
-                        EC: 0,
-                        DT: []
+                }else if(data.dataSV2.danhgiaphanbien == 'false'){
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1.LOL1,
+                            LOL2: data.dataSV1.LOL2,
+                            LOL3: data.dataSV1.LOL3,
+                            LOL4: data.dataSV1.LOL4,
+                            LOL5: data.dataSV1.LOL5,
+                            LOL6: data.dataSV1.LOL6,
+                            LOL7: data.dataSV1.LOL7,
+                            LOL8: data.dataSV1.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1: data.dataSV2?.LOL1,
+                            LOL2: data.dataSV2?.LOL2,
+                            LOL3: data.dataSV2?.LOL3,
+                            LOL4: data.dataSV2?.LOL4,
+                            LOL5: data.dataSV2?.LOL5,
+                            LOL6: data.dataSV2?.LOL6,
+                            LOL7: data.dataSV2?.LOL7,
+                            LOL8: data.dataSV2?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1.LOL1,
+                            LOL2PB2: data.dataSV1.LOL2,
+                            LOL3PB2: data.dataSV1.LOL3,
+                            LOL4PB2: data.dataSV1.LOL4,
+                            LOL5PB2: data.dataSV1.LOL5,
+                            LOL6PB2: data.dataSV1.LOL6,
+                            LOL7PB2: data.dataSV1.LOL7,
+                            LOL8PB2: data.dataSV1.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1PB2: data.dataSV2?.LOL1,
+                            LOL2PB2: data.dataSV2?.LOL2,
+                            LOL3PB2: data.dataSV2?.LOL3,
+                            LOL4PB2: data.dataSV2?.LOL4,
+                            LOL5PB2: data.dataSV2?.LOL5,
+                            LOL6PB2: data.dataSV2?.LOL6,
+                            LOL7PB2: data.dataSV2?.LOL7,
+                            LOL8PB2: data.dataSV2?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
-
-                } else {
-                    return {
-                        EM: 'Không thể xác định gv phản 1 hay 2',
-                        EC: 1,
-                        DT: []
+                }else if(data.dataSV1.danhgiaphanbien == 'false' && data.dataSV2.danhgiaphanbien == 'false'){
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1?.LOL1,
+                            LOL2: data.dataSV1?.LOL2,
+                            LOL3: data.dataSV1?.LOL3,
+                            LOL4: data.dataSV1?.LOL4,
+                            LOL5: data.dataSV1?.LOL5,
+                            LOL6: data.dataSV1?.LOL6,
+                            LOL7: data.dataSV1?.LOL7,
+                            LOL8: data.dataSV1?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1: data.dataSV2?.LOL1,
+                            LOL2: data.dataSV2?.LOL2,
+                            LOL3: data.dataSV2?.LOL3,
+                            LOL4: data.dataSV2?.LOL4,
+                            LOL5: data.dataSV2?.LOL5,
+                            LOL6: data.dataSV2?.LOL6,
+                            LOL7: data.dataSV2?.LOL7,
+                            LOL8: data.dataSV2?.LOL8,
+                            ghichu: data.dataSV1?.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: 'false',
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1?.LOL1,
+                            LOL2PB2: data.dataSV1?.LOL2,
+                            LOL3PB2: data.dataSV1?.LOL3,
+                            LOL4PB2: data.dataSV1?.LOL4,
+                            LOL5PB2: data.dataSV1?.LOL5,
+                            LOL6PB2: data.dataSV1?.LOL6,
+                            LOL7PB2: data.dataSV1?.LOL7,
+                            LOL8PB2: data.dataSV1?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1PB2: data.dataSV2?.LOL1,
+                            LOL2PB2: data.dataSV2?.LOL2,
+                            LOL3PB2: data.dataSV2?.LOL3,
+                            LOL4PB2: data.dataSV2?.LOL4,
+                            LOL5PB2: data.dataSV2?.LOL5,
+                            LOL6PB2: data.dataSV2?.LOL6,
+                            LOL7PB2: data.dataSV2?.LOL7,
+                            LOL8PB2: data.dataSV2?.LOL8,
+                            ghichuPB2: data.dataSV1?.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
                     }
                 }
+                else{
+                    if (findPB1orPb2.id == data.pb1.pb1) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: SV2trungbinhphanbien1
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1: data.dataSV1.LOL1,
+                            LOL2: data.dataSV1.LOL2,
+                            LOL3: data.dataSV1.LOL3,
+                            LOL4: data.dataSV1.LOL4,
+                            LOL5: data.dataSV1.LOL5,
+                            LOL6: data.dataSV1.LOL6,
+                            LOL7: data.dataSV1.LOL7,
+                            LOL8: data.dataSV1.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1: data.dataSV2.LOL1,
+                            LOL2: data.dataSV2.LOL2,
+                            LOL3: data.dataSV2.LOL3,
+                            LOL4: data.dataSV2.LOL4,
+                            LOL5: data.dataSV2.LOL5,
+                            LOL6: data.dataSV2.LOL6,
+                            LOL7: data.dataSV2.LOL7,
+                            LOL8: data.dataSV2.LOL8,
+                            ghichu: data.dataSV1.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else if (findPB1orPb2.id == data.pb2.pb2) {
+                        // lần đầu cho đứa thứ 1
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV1.id1 }, })
+                        // lần 2 cho đứa thứ 2
+                        await db.Result.update({
+                            diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien: data.dataSV1.danhgiaphanbien,
+                            trungbinhphanbien: SV2trungbinhphanbien2
+                        }, { where: { userstudentId: data.idSV2.id2 }, })
+    
+                        // làm cho đứa thứ 1
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV1.id1,
+                            LOL1PB2: data.dataSV1.LOL1,
+                            LOL2PB2: data.dataSV1.LOL2,
+                            LOL3PB2: data.dataSV1.LOL3,
+                            LOL4PB2: data.dataSV1.LOL4,
+                            LOL5PB2: data.dataSV1.LOL5,
+                            LOL6PB2: data.dataSV1.LOL6,
+                            LOL7PB2: data.dataSV1.LOL7,
+                            LOL8PB2: data.dataSV1.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        })
+    
+                        // làm cho đứa thứ 2 
+                        await db.Criteriapb.create({
+                            userstudentId: data.idSV2.id2,
+                            LOL1PB2: data.dataSV2.LOL1,
+                            LOL2PB2: data.dataSV2.LOL2,
+                            LOL3PB2: data.dataSV2.LOL3,
+                            LOL4PB2: data.dataSV2.LOL4,
+                            LOL5PB2: data.dataSV2.LOL5,
+                            LOL6PB2: data.dataSV2.LOL6,
+                            LOL7PB2: data.dataSV2.LOL7,
+                            LOL8PB2: data.dataSV2.LOL8,
+                            ghichuPB2: data.dataSV1.ghichu,
+                        })
+                        return {
+                            EM: 'Cập nhật đánh giá phản biện thành công',
+                            EC: 0,
+                            DT: []
+                        }
+    
+                    } else {
+                        return {
+                            EM: 'Không thể xác định gv phản 1 hay 2',
+                            EC: 1,
+                            DT: []
+                        }
+                    }
+                }
+               
 
             }
 
@@ -858,7 +1586,7 @@ const ChamHoiDong = async (data) => {
                         EC: 0,
                         DT: []
                     }
-                }else if (findPB1orPb2.id == data.UV.UV) {
+                } else if (findPB1orPb2.id == data.UV.UV) {
                     await db.Result.update({
                         diemUV: data.dataSV1.diem,
                         trungbinhhoidong: trungbinhHoiDongUV
@@ -881,7 +1609,7 @@ const ChamHoiDong = async (data) => {
                         DT: []
                     }
                 }
-                 else {
+                else {
                     return {
                         EM: 'Không thể xác định gv phản 1 hay 2',
                         EC: 1,
@@ -938,7 +1666,7 @@ const ChamHoiDong = async (data) => {
                         EC: 0,
                         DT: []
                     }
-                } 
+                }
                 else if (findPB1orPb2.id == data.UV.UV) {
                     await db.Result.update({
                         diemUV: data.dataSV1.diem,
@@ -1148,7 +1876,7 @@ const ChamHoiDong = async (data) => {
                         DT: []
                     }
                 }
-                 else {
+                else {
                     return {
                         EM: 'Không thể xác định gv phản 1 hay 2',
                         EC: 1,
@@ -1315,7 +2043,7 @@ const ChamHoiDong = async (data) => {
             DT: []
         }
     }
-}   
+}
 
 const ChamPoster = async (data) => {
     try {
@@ -1336,10 +2064,10 @@ const ChamPoster = async (data) => {
             let trungbinhPoster1 = finddiemPoster2
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster2)) / 2
                 : null;
-            let trungbinhPoster2 = finddiemPoster1 
+            let trungbinhPoster2 = finddiemPoster1
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster1)) / 2
                 : null;
-    
+
 
             if (users2) {
                 // đã tồn tại trong db rồi nên chỉ cần update
@@ -1388,7 +2116,7 @@ const ChamPoster = async (data) => {
                         DT: []
                     }
                 }
-                 else {
+                else {
                     return {
                         EM: 'Không thể xác định gv phản 1 hay 2',
                         EC: 1,
@@ -1444,8 +2172,8 @@ const ChamPoster = async (data) => {
                         EC: 0,
                         DT: []
                     }
-                } 
-               
+                }
+
                 else {
                     return {
                         EM: 'Không thể xác định gv phản 1 hay 2',
@@ -1474,7 +2202,7 @@ const ChamPoster = async (data) => {
             let trungbinhPoster1 = finddiemPoster2
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster2)) / 2
                 : null;
-            let trungbinhPoster2 = finddiemPoster1 
+            let trungbinhPoster2 = finddiemPoster1
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster1)) / 2
                 : null;
 
@@ -1487,7 +2215,7 @@ const ChamPoster = async (data) => {
             let SV2trungbinhPoster1 = SV2finddiemPoster2
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemPoster2)) / 2
                 : null;
-            let SV2trungbinhPoster2 = SV2finddiemPoster1 
+            let SV2trungbinhPoster2 = SV2finddiemPoster1
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemPoster1)) / 2
                 : null;
 
@@ -1580,7 +2308,7 @@ const ChamPoster = async (data) => {
                         DT: []
                     }
                 }
-                 else {
+                else {
                     return {
                         EM: 'Không thể xác định gv phản 1 hay 2',
                         EC: 1,
@@ -1705,8 +2433,7 @@ const ChamPoster = async (data) => {
 
 const XemKetQuachamPhanBienSV2 = async (group, id) => {
     try {
-        if(group != 'null') 
-        {
+        if (group != 'null') {
             let users = await db.Userstudent.findAll({
                 where: { groupStudent: group },
                 include: [
@@ -1729,7 +2456,7 @@ const XemKetQuachamPhanBienSV2 = async (group, id) => {
                 EC: 0,
                 DT: users
             }
-        }else{
+        } else {
             let users1 = await db.Userstudent.findAll({
                 where: { id: id },
                 include: [
@@ -1753,7 +2480,7 @@ const XemKetQuachamPhanBienSV2 = async (group, id) => {
                 DT: users1
             }
         }
-      
+
 
     } catch (e) {
         console.log(e)
@@ -1902,7 +2629,7 @@ const definePoster = async (maSoSV, maSoGV) => {
                     { Poster2: IdGV.id } // Điều kiện 2
                 ]
             },
-        });      
+        });
         if (Poster1) {
             return {
                 EM: 'Poster1',
@@ -1934,6 +2661,6 @@ const definePoster = async (maSoSV, maSoGV) => {
 
 module.exports = {
     GetLichPB, GetDSHD, GetDGHD, GetSV1SV2, chamPhanBien, XemKetQuachamPhanBienSV2, definePB1PB2, defineHoiDong
-    , GetLichHoiDong,GetLichPoster, ChamHoiDong, definePoster,ChamPoster
+    , GetLichHoiDong, GetLichPoster, ChamHoiDong, definePoster, ChamPoster
 
 }
