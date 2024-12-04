@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     LOL7: DataTypes.STRING,
     LOL8: DataTypes.STRING,
     ghichu: DataTypes.STRING,
+
     LOL1PB2: DataTypes.STRING,
     LOL2PB2: DataTypes.STRING,
     LOL3PB2: DataTypes.STRING,
@@ -35,6 +36,16 @@ module.exports = (sequelize, DataTypes) => {
     LOL7PB2: DataTypes.STRING,
     LOL8PB2: DataTypes.STRING,
     ghichuPB2: DataTypes.STRING,
+    
+    LOL1PB3: DataTypes.STRING,
+    LOL2PB3: DataTypes.STRING,
+    LOL3PB3: DataTypes.STRING,
+    LOL4PB3: DataTypes.STRING,
+    LOL5PB3: DataTypes.STRING,
+    LOL6PB3: DataTypes.STRING,
+    LOL7PB3: DataTypes.STRING,
+    LOL8PB3: DataTypes.STRING,
+    ghichuPB3: DataTypes.STRING,
 
 
 

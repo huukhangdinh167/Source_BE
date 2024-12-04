@@ -87,8 +87,10 @@ router.put("/head/getResultsEveryStudent",  headController.headGetResultsEverySt
   router.put("/head/assignPoster",  headController.headAssignPoster)
   router.put("/head/project-refuse",  headController.headRefuseProjectFnc) 
 
-
-
+  // get In4 sinh viên 2 
+  router.get("/head/getIn4SV2",  headController.getIn4SV2) 
+/// trưởng bộ môn xác nhận các nhóm được chấm hội đồng /poster
+  router.put("/head/headSelectHoiDong",  headController.headSelectHoiDongFnc) 
 
   //TEACHER --khang làm
   // ----xem danh sách được phân công phản biện

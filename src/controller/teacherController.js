@@ -134,7 +134,7 @@ const teacherChamPhanBienFunc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-         // console.log(req.body)
+       //   console.log(req.body)
 
     } catch (error) {
         console.log(error)

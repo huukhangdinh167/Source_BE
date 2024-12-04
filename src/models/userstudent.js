@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
     projectId: DataTypes.INTEGER,
     pb1: DataTypes.STRING,
     pb2: DataTypes.STRING,
+    pb3: DataTypes.STRING,
+    hoidong: DataTypes.STRING,
     CTHD: DataTypes.STRING,
     TK: DataTypes.STRING,
     UV: DataTypes.STRING,
