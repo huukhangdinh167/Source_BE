@@ -24,13 +24,12 @@ const teacherGetLichChamPBFnc = async (req, res) => {
 const teacherChamHoiDongFunc = async (req, res) => {
     try {
         let data = await Teacher.ChamHoiDong(req.body)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //   console.log(req.body)
+         //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -45,13 +44,12 @@ const teacherChamHoiDongFunc = async (req, res) => {
 const teacherChamPosterFunc = async (req, res) => {
     try {
         let data = await Teacher.ChamPoster(req.body)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //    console.log(req.body)
+         //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -93,7 +91,7 @@ const teacherDGHDFunc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-     //   console.log(req.body)
+     //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -134,7 +132,7 @@ const teacherChamPhanBienFunc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-       //   console.log(req.body)
+         // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -154,7 +152,7 @@ const teacherXemchamPhanBienSV2Func = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //  console.log(req.body)
+      //    console.log(req.body)
 
     } catch (error) {
         console.log(error)

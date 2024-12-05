@@ -153,8 +153,8 @@ const headApproveProject = async (id, name) => {
             {
                 status: 1,
                 nameprojectapprove: name.trim(),
-                // reasonrefuse: null,
-                // nameprojectrefuse: null
+                reasonrefuse: null,
+                nameprojectrefuse: null
             },
             { where: { id: id } }
         )
@@ -247,7 +247,6 @@ const headtest = async () => {
     try {
         let data = await db.Userstudent.findAll({
             where: { projectId: { [Op.ne]: 0 } },
-
             include: [{ model: db.Project }, { model: db.Result },
             {
                 model: db.Result, where: {
