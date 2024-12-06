@@ -24,8 +24,8 @@ const adminReadUserFunc = async (req, res) => {
 
 const adminCreateUserFunc = async (req, res) => {
     try {
-         let data = await Admin.admincreateNewUser(req.body)
-     // console.log("Check respone", req.body)
+        let data = await Admin.admincreateNewUser(req.body)
+        //console.log("Check respone", req.body)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
@@ -40,6 +40,26 @@ const adminCreateUserFunc = async (req, res) => {
         })
     }
 }
+
+const adminCreateUserByExcelFunc = async (req, res) => {
+    try {
+        let data = await Admin.admincreateNewUserByExcel(req.body)
+        //console.log("Check respone", req.body)
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+}
+
 const adminUpdateFnc = async (req, res) => {
     try {
         let data = await Admin.adminupdateUser(req.body)
@@ -96,4 +116,6 @@ const admindDeleteFunc = async (req, res) => {
     }
 }
 
-module.exports = { adminReadUserFunc, adminCreateUserFunc, adminUpdateFnc, adminCreateTeacherFunc, admindDeleteFunc }
+module.exports = { adminReadUserFunc, adminCreateUserFunc, adminUpdateFnc, adminCreateTeacherFunc, admindDeleteFunc,
+    adminCreateUserByExcelFunc
+ }
