@@ -11,9 +11,6 @@ const getAllProject = async (userteacherId) => {
             };
         }
         let projects = await db.Project.findAll({
-            // attributes: ["id", "name", "description", "require", "knowledgeSkills", "instuctor", "status"],//lấy các cột mình quan tâm
-            // include: { model: db.Userteacher, attributes: ["maSo"] },//ket noi voi cot cua table khac
-            // nest: true
             where: { userteacherId: userteacherId },
 
         });
@@ -62,25 +59,25 @@ const updateProject = async (data) => {
         //     },
         // })
         let project2 = await db.Project.findOne({
-            where: {              
-                     id: data.id                                 
+            where: {
+                id: data.id
             },
         })
         if (project2) {
-            if(data.name.trim() == project2.nameprojectapprove ){
+            if (data.name.trim() == project2.nameprojectapprove) {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,
                     require: data.require,
                     knowledgeSkills: data.knowledgeSkills,
                     status: 1,
-                }) 
+                })
                 return {
                     EM: 'hhhh',
                     EC: 0,
                     DT: []
                 }
-            }else if(data.name.trim() == project2.nameprojectrefuse){
+            } else if (data.name.trim() == project2.nameprojectrefuse) {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,
@@ -93,7 +90,7 @@ const updateProject = async (data) => {
                     EC: 0,
                     DT: []
                 }
-            } else{ 
+            } else {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,
