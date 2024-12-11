@@ -99,7 +99,7 @@ const admincreateNewUser = async (role) => {
             };
         }
         await db.Userstudent.bulkCreate(persist)
-   
+
         return {
             EM: `Add User Student(${persist.length}) success`,
             EC: 0,
@@ -115,6 +115,86 @@ const admincreateNewUser = async (role) => {
 
     }
 }
+
+const admincreateNewUserByExcel = async (role) => {
+    try {
+        let currentUser = await db.Userstudent.findAll({
+            raw: true // convert sequelize obj to javascript obj
+        });
+        let currentUser2 = await db.Userteacher.findAll({
+            raw: true // convert sequelize obj to javascript obj
+        });
+
+        let hasMissingFields = role.some(({ maSo, name, password }) => {
+            return !maSo || !name || !password; // Kiểm tra nếu bất kỳ trường nào thiếu
+        });
+
+        // Tạo một danh sách maSo từ currentUser và currentUser2 và chuyển thành kiểu số
+        let excludedMaSo = [
+            ...currentUser.map(({ maSo }) => maSo),
+            ...currentUser2.map(({ maSo }) => maSo)
+        ].map(maSo => Number(maSo)); // Chuyển tất cả thành kiểu số
+
+        // Debugging: In ra dữ liệu để kiểm tra
+        console.log('Role:', role);
+        console.log('Excluded maSo:', excludedMaSo);
+
+        // Lọc mảng role, loại bỏ các phần tử có maSo trùng với các maSo trong excludedMaSo
+        let persist = role.filter(({ maSo }) => !excludedMaSo.includes(Number(maSo))); // Chuyển maSo trong role thành kiểu số
+
+        // Mã hóa mật khẩu của các phần tử trong persist và thêm giá trị mặc định
+        persist = persist.map(user => {
+            // Đảm bảo mật khẩu là chuỗi và mã hóa trước khi lưu
+            if (user.password) {
+                user.password = hashUserPassword(String(user.password)); // Chuyển mật khẩu thành chuỗi nếu chưa phải là chuỗi
+            }
+
+            // Thêm giá trị mặc định vào mỗi phần tử
+            user.groupStudent = "null";
+            user.projectId = "0";
+            user.groupId = 1;
+
+            return user;
+        });
+
+        if (hasMissingFields) {
+            return {
+                EM: 'Phải có các cột đủ name, maSo và password',
+                EC: 1,
+                DT: []
+            };
+        } else {
+            // Kiểm tra lại persist trước khi thực hiện bulkCreate
+            console.log('Persist data to create:', persist);
+
+            if (persist.length > 0) {
+                await db.Userstudent.bulkCreate(persist);
+                return {
+                    EM: `Add User Student(${persist.length}) success`,
+                    EC: 0,
+                    DT: []
+                };
+            } else {
+                return {
+                    EM: 'No new users to create. All users already exist.',
+                    EC: 1,
+                    DT: []
+                };
+            }
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: 'Something went wrong with the service',
+            EC: 1,
+            DT: []
+        };
+    }
+};
+
+// Hàm mã hóa mật khẩu
+
+
 const checkMaSoExist = async (maSo) => {
     let user = await db.Userteacher.findOne({
         where: {
@@ -127,10 +207,10 @@ const checkMaSoExist = async (maSo) => {
         }
     })
 
-    if (user || user2 ) {
+    if (user || user2) {
         return true;
     } return false;
-    
+
 }
 const admincreateNewTeacher = async (data) => {
     try {
@@ -304,5 +384,6 @@ const adminDeleteUser = async (data) => {
 }
 module.exports = {
     adminGetAllUser, adminGetUserWithPagination,
-    admincreateNewUser, adminupdateUser, admincreateNewTeacher, adminDeleteUser
+    admincreateNewUser, adminupdateUser, admincreateNewTeacher, adminDeleteUser,
+    admincreateNewUserByExcel
 }

@@ -25,13 +25,11 @@ const teacherChamHoiDongFunc = async (req, res) => {
     try {
 
         let data = await Teacher.ChamHoiDong(req.body)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //   console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -47,13 +45,12 @@ const teacherChamHoiDongFunc = async (req, res) => {
 const teacherChamPosterFunc = async (req, res) => {
     try {
         let data = await Teacher.ChamPoster(req.body)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //    console.log(req.body)
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -90,13 +87,11 @@ const teacherGetDSHDFunc = async (req, res) => {
 const teacherDGHDFunc = async (req, res) => {
     try {
         let data = await Teacher.GetDGHD(req.body.data)
-
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -137,7 +132,7 @@ const teacherChamPhanBienFunc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //  console.log(req.body)
+        // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -157,7 +152,7 @@ const teacherXemchamPhanBienSV2Func = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT, //error data
         })
-        //  console.log(req.body)
+        //    console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -268,9 +263,6 @@ const teacherGetLichPoster = async (req, res) => {
         })
     }
 }
-
-
-
 module.exports = {
     teacherGetLichChamPBFnc, teacherGetDSHDFunc, teacherDGHDFunc, teacherGetIn4SV1andSV2Func,
     teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func, teacherDefinePB1PB2Func,

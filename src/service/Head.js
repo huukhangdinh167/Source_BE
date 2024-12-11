@@ -152,7 +152,9 @@ const headApproveProject = async (id, name) => {
         let data = await db.Project.update(
             {
                 status: 1,
-                nameprojectapprove: name.trim()
+                nameprojectapprove: name.trim(),
+                reasonrefuse: null,
+                nameprojectrefuse: null
             },
             { where: { id: id } }
         )
@@ -216,9 +218,12 @@ const headGetListTeacher = async () => {
     try {
         let data = await db.Userteacher.findAll({
             where: {
-                groupId: {
-                    [Op.ne]: 3
-                }
+                [Op.and]: [
+                    { groupId: { [Op.ne]: 3 }},  // Điều kiện 1
+                    { groupId: { [Op.ne]: 5 }},
+                    { groupId: { [Op.ne]: 4 }} // Điều kiện 2
+                ]
+
             },
             order: [['name', 'ASC']]
         });
@@ -243,8 +248,7 @@ const headtest = async () => {
     try {
         let data = await db.Userstudent.findAll({
             where: { projectId: { [Op.ne]: 0 } },
-
-            include: [{ model: db.Project },
+            include: [{ model: db.Project }, { model: db.Result },
             {
                 model: db.Result, where: {
                     [Op.and]: [
@@ -280,25 +284,53 @@ const headtest = async () => {
 const headgetDSHoiDong = async () => {
     try {
         let data = await db.Userstudent.findAll({
-            where: { projectId: { [Op.ne]: 0 } },
-
-            include: [{ model: db.Project },
-            {
-                model: db.Result, where: {
-                    [Op.and]: [
-                        { danhgiagiuaky: 'true' },  // Điều kiện 1
-                        { danhgiacuoiky: 'true' },
-                        // { trungbinhphanbien:  { [Op.ne]: null } } // Điều kiện 2
-                    ]
-                },
-            }],
+            where: {
+                projectId: { [Op.ne]: 0 }, // projectId khác 0
+            },
+            include: [
+                { model: db.Project }, // Bao gồm thông tin từ bảng Project
+                {
+                    model: db.Result,
+                    where: {
+                        [Op.and]: [
+                            { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                            { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                            {
+                                [Op.or]: [
+                                    // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                                    {
+                                        [Op.and]: [
+                                            { danhgiaphanbien1: 'true' },
+                                            { danhgiaphanbien2: 'true' }
+                                        ]
+                                    },
+                                    // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                                    {
+                                        [Op.and]: [
+                                            { danhgiaphanbien1: 'true' },
+                                            { danhgiaphanbien3: 'true' }
+                                        ]
+                                    },
+                                    // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                                    {
+                                        [Op.and]: [
+                                            { danhgiaphanbien2: 'true' },
+                                            { danhgiaphanbien3: 'true' }
+                                        ]
+                                    },
+                                ]
+                            }
+                        ]
+                    },
+                }
+            ],
             order: [
-                ['projectId', 'ASC'],
-                // Sắp xếp theo projectId tăng dần
-                ['groupStudent', 'ASC'],
-                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+                ['projectId', 'ASC'], // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'], // Sau đó sắp xếp theo groupStudent tăng dần
+                ['id', 'ASC'], // Cuối cùng sắp xếp theo id tăng dần
             ]
         });
+
         return {
             EM: 'Get group success',
             EC: 0,
@@ -318,11 +350,38 @@ const headgetDSHoiDong = async () => {
 
 const headAssignPB = async (data) => {
     try {
+        let findSV2 = await db.Userstudent.findOne({
+            where: {
+                [Op.and]: [
+                    { groupStudent: data.groupStudent },
+                    { id: { [Op.ne]: data.id } }
+                ]
+            }
+        })
+        let ResultSV1 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' },  // Điều kiện 1
+                    { danhgiacuoiky: 'true' },
+                    { userstudentId: data.id }
+                ]
+            }
+        })
+        let ResultSV2 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' },  // Điều kiện 1
+                    { danhgiacuoiky: 'true' },
+                    { userstudentId: findSV2.id }
+                ]
+            }
+        })
         if (data.groupStudent === 'null') {
             ////lllllll
             await db.Userstudent.update({
                 pb1: data.pb1,
                 pb2: data.pb2,
+                pb3: data.pb3
             }, {
                 where: {
                     id: data.id
@@ -335,19 +394,41 @@ const headAssignPB = async (data) => {
             }
 
         } else {
-            await db.Userstudent.update({
-                pb1: data.pb1,
-                pb2: data.pb2,
-            }, {
-                where: {
-                    groupStudent: data.groupStudent
-                },
-            })
+            if (ResultSV1) {
+                await db.Userstudent.update({
+                    pb1: data.pb1,
+                    pb2: data.pb2,
+                    pb3: data.pb3
+                }, {
+                    where: {
+                        id: data.id
+                    },
+                })
+            }
+            if (ResultSV2) {
+                await db.Userstudent.update({
+                    pb1: data.pb1,
+                    pb2: data.pb2,
+                    pb3: data.pb3
+                }, {
+                    where: {
+                        id: findSV2.id
+                    },
+                })
+            }
+            if (!ResultSV1 && !ResultSV2) {
+                return {
+                    EM: 'Có lỗi xẩy ra',
+                    EC: 1,
+                    DT: '',
+                }
+            }
             return {
                 EM: 'Assign success',
                 EC: 0,
                 DT: '',
             }
+
         }
     }
     catch (e) {
@@ -456,17 +537,16 @@ const headPhanCongPoster = async (data) => {
     }
 }
 
-
 const headGetAllResults = async () => {
     try {
         let result = await db.Userstudent.findAll({
-            where:{
+            where: {
                 [Op.and]: [
                     { projectId: { [Op.ne]: 0 }, },  // Điều kiện 1
-                     // Điều kiện 2
+                    // Điều kiện 2
                 ]
             },
-                include: [
+            include: [
                 {
                     model: db.Result,
                     where: {
@@ -496,7 +576,7 @@ const headGetAllResults = async () => {
             DT: []
         }
     }
-} 
+}
 const getAllResultsEveryStudetn = async (id) => {
     try {
         let result = await db.Userstudent.findOne({
@@ -535,11 +615,151 @@ const getAllResultsEveryStudetn = async (id) => {
         }
     }
 }
+const getSV2 = async () => {
+    try {
+        let data = await db.Userstudent.findAll({
+            include: [{ model: db.Project }, { model: db.Result },
+            {
+                model: db.Result, where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' },  // Điều kiện 1
+                        { danhgiacuoiky: 'true' } // Điều kiện 2
+                    ]
+                },
+            }],
+            order: [
+                ['projectId', 'ASC'],
+                // Sắp xếp theo projectId tăng dần
+                ['groupStudent', 'ASC'],
+                ['id', 'ASC'] // Sau đó sắp xếp theo groupStudent tăng dần
+            ]
+        });
+        return {
+            EM: 'Assign success',
+            EC: 0,
+            DT: data,
+        }
+
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
+const headConformHoidong = async (data) => {
+    try {
+        let findSV2 = await db.Userstudent.findOne({
+            where: {
+                [Op.and]: [
+                    { groupStudent: data.groupStudent },
+                    { id: { [Op.ne]: data.id } }
+                ]
+            }
+        })
+
+        let ResultSV2 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    {
+                        userstudentId: findSV2.id, // projectId khác 0
+                    },
+                    { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                    { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                    {
+                        [Op.or]: [
+                            // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien2: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien2: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                        ]
+                    }
+                ]
+            },
+        })
+        if (data.groupStudent === 'null') {
+            ////lllllll
+            await db.Userstudent.update({
+                hoidong: data.hoidong,
+
+            }, {
+                where: {
+                    id: data.id
+                },
+            })
+            return {
+                EM: 'Assign success',
+                EC: 0,
+                DT: '',
+            }
+
+        } else {
+
+            if (ResultSV2) {
+                await db.Userstudent.update({
+                    hoidong: data.hoidong
+                }, {
+                    where: {
+                        groupStudent: data.groupStudent
+                    },
+                })
+                return {
+                    EM: 'Assign success',
+                    EC: 0,
+                    DT: '',
+                }
+            } else {
+                await db.Userstudent.update({
+                    hoidong: data.hoidong
+                }, {
+                    where: {
+                        id: data.id
+                    },
+                })
+                return {
+                    EM: 'Assign success',
+                    EC: 0,
+                    DT: '',
+                }
+            }
 
 
+
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return {
+            EM: 'error from service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 module.exports = {
     headGetProjectAndUser, headDeleteProject, headDeleteProjectRegisterUser,
     headGetProjectApprove, headApproveProject, headGetListTeacher, headtest, headAssignPB,
     headRefuseProject, headgetDSHoiDong, headPhanCongHoiDong, headPhanCongPoster,
-    headGetAllResults,getAllResultsEveryStudetn
+    headGetAllResults, getAllResultsEveryStudetn, getSV2, headConformHoidong
 }
