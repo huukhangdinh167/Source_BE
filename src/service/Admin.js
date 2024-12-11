@@ -136,8 +136,8 @@ const admincreateNewUserByExcel = async (role) => {
         ].map(maSo => Number(maSo)); // Chuyển tất cả thành kiểu số
 
         // Debugging: In ra dữ liệu để kiểm tra
-        console.log('Role:', role);
-        console.log('Excluded maSo:', excludedMaSo);
+      //  console.log('Role:', role);
+     //   console.log('Excluded maSo:', excludedMaSo);
 
         // Lọc mảng role, loại bỏ các phần tử có maSo trùng với các maSo trong excludedMaSo
         let persist = role.filter(({ maSo }) => !excludedMaSo.includes(Number(maSo))); // Chuyển maSo trong role thành kiểu số

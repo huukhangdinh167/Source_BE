@@ -33,7 +33,7 @@ const createNewRole = async (role) => {
 }
 const getAllRole = async () => {
     try {
-        let data = await db.Role.findAll({ order: [['id', 'DESC']] });
+        let data = await db.Role.findAll({ order: [['description', 'DESC']] });
         return {
             EM: 'Get all role success',
             EC: 0,

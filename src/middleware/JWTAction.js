@@ -70,7 +70,6 @@ const checkUserJwt = (req, res, next) => {
                 EC: -1,
                 EM: 'Note authenticated the user',
                 DT: ''
-
             })
         }
     } else {

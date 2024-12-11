@@ -11,7 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "@babel/core": "7.15.4",
-    "@babel/node": "7.15.4",
     "@babel/preset-env": "7.15.4",
     "axios": "0.25.0",
     "bcryptjs": "2.4.3",
@@ -27,5 +26,9 @@
     "nodemon": "2.0.15",
     "sequelize": "6.13.0",
     "sequelize-cli": "6.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/node": "^7.15.4"
   }
 }

@@ -44,6 +44,7 @@ const handleUserLogin = async (rawData) => {
                 let groupWithRole = await getGroupWithRole(user2)
                 let payload = {
                     email: user2.email,
+                    id: user2.id,
                     username: user2.maSo,
                     name: user2.name,
                     phoneNumber: user2.phoneNumber,
@@ -56,6 +57,7 @@ const handleUserLogin = async (rawData) => {
                     EC: 0,
                     DT: {
                         accesstoken: token,
+                        id: user2.id,
                         groupWithRole,
                         email: user2.email,
                         username: user2.maSo,
@@ -74,6 +76,7 @@ const handleUserLogin = async (rawData) => {
 
                 let groupWithRole = await getGroupWithRole(user)
                 let payload = {
+                    id: user.id,
                     email: user.email,
                     username: user.maSo,
                     name: user.name,
@@ -88,6 +91,7 @@ const handleUserLogin = async (rawData) => {
                     DT: {
                         accesstoken: token,
                         groupWithRole,
+                        id: user.id,
                         email: user.email,
                         username: user.maSo,
                         groupId: user.groupId,

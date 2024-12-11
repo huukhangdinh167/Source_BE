@@ -103,6 +103,7 @@ const getUserAccount = async (req, res) => {
             username: req.user.username,
             groupId: req.user.groupWithRole.id,
             name: req.user.name,
+            id: req.user.id,
             phoneNumber: req.user.phoneNumber,
         }
 

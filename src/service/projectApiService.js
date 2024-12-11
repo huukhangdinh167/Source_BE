@@ -35,12 +35,22 @@ const getAllProject = async (userteacherId) => {
 
 const createNewProject = async (data) => {
     try {
-        let project = await db.Project.create({ ...data });
-        return {
-            EM: 'create Ok',
-            EC: 0,
-            DT: project
+        if (data.groupId == 5) {
+            let project = await db.Project.create({ ...data, status: 1 });
+            return {
+                EM: 'create Ok',
+                EC: 0,
+                DT: project
+            }
+        } else {
+            let project = await db.Project.create({ ...data });
+            return {
+                EM: 'create Ok',
+                EC: 0,
+                DT: project
+            }
         }
+
     } catch (e) {
         console.log(e);
         return {
@@ -53,28 +63,28 @@ const createNewProject = async (data) => {
 
 const updateProject = async (data) => {
     try {
-      
+
         let project2 = await db.Project.findOne({
-            where: {              
-                     id: data.id                                 
+            where: {
+                id: data.id
             },
         })
         if (project2) {
-            if(data.name.trim() == project2.nameprojectapprove ){
+            if (data.name.trim() == project2.nameprojectapprove) {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,
                     require: data.require,
                     knowledgeSkills: data.knowledgeSkills,
                     status: 1,
-                   
-                }) 
+
+                })
                 return {
                     EM: 'hhhh',
                     EC: 0,
                     DT: []
                 }
-            }else if(data.name.trim() == project2.nameprojectrefuse){
+            } else if (data.name.trim() == project2.nameprojectrefuse) {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,
@@ -87,7 +97,7 @@ const updateProject = async (data) => {
                     EC: 0,
                     DT: []
                 }
-            } else{ 
+            } else {
                 await project2.update({
                     name: data.name.trim(),
                     description: data.description,

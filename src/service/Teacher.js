@@ -240,6 +240,7 @@ const GetDGHD = async (data) => {
                 } else {
                     await db.Result.update({
                         danhgiagiuaky: data.danhgiagiuaky,
+                        danhgiacuoiky: null
                     },
                         {
                             where: {

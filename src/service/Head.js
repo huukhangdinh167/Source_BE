@@ -221,7 +221,7 @@ const headGetListTeacher = async () => {
                 [Op.and]: [
                     { groupId: { [Op.ne]: 3 }},  // Điều kiện 1
                     { groupId: { [Op.ne]: 5 }},
-                    { groupId: { [Op.ne]: 4 }} // Điều kiện 2
+                 //   { groupId: { [Op.ne]: 4 }} // Điều kiện 2
                 ]
 
             },
