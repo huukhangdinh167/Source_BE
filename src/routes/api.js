@@ -19,16 +19,9 @@ import projectController from '../controller/projectController'
 
 const initApiRoutes = (app) => {
 
-  // Rest api 
-  // C post,  R get,  U put,  D delete   
-  // router.all(["/register", "/login", "/user/read", "/user/create", "/user/update", "/user/delete", "/group/read"], checkUserJwt, checkPermission);
-
-  //router.use(checkUserJwt, checkPermission);
 
   router.post("/login", checkUserJwt, checkPermission, apiController.handleLogin);
   router.post("/logout", checkUserJwt, checkPermission, apiController.handleLogout);
-
-
   router.get("/account", checkUserJwt, checkPermission, usersController.getUserAccount);
 
   //user router
@@ -67,7 +60,7 @@ const initApiRoutes = (app) => {
   router.put("/changepassword", studentController.changePassword)
   router.put("/updateinfor", studentController.updateinfor)
   router.put("/student/results",  studentController.allResults)
-
+  router.get("/student/getAllStudent",studentController.allUserStudnet)
   //HEAD 
   router.get("/head/getProjectandUser",headController.headReadProjectandUserFnc)
   router.delete("/head/delete-project", headController.headDeleteProjectFnc) 

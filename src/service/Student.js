@@ -394,8 +394,25 @@ const getAllResults = async (id) => {
                     model: db.Criteriahoidong,
                 }
             ]
+        });
+        return {
+            EM: 'Get all project success',
+            EC: 0,
+            DT: result
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
 
-
+const getAllUserStudent = async () => {
+    try {
+        let result = await db.Userstudent.findAll({
         });
         return {
             EM: 'Get all project success',
@@ -413,5 +430,5 @@ const getAllResults = async (id) => {
 }
 module.exports = {
     getAllProject, dangkiProject, getAllProjectRegister, huydangkiProject,
-    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF, getAllResults
+    getAllUserRegisterProject, chooseGroup, cancelChooseGroup, ChangePW, updateIF, getAllResults, getAllUserStudent
 }
