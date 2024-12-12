@@ -91,7 +91,7 @@ const headApproveProjectFnc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-          // console.log(req.body)
+        // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -101,18 +101,18 @@ const headApproveProjectFnc = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const headRefuseProjectFnc = async (req, res) => {
     try {
 
-       let data = await Head.headRefuseProject(req.body.data.id, req.body.data.name, req.body.data.reasonrefuse)
+        let data = await Head.headRefuseProject(req.body.data.id, req.body.data.name, req.body.data.reasonrefuse)
         return res.status(200).json({
             EM: data.EM,  // eror messageE
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-          //console.log(req.body)
+        //console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -172,7 +172,7 @@ const headAssignPB1and2 = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-      //  console.log(req.body)
+        // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -202,7 +202,7 @@ const danhSachHoiDong = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const headAssignHoiDong = async (req, res) => {
     try {
@@ -213,7 +213,7 @@ const headAssignHoiDong = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-         //  console.log(req.body)
+        //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -243,7 +243,7 @@ const headAssignPoster = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 const headGetListTeacherHoiDong = async (req, res) => {
     try {
         // let data = await Head.headGetListHoiDong()
@@ -262,7 +262,7 @@ const headGetListTeacherHoiDong = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const headAGetAllResulst = async (req, res) => {
     try {
@@ -282,7 +282,7 @@ const headAGetAllResulst = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const headGetResultsEveryStudent = async (req, res) => {
     try {
@@ -302,7 +302,7 @@ const headGetResultsEveryStudent = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 
 const getIn4SV2 = async (req, res) => {
     try {
@@ -322,7 +322,7 @@ const getIn4SV2 = async (req, res) => {
             DT: '', //error data
         })
     }
-}  
+}
 
 const headSelectHoiDongFnc = async (req, res) => {
     try {
@@ -332,7 +332,7 @@ const headSelectHoiDongFnc = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-         // console.log(req.body)
+        // console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -342,11 +342,11 @@ const headSelectHoiDongFnc = async (req, res) => {
             DT: '', //error data
         })
     }
-} 
+}
 module.exports = {
     headReadProjectandUserFnc, headDeleteProjectFnc, headDeleteRegisterProjectStudentFnc,
     headGetProjectApproveFnc, headApproveProjectFnc, headGetListTeacherFnc, test, headAssignPB1and2,
-    headRefuseProjectFnc,danhSachHoiDong,headAssignHoiDong,headAssignPoster,headGetListTeacherHoiDong,
-    headAGetAllResulst,headGetResultsEveryStudent,getIn4SV2,headSelectHoiDongFnc
-    
+    headRefuseProjectFnc, danhSachHoiDong, headAssignHoiDong, headAssignPoster, headGetListTeacherHoiDong,
+    headAGetAllResulst, headGetResultsEveryStudent, getIn4SV2, headSelectHoiDongFnc
+
 }
