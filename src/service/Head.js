@@ -378,23 +378,22 @@ const headAssignPB = async (data) => {
         })
         if (data.groupStudent === 'null') {
             ////lllllll
-            await db.Userstudent.update({
-                pb1: data.pb1,
-                pb2: data.pb2,
-                pb3: data.pb3
-            }, {
-                where: {
-                    id: data.id
-                },
-            })
-            return {
-                EM: 'Assign success',
-                EC: 0,
-                DT: '',
-            }
+            if (!data.pb3) {
+                await db.Userstudent.update({
+                    pb1: data.pb1,
+                    pb2: data.pb2,
 
-        } else {
-            if (ResultSV1) {
+                }, {
+                    where: {
+                        id: data.id
+                    },
+                })
+                return {
+                    EM: 'Assign success',
+                    EC: 0,
+                    DT: '',
+                }
+            } else {
                 await db.Userstudent.update({
                     pb1: data.pb1,
                     pb2: data.pb2,
@@ -404,17 +403,60 @@ const headAssignPB = async (data) => {
                         id: data.id
                     },
                 })
+                return {
+                    EM: 'Assign success',
+                    EC: 0,
+                    DT: '',
+                }
+            }
+
+        } else {
+            if (ResultSV1) {
+                if (!data.pb3) {
+                    await db.Userstudent.update({
+                        pb1: data.pb1,
+                        pb2: data.pb2,
+                    }, {
+                        where: {
+                            id: data.id
+                        },
+                    })
+                } else {
+                    await db.Userstudent.update({
+                        pb1: data.pb1,
+                        pb2: data.pb2,
+                        pb3: data.pb3
+                    }, {
+                        where: {
+                            id: data.id
+                        },
+                    })
+                }
+
             }
             if (ResultSV2) {
-                await db.Userstudent.update({
-                    pb1: data.pb1,
-                    pb2: data.pb2,
-                    pb3: data.pb3
-                }, {
-                    where: {
-                        id: findSV2.id
-                    },
-                })
+                if (!data.pb3) {
+                    await db.Userstudent.update({
+                        pb1: data.pb1,
+                        pb2: data.pb2,
+
+                    }, {
+                        where: {
+                            id: findSV2.id
+                        },
+                    })
+                } else {
+                    await db.Userstudent.update({
+                        pb1: data.pb1,
+                        pb2: data.pb2,
+                        pb3: data.pb3
+                    }, {
+                        where: {
+                            id: findSV2.id
+                        },
+                    })
+                }
+
             }
             if (!ResultSV1 && !ResultSV2) {
                 return {

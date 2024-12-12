@@ -415,13 +415,13 @@ const chamPhanBien = async (data) => {
             let finddiemGVPB2 = findTBPhanBien.diemGVPB2
 
             let findtrungbinhphanbien = findTBPhanBien.trungbinhphanbien
-            let trungbinhphanbien1 = finddiemGVPB2
+            let trungbinhphanbien1 = (finddiemGVPB2 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB2)) / 2
                 : null;
-            let trungbinhphanbien2 = finddiemGVPB1
+            let trungbinhphanbien2 = (finddiemGVPB1 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1)) / 2
                 : null;
-            let trungbinhphanbien3 = (finddiemGVPB1 && finddiemGVPB2)
+            let trungbinhphanbien3 = ((finddiemGVPB1 != null) && (finddiemGVPB2 != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1) + parseFloat(finddiemGVPB2)) / 3
                 : null;
 
@@ -777,13 +777,13 @@ const chamPhanBien = async (data) => {
             let finddiemGVPB1 = findTBPhanBien.diemGVPB1
             let finddiemGVPB2 = findTBPhanBien.diemGVPB2
             let findtrungbinhphanbien = findTBPhanBien.trungbinhphanbien
-            let trungbinhphanbien1 = finddiemGVPB2
+            let trungbinhphanbien1 = (finddiemGVPB2 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB2)) / 2
                 : null;
-            let trungbinhphanbien2 = finddiemGVPB1
+            let trungbinhphanbien2 = (finddiemGVPB1 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1)) / 2
                 : null;
-            let trungbinhphanbien3 = finddiemGVPB1 + finddiemGVPB2
+            let trungbinhphanbien3 = ((finddiemGVPB1 != null) && (finddiemGVPB2 != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemGVPB1) + parseFloat(finddiemGVPB2)) / 3
                 : null;
             //tính điểm trung binh phan bien cho sinh vien thứ 2 
@@ -2011,13 +2011,13 @@ const ChamHoiDong = async (data) => {
             let finddiemCTHD = findTBPhanBien.diemCTHD
             let finddiemTK = findTBPhanBien.diemTK
             let finddiemUV = findTBPhanBien.diemUV
-            let trungbinhHoiDongCTHD = finddiemTK && finddiemUV
+            let trungbinhHoiDongCTHD = ((finddiemTK != null) && (finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemTK) + parseFloat(finddiemUV)) / 3
                 : null;
-            let trungbinhHoiDongTK = finddiemCTHD && finddiemUV
+            let trungbinhHoiDongTK = ((finddiemCTHD != null) && (finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemCTHD) + parseFloat(finddiemUV)) / 3
                 : null;
-            let trungbinhHoiDongUV = finddiemCTHD && finddiemTK
+            let trungbinhHoiDongUV = ((finddiemCTHD != null) && (finddiemTK != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemCTHD) + parseFloat(finddiemTK)) / 3
                 : null;
 
@@ -2375,13 +2375,13 @@ const ChamHoiDong = async (data) => {
             let finddiemCTHD = findTBPhanBien.diemCTHD
             let finddiemTK = findTBPhanBien.diemTK
             let finddiemUV = findTBPhanBien.diemUV
-            let trungbinhHoiDongCTHD = finddiemTK && finddiemUV
+            let trungbinhHoiDongCTHD = ((finddiemTK != null) && (finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemTK) + parseFloat(finddiemUV)) / 3
                 : null;
-            let trungbinhHoiDongTK = finddiemCTHD && finddiemUV
+            let trungbinhHoiDongTK = ((finddiemCTHD != null) && (finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemCTHD) + parseFloat(finddiemUV)) / 3
                 : null;
-            let trungbinhHoiDongUV = finddiemCTHD && finddiemTK
+            let trungbinhHoiDongUV = ((finddiemCTHD != null) && (finddiemTK != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemCTHD) + parseFloat(finddiemTK)) / 3
                 : null;
 
@@ -2392,13 +2392,13 @@ const ChamHoiDong = async (data) => {
             let SV2finddiemCTHD = SV2findTBPhanBien.diemCTHD
             let SV2finddiemTK = SV2findTBPhanBien.diemTK
             let SV2finddiemUV = SV2findTBPhanBien.diemUV
-            let SV2trungbinhHoiDongCTHD = SV2finddiemTK && SV2finddiemUV
+            let SV2trungbinhHoiDongCTHD = ((SV2finddiemTK != null) && (SV2finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemTK) + parseFloat(SV2finddiemUV)) / 3
                 : null;
-            let SV2trungbinhHoiDongTK = SV2finddiemCTHD && SV2finddiemUV
+            let SV2trungbinhHoiDongTK = ((SV2finddiemCTHD != null) && (SV2finddiemUV != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemCTHD) + parseFloat(SV2finddiemUV)) / 3
                 : null;
-            let SV2trungbinhHoiDongUV = SV2finddiemCTHD && SV2finddiemTK
+            let SV2trungbinhHoiDongUV = ((SV2finddiemCTHD != null) && (SV2finddiemTK != null))
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemCTHD) + parseFloat(SV2finddiemTK)) / 3
                 : null;
 
@@ -3615,10 +3615,10 @@ const ChamPoster = async (data) => {
             });
             let finddiemPoster1 = findTBPhanBien.diemPoster1
             let finddiemPoster2 = findTBPhanBien.diemPoster2
-            let trungbinhPoster1 = finddiemPoster2
+            let trungbinhPoster1 = (finddiemPoster2 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster2)) / 2
                 : null;
-            let trungbinhPoster2 = finddiemPoster1
+            let trungbinhPoster2 = (finddiemPoster1 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster1)) / 2
                 : null;
 
@@ -3872,10 +3872,10 @@ const ChamPoster = async (data) => {
             });
             let finddiemPoster1 = findTBPhanBien.diemPoster1
             let finddiemPoster2 = findTBPhanBien.diemPoster2
-            let trungbinhPoster1 = finddiemPoster2
+            let trungbinhPoster1 = (finddiemPoster2 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster2)) / 2
                 : null;
-            let trungbinhPoster2 = finddiemPoster1
+            let trungbinhPoster2 = (finddiemPoster1 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(finddiemPoster1)) / 2
                 : null;
 
@@ -3885,10 +3885,10 @@ const ChamPoster = async (data) => {
             });
             let SV2finddiemPoster1 = SV2findTBPhanBien.diemPoster1
             let SV2finddiemPoster2 = SV2findTBPhanBien.diemPoster2
-            let SV2trungbinhPoster1 = SV2finddiemPoster2
+            let SV2trungbinhPoster1 = (SV2finddiemPoster2 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemPoster2)) / 2
                 : null;
-            let SV2trungbinhPoster2 = SV2finddiemPoster1
+            let SV2trungbinhPoster2 = (SV2finddiemPoster1 != null)
                 ? (parseFloat(data.dataSV1.diem) + parseFloat(SV2finddiemPoster1)) / 2
                 : null;
 
