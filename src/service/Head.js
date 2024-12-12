@@ -219,9 +219,9 @@ const headGetListTeacher = async () => {
         let data = await db.Userteacher.findAll({
             where: {
                 [Op.and]: [
-                    { groupId: { [Op.ne]: 3 }},  // Điều kiện 1
-                    { groupId: { [Op.ne]: 5 }},
-                 //   { groupId: { [Op.ne]: 4 }} // Điều kiện 2
+                    { groupId: { [Op.ne]: 3 } },  // Điều kiện 1
+                    // { groupId: { [Op.ne]: 5 }},
+                    //   { groupId: { [Op.ne]: 4 }} // Điều kiện 2
                 ]
 
             },
@@ -443,14 +443,88 @@ const headAssignPB = async (data) => {
 
 const headPhanCongHoiDong = async (data) => {
     try {
+        let findSV2 = await db.Userstudent.findOne({
+            where: {
+                [Op.and]: [
+                    { groupStudent: data.groupStudent },
+                    { id: { [Op.ne]: data.id } }
+                ]
+            }
+        })
+        let ResultSV1 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                    { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                    {
+                        [Op.or]: [
+                            // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien2: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien2: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                        ]
+                    },
+                    { userstudentId: data.id }
+                ]
+            },
+        })
+        let ResultSV2 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                    { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                    {
+                        [Op.or]: [
+                            // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien2: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien2: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                        ]
+                    },
+                    { userstudentId: findSV2.id }
+                ]
+            },
+        })
         if (data.groupStudent === 'null') {
             ////lllllll
             await db.Userstudent.update({
                 CTHD: data.CTHD,
                 TK: data.TK,
-                UV: data.UV,
-
-
+                UV: data.UV
             }, {
                 where: {
                     id: data.id
@@ -463,21 +537,41 @@ const headPhanCongHoiDong = async (data) => {
             }
 
         } else {
-            await db.Userstudent.update({
-                CTHD: data.CTHD,
-                TK: data.TK,
-                UV: data.UV,
-
-            }, {
-                where: {
-                    groupStudent: data.groupStudent
-                },
-            })
+            if (ResultSV1) {
+                await db.Userstudent.update({
+                    CTHD: data.CTHD,
+                    TK: data.TK,
+                    UV: data.UV
+                }, {
+                    where: {
+                        id: data.id
+                    },
+                })
+            }
+            if (ResultSV2) {
+                await db.Userstudent.update({
+                    CTHD: data.CTHD,
+                    TK: data.TK,
+                    UV: data.UV
+                }, {
+                    where: {
+                        id: findSV2.id
+                    },
+                })
+            }
+            if (!ResultSV1 && !ResultSV2) {
+                return {
+                    EM: 'Có lỗi xẩy ra',
+                    EC: 1,
+                    DT: '',
+                }
+            }
             return {
-                EM: 'Assign success',
+                EM: 'Assign Hoi dong success',
                 EC: 0,
                 DT: '',
             }
+
         }
     }
     catch (e) {
@@ -492,10 +586,85 @@ const headPhanCongHoiDong = async (data) => {
 
 const headPhanCongPoster = async (data) => {
     try {
+        let findSV2 = await db.Userstudent.findOne({
+            where: {
+                [Op.and]: [
+                    { groupStudent: data.groupStudent },
+                    { id: { [Op.ne]: data.id } }
+                ]
+            }
+        })
+        let ResultSV1 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                    { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                    {
+                        [Op.or]: [
+                            // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien2: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien2: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                        ]
+                    },
+                    { userstudentId: data.id }
+                ]
+            },
+        })
+        let ResultSV2 = await db.Result.findOne({
+            where: {
+                [Op.and]: [
+                    { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                    { danhgiacuoiky: 'true' }, // Điều kiện danhgiacuoiky = true
+                    {
+                        [Op.or]: [
+                            // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien2: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien1: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                            // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                            {
+                                [Op.and]: [
+                                    { danhgiaphanbien2: 'true' },
+                                    { danhgiaphanbien3: 'true' }
+                                ]
+                            },
+                        ]
+                    },
+                    { userstudentId: findSV2.id }
+                ]
+            },
+        })
         if (data.groupStudent === 'null') {
             ////lllllll
             await db.Userstudent.update({
-
                 Poster1: data.Poster1,
                 Poster2: data.Poster2,
 
@@ -511,20 +680,39 @@ const headPhanCongPoster = async (data) => {
             }
 
         } else {
-            await db.Userstudent.update({
-
-                Poster1: data.Poster1,
-                Poster2: data.Poster2,
-            }, {
-                where: {
-                    groupStudent: data.groupStudent
-                },
-            })
+            if (ResultSV1) {
+                await db.Userstudent.update({
+                    Poster1: data.Poster1,
+                    Poster2: data.Poster2,
+                }, {
+                    where: {
+                        id: data.id
+                    },
+                })
+            }
+            if (ResultSV2) {
+                await db.Userstudent.update({
+                    Poster1: data.Poster1,
+                    Poster2: data.Poster2,
+                }, {
+                    where: {
+                        id: findSV2.id
+                    },
+                })
+            }
+            if (!ResultSV1 && !ResultSV2) {
+                return {
+                    EM: 'Có lỗi xẩy ra',
+                    EC: 1,
+                    DT: '',
+                }
+            }
             return {
-                EM: 'Assign success',
+                EM: 'Assign Hoi dong success',
                 EC: 0,
                 DT: '',
             }
+
         }
     }
     catch (e) {

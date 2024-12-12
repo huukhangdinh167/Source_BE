@@ -816,6 +816,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien1: 'true',
                             trungbinhphanbien: SV2trungbinhphanbien1
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -841,7 +842,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -862,6 +863,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien2: 'true',
                             trungbinhphanbien: SV2trungbinhphanbien2
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -887,7 +889,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2.LOL6,
                             LOL7PB2: data.dataSV2.LOL7,
                             LOL8PB2: data.dataSV2.LOL8,
-                            ghichuPB2: data.dataSV1.ghichu,
+                            ghichuPB2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -906,6 +908,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB3: data.dataSV2.diem,
+                            danhgiaphanbien3: 'true',
                             trungbinhphanbien: SV2trungbinhphanbien3
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -931,7 +934,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2.LOL6,
                             LOL7PB3: data.dataSV2.LOL7,
                             LOL8PB3: data.dataSV2.LOL8,
-                            ghichuPB3: data.dataSV1.ghichu,
+                            ghichuPB3: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -951,6 +954,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien1: 'true',
                             trungbinhphanbien: trungbinhphanbien1
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -982,7 +986,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2?.LOL6,
                             LOL7: data.dataSV2?.LOL7,
                             LOL8: data.dataSV2?.LOL8,
-                            ghichu: data.dataSV1?.ghichu,
+                            ghichu: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -996,6 +1000,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien2: 'true',
                             trungbinhphanbien: trungbinhphanbien2
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -1027,7 +1032,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2?.LOL6,
                             LOL7PB2: data.dataSV2?.LOL7,
                             LOL8PB2: data.dataSV2?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
+                            ghichuPB2: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1039,6 +1044,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB3: data.dataSV1.diem,
+                            danhgiaphanbien3: 'true',
                             trungbinhphanbien: trungbinhphanbien3
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -1070,7 +1076,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2?.LOL6,
                             LOL7PB3: data.dataSV2?.LOL7,
                             LOL8PB3: data.dataSV2?.LOL8,
-                            ghichuPB3: data.dataSV1?.ghichu,
+                            ghichuPB3: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1122,7 +1128,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2?.LOL6,
                             LOL7: data.dataSV2?.LOL7,
                             LOL8: data.dataSV2?.LOL8,
-                            ghichu: data.dataSV1?.ghichu,
+                            ghichu: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -1168,7 +1174,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2?.LOL6,
                             LOL7PB2: data.dataSV2?.LOL7,
                             LOL8PB2: data.dataSV2?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
+                            ghichuPB2: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1212,7 +1218,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2?.LOL6,
                             LOL7PB3: data.dataSV2?.LOL7,
                             LOL8PB3: data.dataSV2?.LOL8,
-                            ghichuPB3: data.dataSV1?.ghichu,
+                            ghichuPB3: data.dataSV2?.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1265,7 +1271,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -1311,7 +1317,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2.LOL6,
                             LOL7PB2: data.dataSV2.LOL7,
                             LOL8PB2: data.dataSV2.LOL8,
-                            ghichuPB2: data.dataSV1.ghichu,
+                            ghichuPB2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1355,7 +1361,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2.LOL6,
                             LOL7PB3: data.dataSV2.LOL7,
                             LOL8PB3: data.dataSV2.LOL8,
-                            ghichuPB3: data.dataSV1.ghichu,
+                            ghichuPB3: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -1386,6 +1392,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB1: data.dataSV2.diem,
+                            danhgiaphanbien1: "true",
                             trungbinhphanbien: SV2trungbinhphanbien1
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -1414,7 +1421,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1432,6 +1439,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB2: data.dataSV2.diem,
+                            danhgiaphanbien2: 'true',
                             trungbinhphanbien: SV2trungbinhphanbien2
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -1460,7 +1468,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2.LOL6,
                             LOL7PB2: data.dataSV2.LOL7,
                             LOL8PB2: data.dataSV2.LOL8,
-                            ghichuPB2: data.dataSV1.ghichu,
+                            ghichuPB2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1478,6 +1486,7 @@ const chamPhanBien = async (data) => {
                         // lần 2 cho đứa thứ 2
                         await db.Result.update({
                             diemGVPB3: data.dataSV2.diem,
+                            danhgiaphanbien3: 'true',
                             trungbinhphanbien: SV2trungbinhphanbien3
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
@@ -1506,7 +1515,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2.LOL6,
                             LOL7PB3: data.dataSV2.LOL7,
                             LOL8PB3: data.dataSV2.LOL8,
-                            ghichuPB3: data.dataSV1.ghichu,
+                            ghichuPB3: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1526,6 +1535,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB1: data.dataSV1.diem,
+                            danhgiaphanbien1: 'true',
                             trungbinhphanbien: trungbinhphanbien1
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -1560,7 +1570,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2?.LOL6,
                             LOL7: data.dataSV2?.LOL7,
                             LOL8: data.dataSV2?.LOL8,
-                            ghichu: data.dataSV1?.ghichu,
+                            ghichu: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1572,6 +1582,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB2: data.dataSV1.diem,
+                            danhgiaphanbien2: 'true',
                             trungbinhphanbien: trungbinhphanbien2
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -1606,7 +1617,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2?.LOL6,
                             LOL7PB2: data.dataSV2?.LOL7,
                             LOL8PB2: data.dataSV2?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
+                            ghichuPB2: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1618,6 +1629,7 @@ const chamPhanBien = async (data) => {
                         // lần đầu cho đứa thứ 1
                         await db.Result.update({
                             diemGVPB3: data.dataSV1.diem,
+                            danhgiaphanbien3: 'true',
                             trungbinhphanbien: trungbinhphanbien3
                         }, { where: { userstudentId: data.idSV1.id1 }, })
                         // lần 2 cho đứa thứ 2
@@ -1652,7 +1664,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2?.LOL6,
                             LOL7PB3: data.dataSV2?.LOL7,
                             LOL8PB3: data.dataSV2?.LOL8,
-                            ghichuPB3: data.dataSV1?.ghichu,
+                            ghichuPB3: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1707,7 +1719,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2?.LOL6,
                             LOL7: data.dataSV2?.LOL7,
                             LOL8: data.dataSV2?.LOL8,
-                            ghichu: data.dataSV1?.ghichu,
+                            ghichu: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1754,54 +1766,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2?.LOL6,
                             LOL7PB2: data.dataSV2?.LOL7,
                             LOL8PB2: data.dataSV2?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
-                        })
-                        return {
-                            EM: 'Cập nhật đánh giá phản biện thành công',
-                            EC: 0,
-                            DT: []
-                        }
-
-                    } else if (findPB1orPb2.id == data.pb2.pb2) {
-                        // lần đầu cho đứa thứ 1
-                        await db.Result.update({
-                            diemGVPB2: data.dataSV1.diem,
-                            danhgiaphanbien2: 'false',
-                            trungbinhphanbien: trungbinhphanbien2
-                        }, { where: { userstudentId: data.idSV1.id1 }, })
-                        // lần 2 cho đứa thứ 2
-                        await db.Result.update({
-                            diemGVPB2: data.dataSV2.diem,
-                            danhgiaphanbien2: 'false',
-                            trungbinhphanbien: SV2trungbinhphanbien2
-                        }, { where: { userstudentId: data.idSV2.id2 }, })
-
-                        // làm cho đứa thứ 1
-                        await db.Criteriapb.create({
-                            userstudentId: data.idSV1.id1,
-                            LOL1PB2: data.dataSV1?.LOL1,
-                            LOL2PB2: data.dataSV1?.LOL2,
-                            LOL3PB2: data.dataSV1?.LOL3,
-                            LOL4PB2: data.dataSV1?.LOL4,
-                            LOL5PB2: data.dataSV1?.LOL5,
-                            LOL6PB2: data.dataSV1?.LOL6,
-                            LOL7PB2: data.dataSV1?.LOL7,
-                            LOL8PB2: data.dataSV1?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
-                        })
-
-                        // làm cho đứa thứ 2 
-                        await db.Criteriapb.create({
-                            userstudentId: data.idSV2.id2,
-                            LOL1PB2: data.dataSV2?.LOL1,
-                            LOL2PB2: data.dataSV2?.LOL2,
-                            LOL3PB2: data.dataSV2?.LOL3,
-                            LOL4PB2: data.dataSV2?.LOL4,
-                            LOL5PB2: data.dataSV2?.LOL5,
-                            LOL6PB2: data.dataSV2?.LOL6,
-                            LOL7PB2: data.dataSV2?.LOL7,
-                            LOL8PB2: data.dataSV2?.LOL8,
-                            ghichuPB2: data.dataSV1?.ghichu,
+                            ghichuPB2: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1848,7 +1813,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2?.LOL6,
                             LOL7PB3: data.dataSV2?.LOL7,
                             LOL8PB3: data.dataSV2?.LOL8,
-                            ghichuPB3: data.dataSV1?.ghichu,
+                            ghichuPB3: data.dataSV2?.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1904,7 +1869,7 @@ const chamPhanBien = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1951,7 +1916,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB2: data.dataSV2.LOL6,
                             LOL7PB2: data.dataSV2.LOL7,
                             LOL8PB2: data.dataSV2.LOL8,
-                            ghichuPB2: data.dataSV1.ghichu,
+                            ghichuPB2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -1998,7 +1963,7 @@ const chamPhanBien = async (data) => {
                             LOL6PB3: data.dataSV2.LOL6,
                             LOL7PB3: data.dataSV2.LOL7,
                             LOL8PB3: data.dataSV2.LOL8,
-                            ghichuPB3: data.dataSV1.ghichu,
+                            ghichuPB3: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -2522,7 +2487,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2566,7 +2531,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2665,7 +2630,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2709,7 +2674,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2808,7 +2773,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2852,7 +2817,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2951,7 +2916,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -2995,7 +2960,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -3055,7 +3020,7 @@ const ChamHoiDong = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3102,7 +3067,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3150,7 +3115,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3206,7 +3171,7 @@ const ChamHoiDong = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3253,7 +3218,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3301,7 +3266,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3357,7 +3322,7 @@ const ChamHoiDong = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3404,7 +3369,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3452,7 +3417,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3508,7 +3473,7 @@ const ChamHoiDong = async (data) => {
                             LOL6: data.dataSV2.LOL6,
                             LOL7: data.dataSV2.LOL7,
                             LOL8: data.dataSV2.LOL8,
-                            ghichu: data.dataSV1.ghichu,
+                            ghichu: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3555,7 +3520,7 @@ const ChamHoiDong = async (data) => {
                             LOL6TK: data.dataSV2.LOL6,
                             LOL7TK: data.dataSV2.LOL7,
                             LOL8TK: data.dataSV2.LOL8,
-                            ghichuTK: data.dataSV1.ghichu,
+                            ghichuTK: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3603,7 +3568,7 @@ const ChamHoiDong = async (data) => {
                             LOL6UV: data.dataSV2.LOL6,
                             LOL7UV: data.dataSV2.LOL7,
                             LOL8UV: data.dataSV2.LOL8,
-                            ghichuUV: data.dataSV1.ghichu,
+                            ghichuUV: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -3967,7 +3932,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -4013,7 +3978,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -4066,7 +4031,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -4112,7 +4077,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -4165,7 +4130,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -4211,7 +4176,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -4264,7 +4229,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
 
@@ -4310,7 +4275,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         }, { where: { userstudentId: data.idSV2.id2 }, })
 
                         return {
@@ -4370,7 +4335,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4417,7 +4382,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4473,7 +4438,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4520,7 +4485,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4576,7 +4541,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4623,7 +4588,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4679,7 +4644,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster1: data.dataSV2.LOL6,
                             LOL7Poster1: data.dataSV2.LOL7,
                             LOL8Poster1: data.dataSV2.LOL8,
-                            ghichuPoster1: data.dataSV1.ghichu,
+                            ghichuPoster1: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',
@@ -4726,7 +4691,7 @@ const ChamPoster = async (data) => {
                             LOL6Poster2: data.dataSV2.LOL6,
                             LOL7Poster2: data.dataSV2.LOL7,
                             LOL8Poster2: data.dataSV2.LOL8,
-                            ghichuPoster2: data.dataSV1.ghichu,
+                            ghichuPoster2: data.dataSV2.ghichu,
                         })
                         return {
                             EM: 'Cập nhật đánh giá phản biện thành công',

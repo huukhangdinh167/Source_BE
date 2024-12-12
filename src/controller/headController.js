@@ -213,7 +213,7 @@ const headAssignHoiDong = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-         //  console.log(req.body)
+          //  console.log(req.body)
 
     } catch (error) {
         console.log(error)
@@ -233,7 +233,7 @@ const headAssignPoster = async (req, res) => {
             EC: data.EC, // error code
             DT: data.DT//error data
         })
-        //   console.log(req.body)
+       //   console.log(req.body)
 
     } catch (error) {
         console.log(error)
