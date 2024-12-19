@@ -397,6 +397,103 @@ const GetSV1SV2 = async (data) => {
     }
 }
 
+const GetSV1SV2HoiDong = async (data) => {
+    try {
+        if (data.groupStudent != 'null') {
+            let users1 = await db.Userstudent.findAll({
+                where: { id: data.id }
+            });
+            let users2 = await db.Userstudent.findAll({
+                where: {
+                    [Op.and]: [
+                        { groupStudent: data.groupStudent },  // Điều kiện 1
+                        { id: { [Op.ne]: data.id } } // Điều kiện 2
+                    ]
+                },
+            });
+            let users2Obj = await db.Userstudent.findOne({
+                where: {
+                    [Op.and]: [
+                        { groupStudent: data.groupStudent },  // Điều kiện 1
+                        { id: { [Op.ne]: data.id } } // Điều kiện 2
+                    ]
+                },
+            });
+            let ResultSV2 = await db.Result.findOne({
+                where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                        { danhgiacuoiky: 'true' },
+                        {
+                            [Op.or]: [
+                                // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien1: 'true' },
+                                        { danhgiaphanbien2: 'true' }
+                                    ]
+                                },
+                                // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien1: 'true' },
+                                        { danhgiaphanbien3: 'true' }
+                                    ]
+                                },
+                                // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien2: 'true' },
+                                        { danhgiaphanbien3: 'true' }
+                                    ]
+                                },
+                            ]
+                        },
+                        { userstudentId: users2Obj.id }, // Điều kiện danhgiacuoiky = true
+                    ]
+                },
+            });
+            if (ResultSV2) {
+                const users = users1.concat(users2);
+                return {
+                    EM: '',
+                    EC: 0,
+                    DT: users
+                }
+            } else {
+                return {
+                    EM: '',
+                    EC: 0,
+                    DT: users1
+                }
+            }
+
+        } else if (data.groupStudent == 'null') {
+            let users2 = await db.Userstudent.findAll({
+                where: { id: data.id }
+            });
+            return {
+                EM: '',
+                EC: 0,
+                DT: users2
+            }
+        } else {
+            return {
+                EM: '',
+                EC: 0,
+                DT: ''
+            }
+        }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
 const chamPhanBien = async (data) => {
     try {
         if (data.idSV2.id2 == 'null') {
@@ -4846,6 +4943,154 @@ const XemKetQuachamPhanBienSV2 = async (group, id) => {
     }
 }
 
+const XemKetQuachamHoiDongSV2 = async (group, id) => {
+    try {
+        if (group != 'null') {
+
+            let users2Obj = await db.Userstudent.findOne({
+                where: {
+                    [Op.and]: [
+                        { groupStudent: group },  // Điều kiện 1
+                        { id: { [Op.ne]: id } } // Điều kiện 2
+                    ]
+                },
+            });
+            let ResultSV2 = await db.Result.findOne({
+                where: {
+                    [Op.and]: [
+                        { danhgiagiuaky: 'true' }, // Điều kiện danhgiagiuaky = true
+                        { danhgiacuoiky: 'true' },
+                        {
+                            [Op.or]: [
+                                // danhgiaphanbien1 và danhgiaphanbien2 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien1: 'true' },
+                                        { danhgiaphanbien2: 'true' }
+                                    ]
+                                },
+                                // danhgiaphanbien1 và danhgiaphanbien3 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien1: 'true' },
+                                        { danhgiaphanbien3: 'true' }
+                                    ]
+                                },
+                                // danhgiaphanbien2 và danhgiaphanbien3 đều bằng true
+                                {
+                                    [Op.and]: [
+                                        { danhgiaphanbien2: 'true' },
+                                        { danhgiaphanbien3: 'true' }
+                                    ]
+                                },
+                            ]
+                        },
+                        { userstudentId: users2Obj.id }, // Điều kiện danhgiacuoiky = true
+                    ]
+                },
+            });
+            if (ResultSV2) {
+                let usersSV2 = await db.Userstudent.findAll({
+                    where: { id: users2Obj.id },
+                    include: [
+                        {
+                            model: db.Result,
+                            // Nếu muốn lấy cả userStudent không có result
+                        },
+                        {
+                            model: db.Criteriapb,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        },
+                        {
+                            model: db.Criteriahoidong,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        }
+                    ]
+                });
+                let usersSV1 = await db.Userstudent.findAll({
+                    where: { id: id },
+                    include: [
+                        {
+                            model: db.Result,
+                            // Nếu muốn lấy cả userStudent không có result
+                        },
+                        {
+                            model: db.Criteriapb,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        },
+                        {
+                            model: db.Criteriahoidong,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        }
+                    ]
+                });
+                const users = usersSV1.concat(usersSV2);
+                return {
+                    EM: '',
+                    EC: 0,
+                    DT: users
+                }
+            } else {
+                let usersSV1 = await db.Userstudent.findAll({
+                    where: { id: id },
+                    include: [
+                        {
+                            model: db.Result,
+                            // Nếu muốn lấy cả userStudent không có result
+                        },
+                        {
+                            model: db.Criteriapb,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        },
+                        {
+                            model: db.Criteriahoidong,
+                            // Nếu muốn lấy cả userStudent không có criteria
+                        }
+                    ]
+                });
+                return {
+                    EM: '',
+                    EC: 0,
+                    DT: usersSV1
+                }
+            }
+
+        } else {
+            let users1 = await db.Userstudent.findAll({
+                where: { id: id },
+                include: [
+                    {
+                        model: db.Result,
+                        // Nếu muốn lấy cả userStudent không có result
+                    },
+                    {
+                        model: db.Criteriapb,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    },
+                    {
+                        model: db.Criteriahoidong,
+                        // Nếu muốn lấy cả userStudent không có criteria
+                    }
+                ]
+            });
+            return {
+                EM: 'Some thing wrongs with service',
+                EC: 0,
+                DT: users1
+            }
+        }
+
+
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'Some thing wrongs with service',
+            EC: 1,
+            DT: []
+        }
+    }
+}
+
 const definePB1PB2 = async (maSoSV, maSoGV) => {
     try {
         let IdGV = await db.Userteacher.findOne({
@@ -5029,7 +5274,8 @@ const definePoster = async (maSoSV, maSoGV) => {
 }
 
 module.exports = {
-    GetLichPB, GetDSHD, GetDGHD, GetSV1SV2, chamPhanBien, XemKetQuachamPhanBienSV2, definePB1PB2, defineHoiDong
+    GetLichPB, GetDSHD, GetDGHD, GetSV1SV2, GetSV1SV2HoiDong, chamPhanBien, XemKetQuachamPhanBienSV2,XemKetQuachamHoiDongSV2,
+     definePB1PB2, defineHoiDong
     , GetLichHoiDong, GetLichPoster, ChamHoiDong, definePoster, ChamPoster
 
 }

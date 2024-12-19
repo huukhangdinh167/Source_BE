@@ -18,6 +18,9 @@ const adminGetAllUser = async () => {
 
         });
         let users2 = await db.Userteacher.findAll({
+            where: {
+                groupId: { [Op.ne]: 3 }, // projectId khác 0
+            },
             include: { model: db.Group, attributes: ["name", "description", 'id'], },
             raw: true,
             nest: true,
@@ -136,8 +139,8 @@ const admincreateNewUserByExcel = async (role) => {
         ].map(maSo => Number(maSo)); // Chuyển tất cả thành kiểu số
 
         // Debugging: In ra dữ liệu để kiểm tra
-      //  console.log('Role:', role);
-     //   console.log('Excluded maSo:', excludedMaSo);
+        //  console.log('Role:', role);
+        //   console.log('Excluded maSo:', excludedMaSo);
 
         // Lọc mảng role, loại bỏ các phần tử có maSo trùng với các maSo trong excludedMaSo
         let persist = role.filter(({ maSo }) => !excludedMaSo.includes(Number(maSo))); // Chuyển maSo trong role thành kiểu số
@@ -260,7 +263,6 @@ const adminupdateUser = async (data) => {
                     groupId: data.groupId,
                     maSo: data.maSo,
 
-
                 },
                     {
                         where: {
@@ -268,6 +270,12 @@ const adminupdateUser = async (data) => {
                         },
                     }
                 )
+
+                return {
+                    EM: 'Update user 1 successful',
+                    EC: 0,
+                    DT: ''
+                }
             } else {
                 let hashPassword = hashUserPassword(data.password)
                 await db.Userstudent.update({
@@ -284,12 +292,13 @@ const adminupdateUser = async (data) => {
                         },
                     }
                 )
+                return {
+                    EM: 'Update user 2 successful',
+                    EC: 0,
+                    DT: ''
+                }
             }
-            return {
-                EM: 'Update user successful',
-                EC: 0,
-                DT: ''
-            }
+            
         } else {
             if (data.password === '') {
                 await db.Userteacher.update({
@@ -324,7 +333,7 @@ const adminupdateUser = async (data) => {
                 )
             }
             return {
-                EM: 'Update user successful',
+                EM: 'Update user 3 successful',
                 EC: 0,
                 DT: ''
             }

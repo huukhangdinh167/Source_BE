@@ -124,6 +124,27 @@ const teacherGetIn4SV1andSV2Func = async (req, res) => {
     }
 }
 
+const teacherGetIn4SV1andSV2HoiDongFunc = async (req, res) => {
+    try {
+        let data = await Teacher.GetSV1SV2HoiDong(req.body.data)
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        })
+        // console.log(req.body.data)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+}
+
+
 const teacherChamPhanBienFunc = async (req, res) => {
     try {
         let data = await Teacher.chamPhanBien(req.body)
@@ -163,6 +184,27 @@ const teacherXemchamPhanBienSV2Func = async (req, res) => {
         })
     }
 }
+
+const teacherXemchamHoiDongSV2Func = async (req, res) => {
+    try {
+        let data = await Teacher.XemKetQuachamHoiDongSV2(req.body.data.maSo, req.body.data.id)
+        return res.status(200).json({
+            EM: data.EM,  // eror messageE
+            EC: data.EC, // error code
+            DT: data.DT, //error data
+        })
+      //    console.log(req.body)
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            EM: 'error from server',  // eror messageE
+            EC: '-1', // error code
+            DT: '', //error data
+        })
+    }
+}
+
 
 const teacherDefinePB1PB2Func = async (req, res) => {
     try {
@@ -264,9 +306,13 @@ const teacherGetLichPoster = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     teacherGetLichChamPBFnc, teacherGetDSHDFunc, teacherDGHDFunc, teacherGetIn4SV1andSV2Func,
-    teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func, teacherDefinePB1PB2Func,
+    teacherGetIn4SV1andSV2HoiDongFunc,
+    teacherChamPhanBienFunc, teacherXemchamPhanBienSV2Func,teacherXemchamHoiDongSV2Func,
+     teacherDefinePB1PB2Func,
     teacherGetLichHoiDong, teacherDefineHoiDongFunc, teacherChamHoiDongFunc,
     teacherGetLichPoster, teacherDefinePosterFunc, teacherChamPosterFunc,
 
