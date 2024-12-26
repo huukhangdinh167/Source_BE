@@ -31,6 +31,7 @@ The page will reload if you make edits.
 |Student|20047748|1|
 |Student|20047749|1|
 |Lecturers|2233|1|
+|Lecturers|123456|1|
 |Head of Department|1234|1|
 |Supervising Lecturer|4545|1|
 |Admin|123|123|
